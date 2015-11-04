@@ -17,15 +17,26 @@ class BackgroundViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
-        self.topViewController = self.storyboard?.instantiateViewControllerWithIdentifier("TopViewController") as! UIViewController
+        /*
+        self.topViewController = self.storyboard?.instantiateViewControllerWithIdentifier("TopViewController") as! TopViewController
         topViewController.view.frame = self.view.bounds
     
         self.addChildViewController(topViewController) //コンテナビューの子ビューとしてTopViewControllerを追加
         self.view.addSubview(topViewController.view) //表示ビュー(子ビュー)のサブViewとして、TopViewControllerのviewを追加
         topViewController.didMoveToParentViewController(self) //コンテナビューにtopViewControllerの追加の完了を記す
         
-        childViewController = topViewController //現在表示しているビューコントローラーを保持
+        childViewController = topViewController //現在表示しているビューコントローラーを保持*/
+        
+        
+        
+        var memoViewController:UIViewController = self.storyboard?.instantiateViewControllerWithIdentifier("MemoViewController") as! UIViewController
+        memoViewController.view.frame = self.view.bounds
+        
+        self.addChildViewController(memoViewController)
+        self.view.addSubview(memoViewController.view)
+        memoViewController.didMoveToParentViewController(self)
+        
+        childViewController = memoViewController
         
     }
     
