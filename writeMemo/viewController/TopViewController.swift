@@ -12,25 +12,15 @@ class TopViewController: UIViewController ,UICollectionViewDataSource,UICollecti
 
     @IBOutlet weak var memoCollectionView: UICollectionView!
     
+    @IBOutlet weak var topNavigationbar: UINavigationBar!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         var nib:UINib = UINib(nibName: "MemoCollectionViewCell", bundle: nil)
         memoCollectionView.registerNib(nib, forCellWithReuseIdentifier: "Cell")
         
-        
-        
-
-        
-        //var layout:UICollectionViewFlowLayout = UICollectionViewFlowLayout()
-        
-        
-
-        
-        var backgroundView = UIView()
-        backgroundView.frame = self.memoCollectionView.frame
-        backgroundView.backgroundColor = UIColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 0.0)
-        self.memoCollectionView.backgroundView = backgroundView
+        //self.topNavigationbar.frame = CGRectMake(0, 0, 100, 66)
     }
 
     
