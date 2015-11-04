@@ -7,13 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		DC5DE3791BE88CEE0069195B /* MemoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC5DE3781BE88CEE0069195B /* MemoViewController.swift */; };
+		DC5DE37B1BE88E9B0069195B /* background.png in Resources */ = {isa = PBXBuildFile; fileRef = DC5DE37A1BE88E9B0069195B /* background.png */; };
 		DCF4CFB41BE8769B00B0E076 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCF4CFB31BE8769B00B0E076 /* AppDelegate.swift */; };
 		DCF4CFB71BE8769B00B0E076 /* writeMemo.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = DCF4CFB51BE8769B00B0E076 /* writeMemo.xcdatamodeld */; };
-		DCF4CFB91BE8769B00B0E076 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCF4CFB81BE8769B00B0E076 /* ViewController.swift */; };
+		DCF4CFB91BE8769B00B0E076 /* TopViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCF4CFB81BE8769B00B0E076 /* TopViewController.swift */; };
 		DCF4CFBC1BE8769B00B0E076 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DCF4CFBA1BE8769B00B0E076 /* Main.storyboard */; };
 		DCF4CFBE1BE8769B00B0E076 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DCF4CFBD1BE8769B00B0E076 /* Images.xcassets */; };
 		DCF4CFC11BE8769B00B0E076 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = DCF4CFBF1BE8769B00B0E076 /* LaunchScreen.xib */; };
 		DCF4CFCD1BE8769C00B0E076 /* writeMemoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCF4CFCC1BE8769C00B0E076 /* writeMemoTests.swift */; };
+		DCF4CFD71BE880E000B0E076 /* BackgroundViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCF4CFD61BE880E000B0E076 /* BackgroundViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -27,17 +30,20 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		DC5DE3781BE88CEE0069195B /* MemoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MemoViewController.swift; path = viewController/MemoViewController.swift; sourceTree = "<group>"; };
+		DC5DE37A1BE88E9B0069195B /* background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = background.png; sourceTree = "<group>"; };
 		DCF4CFAE1BE8769B00B0E076 /* writeMemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = writeMemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DCF4CFB21BE8769B00B0E076 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DCF4CFB31BE8769B00B0E076 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DCF4CFB61BE8769B00B0E076 /* writeMemo.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = writeMemo.xcdatamodel; sourceTree = "<group>"; };
-		DCF4CFB81BE8769B00B0E076 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		DCF4CFB81BE8769B00B0E076 /* TopViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = TopViewController.swift; path = viewController/TopViewController.swift; sourceTree = "<group>"; };
 		DCF4CFBB1BE8769B00B0E076 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		DCF4CFBD1BE8769B00B0E076 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		DCF4CFC01BE8769B00B0E076 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		DCF4CFC61BE8769C00B0E076 /* writeMemoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = writeMemoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		DCF4CFCB1BE8769C00B0E076 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DCF4CFCC1BE8769C00B0E076 /* writeMemoTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = writeMemoTests.swift; sourceTree = "<group>"; };
+		DCF4CFD61BE880E000B0E076 /* BackgroundViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BackgroundViewController.swift; path = viewController/BackgroundViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -80,9 +86,10 @@
 			isa = PBXGroup;
 			children = (
 				DCF4CFB31BE8769B00B0E076 /* AppDelegate.swift */,
-				DCF4CFB81BE8769B00B0E076 /* ViewController.swift */,
 				DCF4CFBA1BE8769B00B0E076 /* Main.storyboard */,
+				DCF4CFD81BE8825400B0E076 /* viewController */,
 				DCF4CFBD1BE8769B00B0E076 /* Images.xcassets */,
+				DC5DE37A1BE88E9B0069195B /* background.png */,
 				DCF4CFBF1BE8769B00B0E076 /* LaunchScreen.xib */,
 				DCF4CFB51BE8769B00B0E076 /* writeMemo.xcdatamodeld */,
 				DCF4CFB11BE8769B00B0E076 /* Supporting Files */,
@@ -113,6 +120,16 @@
 				DCF4CFCB1BE8769C00B0E076 /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		DCF4CFD81BE8825400B0E076 /* viewController */ = {
+			isa = PBXGroup;
+			children = (
+				DCF4CFD61BE880E000B0E076 /* BackgroundViewController.swift */,
+				DCF4CFB81BE8769B00B0E076 /* TopViewController.swift */,
+				DC5DE3781BE88CEE0069195B /* MemoViewController.swift */,
+			);
+			name = viewController;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -196,6 +213,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DCF4CFBC1BE8769B00B0E076 /* Main.storyboard in Resources */,
+				DC5DE37B1BE88E9B0069195B /* background.png in Resources */,
 				DCF4CFC11BE8769B00B0E076 /* LaunchScreen.xib in Resources */,
 				DCF4CFBE1BE8769B00B0E076 /* Images.xcassets in Resources */,
 			);
@@ -215,7 +233,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DCF4CFB91BE8769B00B0E076 /* ViewController.swift in Sources */,
+				DCF4CFD71BE880E000B0E076 /* BackgroundViewController.swift in Sources */,
+				DCF4CFB91BE8769B00B0E076 /* TopViewController.swift in Sources */,
+				DC5DE3791BE88CEE0069195B /* MemoViewController.swift in Sources */,
 				DCF4CFB41BE8769B00B0E076 /* AppDelegate.swift in Sources */,
 				DCF4CFB71BE8769B00B0E076 /* writeMemo.xcdatamodeld in Sources */,
 			);
@@ -413,6 +433,7 @@
 				DCF4CFD21BE8769C00B0E076 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		DCF4CFD31BE8769C00B0E076 /* Build configuration list for PBXNativeTarget "writeMemoTests" */ = {
 			isa = XCConfigurationList;
@@ -421,6 +442,7 @@
 				DCF4CFD51BE8769C00B0E076 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 
