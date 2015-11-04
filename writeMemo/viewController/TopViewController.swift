@@ -8,18 +8,50 @@
 
 import UIKit
 
-class TopViewController: UIViewController {
+class TopViewController: UIViewController ,UICollectionViewDataSource,UICollectionViewDelegate{
 
+    @IBOutlet weak var memoCollectionView: UICollectionView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        
+        var nib:UINib = UINib(nibName: "MemoCollectionViewCell", bundle: nil)
+        memoCollectionView.registerNib(nib, forCellWithReuseIdentifier: "Cell")
+        
+        
+        
+
+        
+        //var layout:UICollectionViewFlowLayout = UICollectionViewFlowLayout()
+        
+        
+
+        
+        var backgroundView = UIView()
+        backgroundView.frame = self.memoCollectionView.frame
+        backgroundView.backgroundColor = UIColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 0.0)
+        self.memoCollectionView.backgroundView = backgroundView
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    
+    func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
+        return 1
     }
-
+    
+    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return 10
+    }
+    
+    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+        var cell = memoCollectionView.dequeueReusableCellWithReuseIdentifier("Cell", forIndexPath: indexPath) as! MemoCollectionViewCell
+        cell.memoTitle.text = "メモ\(indexPath.row)"
+        return cell
+    }
+    
+    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+        println("\(indexPath.row)を選択！")
+    }
+    
     @IBAction func open(sender: AnyObject) {
         var backgroundviewController = BackgroundViewController()
         var memoViewController = self.storyboard?.instantiateViewControllerWithIdentifier("MemoViewController") as! UIViewController
