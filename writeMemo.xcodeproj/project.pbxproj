@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		DC498C621BEB3E2300FD10AD /* DrawOptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC498C611BEB3E2300FD10AD /* DrawOptionView.swift */; };
+		DC498C661BEB3E6C00FD10AD /* DrawOptionView.xib in Resources */ = {isa = PBXBuildFile; fileRef = DC498C651BEB3E6C00FD10AD /* DrawOptionView.xib */; };
 		DC5DE3791BE88CEE0069195B /* MemoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC5DE3781BE88CEE0069195B /* MemoViewController.swift */; };
 		DC5DE37B1BE88E9B0069195B /* background.png in Resources */ = {isa = PBXBuildFile; fileRef = DC5DE37A1BE88E9B0069195B /* background.png */; };
 		DCF13C0E1BE9CD5800880FD6 /* MemoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCF13C0C1BE9CD5800880FD6 /* MemoCollectionViewCell.swift */; };
@@ -33,6 +35,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		DC498C611BEB3E2300FD10AD /* DrawOptionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DrawOptionView.swift; path = view/DrawOptionView.swift; sourceTree = "<group>"; };
+		DC498C651BEB3E6C00FD10AD /* DrawOptionView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = DrawOptionView.xib; path = view/DrawOptionView.xib; sourceTree = "<group>"; };
 		DC5DE3781BE88CEE0069195B /* MemoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MemoViewController.swift; path = viewController/MemoViewController.swift; sourceTree = "<group>"; };
 		DC5DE37A1BE88E9B0069195B /* background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = background.png; path = images/background.png; sourceTree = "<group>"; };
 		DCF13C0C1BE9CD5800880FD6 /* MemoCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MemoCollectionViewCell.swift; path = view/MemoCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -153,6 +157,8 @@
 				DCF4CFD61BE880E000B0E076 /* BackgroundViewController.swift */,
 				DCF4CFB81BE8769B00B0E076 /* TopViewController.swift */,
 				DC5DE3781BE88CEE0069195B /* MemoViewController.swift */,
+				DC498C611BEB3E2300FD10AD /* DrawOptionView.swift */,
+				DC498C651BEB3E6C00FD10AD /* DrawOptionView.xib */,
 			);
 			name = viewController;
 			sourceTree = "<group>";
@@ -239,6 +245,7 @@
 			files = (
 				DCF4CFBC1BE8769B00B0E076 /* Main.storyboard in Resources */,
 				DCF13C131BE9E01400880FD6 /* memoImage.png in Resources */,
+				DC498C661BEB3E6C00FD10AD /* DrawOptionView.xib in Resources */,
 				DCF13C0F1BE9CD5800880FD6 /* MemoCollectionViewCell.xib in Resources */,
 				DC5DE37B1BE88E9B0069195B /* background.png in Resources */,
 				DCF4CFC11BE8769B00B0E076 /* LaunchScreen.xib in Resources */,
@@ -263,6 +270,7 @@
 				DCF13C0E1BE9CD5800880FD6 /* MemoCollectionViewCell.swift in Sources */,
 				DCF4CFD71BE880E000B0E076 /* BackgroundViewController.swift in Sources */,
 				DCF4CFB91BE8769B00B0E076 /* TopViewController.swift in Sources */,
+				DC498C621BEB3E2300FD10AD /* DrawOptionView.swift in Sources */,
 				DC5DE3791BE88CEE0069195B /* MemoViewController.swift in Sources */,
 				DCF4CFB41BE8769B00B0E076 /* AppDelegate.swift in Sources */,
 				DCF4CFB71BE8769B00B0E076 /* writeMemo.xcdatamodeld in Sources */,
