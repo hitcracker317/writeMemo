@@ -10,8 +10,12 @@ import UIKit
 
 class MemoViewController: UIViewController,UITextViewDelegate {
     
+    //TODO:テキストビューの個数をカウントする変数を用意(テキストビューにタグをつけるため)
+    var textTag:Int = 0
+    
     enum InputType: Int {
         case InputTypeText = 0
+        case InputTypeEditText
         case InputTypePaint
         case InputTypeImage
         case InputTypeMove
@@ -30,23 +34,29 @@ class MemoViewController: UIViewController,UITextViewDelegate {
     @IBAction func tapMemoView(sender: AnyObject) {
         println(sender)
         
-        var point = sender.locationOfTouch(0, inView: memoView)
-        println("タッチした座標:\(point)")
-        
-        
-        
-        
-        
-        
-        
-        
-        var textView:UITextView = UITextView(frame: CGRectMake(point.x - 12, point.y - 12, 24, 24))
-        textView.text = ""
-        textView.delegate = self
-        textView.backgroundColor = UIColor(red:0.95, green:0.95, blue:0.00, alpha:1.0)
-        memoView.addSubview(textView)
-        
-        textView.becomeFirstResponder()
+        if(inputType == InputType.InputTypeText){
+            //テキスト入力
+            
+            var point = sender.locationOfTouch(0, inView: memoView)
+            println("タッチした座標:\(point)")
+            
+            var textView:UITextView = UITextView(frame: CGRectMake(point.x - 60, point.y - 12, 120, 24))
+            textView.text = ""
+            textTag++
+            textView.tag = textTag //生成するtextViewにタグをつける(ひとつひとつのテキストビューを特定するため)
+            textView.delegate = self
+            textView.backgroundColor = UIColor(red:0.95, green:0.95, blue:0.00, alpha:1.0)
+            memoView.addSubview(textView)
+            
+            textView.becomeFirstResponder()
+            
+            inputType = InputType.InputTypeEditText
+
+        } else if (inputType == InputType.InputTypeEditText){
+            //テキスト入力中のときはキーボードを閉じる
+            self.view.endEditing(true);
+            inputType = InputType.InputTypeText
+        }
     }
     
     @IBAction func changeInputText(sender: AnyObject) {
@@ -56,9 +66,8 @@ class MemoViewController: UIViewController,UITextViewDelegate {
     
     // MARK: - TextViewDelegate
     func textViewDidChange(textView: UITextView) {
-        //文字が入力された際、文字量に応じてTextViewのRect値を変更
+        //入力したテキストの行数に応じてテキストビューのサイズを可変
         var textRect:CGRect = textView.frame;
-        textRect.size.width = textView.contentSize.width
         textRect.size.height = textView.contentSize.height
         textView.frame = textRect;
     }

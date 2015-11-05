@@ -20,7 +20,6 @@ class TopViewController: UIViewController ,UICollectionViewDataSource,UICollecti
         var nib:UINib = UINib(nibName: "MemoCollectionViewCell", bundle: nil)
         memoCollectionView.registerNib(nib, forCellWithReuseIdentifier: "Cell")
         
-        //self.topNavigationbar.frame = CGRectMake(0, 0, 100, 66)
     }
 
     
