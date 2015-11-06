@@ -19,6 +19,20 @@ class DrawOptionView: UIView {
     
     @IBOutlet weak var palletScrollView: UIScrollView!
 
+    var colorArray:[UIColor] = [
+                                    UIColor(red:0.00, green:0.00, blue:0.00, alpha:1.0)/*黒色*/,
+                                    UIColor(red:0.95, green:0.32, blue:0.32, alpha:1.0)/*赤*/,
+                                    UIColor(red:0.95, green:0.61, blue:0.32, alpha:1.0)/*オレンジ*/,
+                                    UIColor(red:0.95, green:0.89, blue:0.32, alpha:1.0)/*黄色*/,
+                                    UIColor(red:0.78, green:0.95, blue:0.32, alpha:1.0)/*黄緑*/,
+                                    UIColor(red:0.32, green:0.95, blue:0.41, alpha:1.0)/*緑*/,
+                                    UIColor(red:0.32, green:0.80, blue:0.95, alpha:1.0)/*水色*/,
+                                    UIColor(red:0.32, green:0.48, blue:0.95, alpha:1.0)/*青色*/,
+                                    UIColor(red:0.49, green:0.32, blue:0.95, alpha:1.0)/*紫*/,
+                                    UIColor(red:0.95, green:0.32, blue:0.69, alpha:1.0)/*ピンク*/,
+                                    UIColor(red:0.67, green:0.49, blue:0.23, alpha:1.0)/*茶色*/
+                                ]
+    
     class func instance() -> DrawOptionView {
         return UINib(nibName: "DrawOptionView", bundle: nil).instantiateWithOwner(self, options: nil)[0] as! DrawOptionView
     }
@@ -26,12 +40,6 @@ class DrawOptionView: UIView {
     required init(coder aDecoder: NSCoder) {
         //xibやstoryboardにviewを配置した時に呼ばれる
         super.init(coder: aDecoder)
-        self.setUp()
-    }
-    
-    func setUp(){
-        //ビューのセットアップのメソッド
-        
     }
     
     override func awakeFromNib() {
@@ -41,9 +49,9 @@ class DrawOptionView: UIView {
         var palletWidth:CGFloat = 44
         var palletHeight:CGFloat = 44
         var palletMargin:CGFloat = 3
-        palletScrollView.contentSize = CGSizeMake(((palletWidth + palletMargin) * 12) + palletMargin , 50)
+        palletScrollView.contentSize = CGSizeMake((palletWidth + palletMargin) * CGFloat(colorArray.count) + palletMargin , 50)
         
-        for i in 0...11 {
+        for(var i = 0; i < colorArray.count; i++){
             //カラーパレットボタンを生成
             var xPosition:CGFloat = 3.0
             var yPosition:CGFloat = 3.0
@@ -54,15 +62,10 @@ class DrawOptionView: UIView {
                 xPosition = ((palletWidth + palletMargin) * CGFloat(i)) + palletMargin
             }
             
-            // Scrollviewに追加
+            //ボタン
             var colorButton:UIButton = UIButton()
             colorButton.frame = CGRectMake(xPosition, yPosition, palletWidth, palletHeight)
-            if(i % 2 == 0){
-                colorButton.backgroundColor = UIColor.blackColor()
-            } else {
-                colorButton.backgroundColor = UIColor.blueColor()
-            }
-            
+            colorButton.backgroundColor = colorArray[i]
             colorButton.tag = i
             colorButton.addTarget(self, action: "changeColor:", forControlEvents:.TouchUpInside)
             palletScrollView.addSubview(colorButton)
