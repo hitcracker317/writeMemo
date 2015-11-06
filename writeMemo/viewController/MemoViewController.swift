@@ -10,8 +10,12 @@ import UIKit
 
 class MemoViewController: UIViewController,UITextViewDelegate {
     
-    //TODO:テキストビューの個数をカウントする変数を用意(テキストビューにタグをつけるため)
     var textTag:Int = 0
+    var paintViewIsAppeared:Bool = false
+    
+    var drawView:DrawOptionView = DrawOptionView.instance()
+    
+    @IBOutlet weak var underView: UIView!
     
     enum InputType: Int {
         case InputTypeText = 0
@@ -29,14 +33,12 @@ class MemoViewController: UIViewController,UITextViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        
     }
     
     @IBAction func tapMemoView(sender: AnyObject) {
-        println(sender)
-        
         if(inputType == InputType.InputTypeText){
             //テキスト入力
-            
             var point = sender.locationOfTouch(0, inView: memoView)
             println("タッチした座標:\(point)")
             
@@ -59,9 +61,84 @@ class MemoViewController: UIViewController,UITextViewDelegate {
         }
     }
     
+    // MARK: - changeInputType
     @IBAction func changeInputText(sender: AnyObject) {
-        //テキスト編集モードにチェンジ
+        self.closeDrawView()
+        
+        //テキスト追加モードにチェンジ
         inputType = InputType.InputTypeText
+    }
+    
+    @IBAction func changeInputPaint(sender: AnyObject) {
+        //ペイント追加モードにチェンジ
+        inputType = InputType.InputTypePaint
+        
+        if(paintViewIsAppeared){
+            //開いているのなら閉じる
+            self.closeDrawView()
+        } else {
+            //閉じているのなら開く
+            self.openDrawView()
+        }
+    }
+    
+    @IBAction func changeInputImage(sender: AnyObject) {
+        //イメージ追加モードにチェンジ
+        self.closeDrawView()
+        
+        inputType = InputType.InputTypeImage
+    }
+    
+    @IBAction func changeInputMove(sender: AnyObject) {
+        //移動モードにチェンジ
+        self.closeDrawView()
+        
+        inputType = InputType.InputTypeMove
+    }
+    
+    @IBAction func changeInputDelete(sender: AnyObject) {
+        //削除モードにチェンジ
+        self.closeDrawView()
+        
+        inputType = InputType.InputTypeDelete
+    }
+
+    
+    func openDrawView(){
+        drawView.frame = CGRectMake(0, self.view.frame.size.height , self.view.frame.size.width, 170)
+        self.view.insertSubview(drawView, belowSubview: underView)
+        
+        self.paintViewIsAppeared = true
+        
+        UIView.animateWithDuration(0.5, // アニメーションの時間
+            delay: 0.0,  // アニメーションの遅延時間
+            usingSpringWithDamping: 0.5, // スプリングの効果(0~1で指定する)
+            initialSpringVelocity: 0.3,  // バネの初速。(0~1で指定する)
+            options: UIViewAnimationOptions.CurveEaseIn,
+            animations: {() -> Void  in
+                // アニメーションする処理
+                self.drawView.frame.origin.y = self.view.frame.size.height - 135 - 44
+            },
+            completion:nil
+        )
+    }
+    
+    func closeDrawView(){
+        self.paintViewIsAppeared = false
+        
+        UIView.animateWithDuration(0.3, // アニメーションの時間
+            delay: 0.0,  // アニメーションの遅延時間
+            usingSpringWithDamping: 1.0, // スプリングの効果(0..1)
+            initialSpringVelocity: 0.3,  // バネの初速。(0..1)
+            options: UIViewAnimationOptions.CurveEaseIn,
+            animations: {() -> Void  in
+                // アニメーションする処理
+                self.drawView.frame.origin.y = self.view.frame.size.height
+            },
+            completion:{(Bool finished) -> Void in
+                self.drawView.removeFromSuperview()
+            }
+        )
     }
     
     // MARK: - TextViewDelegate

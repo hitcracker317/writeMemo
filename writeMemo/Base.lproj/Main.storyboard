@@ -114,7 +114,7 @@
                                     </view>
                                 </subviews>
                             </scrollView>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="FCJ-mo-QhW">
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="FCJ-mo-QhW" userLabel="underView">
                                 <rect key="frame" x="0.0" y="618" width="375" height="49"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Fc0-td-LMH">
@@ -122,18 +122,27 @@
                                         <state key="normal" title="paint">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
+                                        <connections>
+                                            <action selector="changeInputPaint:" destination="98M-ZN-zSH" eventType="touchUpInside" id="xqE-ij-0kb"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="T7r-40-b7U">
                                         <rect key="frame" x="122" y="3" width="44" height="44"/>
                                         <state key="normal" title="image">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
+                                        <connections>
+                                            <action selector="changeInputImage:" destination="98M-ZN-zSH" eventType="touchUpInside" id="pJb-5F-cx5"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IqV-yh-Vdy">
                                         <rect key="frame" x="259" y="3" width="44" height="44"/>
                                         <state key="normal" title="delete">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
+                                        <connections>
+                                            <action selector="changeInputDelete:" destination="98M-ZN-zSH" eventType="touchUpInside" id="ZjA-Sc-Hoz"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Z6h-Pz-xON">
                                         <rect key="frame" x="323" y="3" width="44" height="44"/>
@@ -155,6 +164,9 @@
                                         <state key="normal" title="move">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
+                                        <connections>
+                                            <action selector="changeInputMove:" destination="98M-ZN-zSH" eventType="touchUpInside" id="HuU-ma-PnR"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" red="0.89411764709999997" green="0.87058823529999996" blue="0.21176470589999999" alpha="1" colorSpace="calibratedRGB"/>
@@ -178,6 +190,7 @@
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
                         <outlet property="memoView" destination="rNt-ol-5Uf" id="OGk-Vs-wLz"/>
+                        <outlet property="underView" destination="FCJ-mo-QhW" id="Avf-FI-XEu"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="WLf-r2-gnj" userLabel="First Responder" sceneMemberID="firstResponder"/>

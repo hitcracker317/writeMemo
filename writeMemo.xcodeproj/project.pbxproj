@@ -9,6 +9,9 @@
 /* Begin PBXBuildFile section */
 		DC498C621BEB3E2300FD10AD /* DrawOptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC498C611BEB3E2300FD10AD /* DrawOptionView.swift */; };
 		DC498C661BEB3E6C00FD10AD /* DrawOptionView.xib in Resources */ = {isa = PBXBuildFile; fileRef = DC498C651BEB3E6C00FD10AD /* DrawOptionView.xib */; };
+		DC498C6A1BEBA0FF00FD10AD /* palette_48px.png in Resources */ = {isa = PBXBuildFile; fileRef = DC498C671BEBA0FF00FD10AD /* palette_48px.png */; };
+		DC498C6B1BEBA0FF00FD10AD /* strongPen.png in Resources */ = {isa = PBXBuildFile; fileRef = DC498C681BEBA0FF00FD10AD /* strongPen.png */; };
+		DC498C6C1BEBA0FF00FD10AD /* thinPen.png in Resources */ = {isa = PBXBuildFile; fileRef = DC498C691BEBA0FF00FD10AD /* thinPen.png */; };
 		DC5DE3791BE88CEE0069195B /* MemoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC5DE3781BE88CEE0069195B /* MemoViewController.swift */; };
 		DC5DE37B1BE88E9B0069195B /* background.png in Resources */ = {isa = PBXBuildFile; fileRef = DC5DE37A1BE88E9B0069195B /* background.png */; };
 		DCF13C0E1BE9CD5800880FD6 /* MemoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCF13C0C1BE9CD5800880FD6 /* MemoCollectionViewCell.swift */; };
@@ -37,6 +40,9 @@
 /* Begin PBXFileReference section */
 		DC498C611BEB3E2300FD10AD /* DrawOptionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DrawOptionView.swift; path = view/DrawOptionView.swift; sourceTree = "<group>"; };
 		DC498C651BEB3E6C00FD10AD /* DrawOptionView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = DrawOptionView.xib; path = view/DrawOptionView.xib; sourceTree = "<group>"; };
+		DC498C671BEBA0FF00FD10AD /* palette_48px.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = palette_48px.png; path = images/palette_48px.png; sourceTree = "<group>"; };
+		DC498C681BEBA0FF00FD10AD /* strongPen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = strongPen.png; path = images/strongPen.png; sourceTree = "<group>"; };
+		DC498C691BEBA0FF00FD10AD /* thinPen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = thinPen.png; path = images/thinPen.png; sourceTree = "<group>"; };
 		DC5DE3781BE88CEE0069195B /* MemoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MemoViewController.swift; path = viewController/MemoViewController.swift; sourceTree = "<group>"; };
 		DC5DE37A1BE88E9B0069195B /* background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = background.png; path = images/background.png; sourceTree = "<group>"; };
 		DCF13C0C1BE9CD5800880FD6 /* MemoCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MemoCollectionViewCell.swift; path = view/MemoCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -79,6 +85,8 @@
 			children = (
 				DCF13C0C1BE9CD5800880FD6 /* MemoCollectionViewCell.swift */,
 				DCF13C0D1BE9CD5800880FD6 /* MemoCollectionViewCell.xib */,
+				DC498C611BEB3E2300FD10AD /* DrawOptionView.swift */,
+				DC498C651BEB3E6C00FD10AD /* DrawOptionView.xib */,
 			);
 			name = view;
 			sourceTree = "<group>";
@@ -88,6 +96,9 @@
 			children = (
 				DC5DE37A1BE88E9B0069195B /* background.png */,
 				DCF13C121BE9E01400880FD6 /* memoImage.png */,
+				DC498C671BEBA0FF00FD10AD /* palette_48px.png */,
+				DC498C681BEBA0FF00FD10AD /* strongPen.png */,
+				DC498C691BEBA0FF00FD10AD /* thinPen.png */,
 			);
 			name = images;
 			sourceTree = "<group>";
@@ -115,8 +126,8 @@
 			children = (
 				DCF4CFB31BE8769B00B0E076 /* AppDelegate.swift */,
 				DCF4CFBA1BE8769B00B0E076 /* Main.storyboard */,
-				DCF13C101BE9CD6400880FD6 /* view */,
 				DCF4CFD81BE8825400B0E076 /* viewController */,
+				DCF13C101BE9CD6400880FD6 /* view */,
 				DCF4CFBD1BE8769B00B0E076 /* Images.xcassets */,
 				DCF13C111BE9E00700880FD6 /* images */,
 				DCF4CFBF1BE8769B00B0E076 /* LaunchScreen.xib */,
@@ -157,8 +168,6 @@
 				DCF4CFD61BE880E000B0E076 /* BackgroundViewController.swift */,
 				DCF4CFB81BE8769B00B0E076 /* TopViewController.swift */,
 				DC5DE3781BE88CEE0069195B /* MemoViewController.swift */,
-				DC498C611BEB3E2300FD10AD /* DrawOptionView.swift */,
-				DC498C651BEB3E6C00FD10AD /* DrawOptionView.xib */,
 			);
 			name = viewController;
 			sourceTree = "<group>";
@@ -244,11 +253,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				DCF4CFBC1BE8769B00B0E076 /* Main.storyboard in Resources */,
+				DC498C6B1BEBA0FF00FD10AD /* strongPen.png in Resources */,
 				DCF13C131BE9E01400880FD6 /* memoImage.png in Resources */,
 				DC498C661BEB3E6C00FD10AD /* DrawOptionView.xib in Resources */,
 				DCF13C0F1BE9CD5800880FD6 /* MemoCollectionViewCell.xib in Resources */,
 				DC5DE37B1BE88E9B0069195B /* background.png in Resources */,
+				DC498C6A1BEBA0FF00FD10AD /* palette_48px.png in Resources */,
 				DCF4CFC11BE8769B00B0E076 /* LaunchScreen.xib in Resources */,
+				DC498C6C1BEBA0FF00FD10AD /* thinPen.png in Resources */,
 				DCF4CFBE1BE8769B00B0E076 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

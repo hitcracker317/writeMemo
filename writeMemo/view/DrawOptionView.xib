@@ -7,16 +7,14 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="DrawOptionView" customModule="writeMemo" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="-1" width="375" height="125"/>
+            <rect key="frame" x="0.0" y="0.0" width="375" height="170"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fFb-0Y-Qya">
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="thinPen.png" translatesAutoresizingMaskIntoConstraints="NO" id="fFb-0Y-Qya">
                     <rect key="frame" x="8" y="73" width="44" height="44"/>
-                    <color key="backgroundColor" red="0.89192365529999995" green="0.6454326923" blue="0.28883432739999998" alpha="1" colorSpace="calibratedRGB"/>
                 </imageView>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="se9-Pq-Ieg">
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="strongPen.png" translatesAutoresizingMaskIntoConstraints="NO" id="se9-Pq-Ieg">
                     <rect key="frame" x="323" y="73" width="44" height="44"/>
-                    <color key="backgroundColor" red="0.96192914809999996" green="1" blue="0.103245554" alpha="1" colorSpace="calibratedRGB"/>
                 </imageView>
                 <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sGV-IS-gYc">
                     <rect key="frame" x="8" y="8" width="50" height="49"/>
@@ -30,7 +28,7 @@
                 <slider opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="y3d-5j-YC6">
                     <rect key="frame" x="58" y="80" width="259" height="31"/>
                 </slider>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="njD-az-wBW">
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="palette_48px.png" translatesAutoresizingMaskIntoConstraints="NO" id="njD-az-wBW">
                     <rect key="frame" x="82" y="11" width="44" height="44"/>
                 </imageView>
                 <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" showsVerticalScrollIndicator="NO" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="0Fg-Of-GG7">
@@ -45,7 +43,12 @@
             </subviews>
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="374.5" y="266.5"/>
+            <point key="canvasLocation" x="374.5" y="272.5"/>
         </view>
     </objects>
+    <resources>
+        <image name="palette_48px.png" width="128" height="128"/>
+        <image name="strongPen.png" width="128" height="128"/>
+        <image name="thinPen.png" width="128" height="128"/>
+    </resources>
 </document>
