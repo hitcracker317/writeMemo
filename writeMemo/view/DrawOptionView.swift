@@ -74,6 +74,11 @@ class DrawOptionView: UIView {
         palletScrollView.contentOffset = CGPointMake(0, 0) //スクロールの初期位置
     }
     
+    @IBAction func changeThickness(sender: UISlider) {
+        //描画の太さを変更
+        println("現在の太さ：\(Int(sender.value))")
+    }
+    
     func changeColor(sender:UIButton){
         println("色を変えたよ！")
         
@@ -82,6 +87,7 @@ class DrawOptionView: UIView {
     
     @IBAction func pushEraserButton(sender: AnyObject) {
         //消しゴムモードに変更
+        //TODO:ペンのアイコンを消しゴムのアイコンに変える
     }
 }
 

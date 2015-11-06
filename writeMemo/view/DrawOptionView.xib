@@ -28,8 +28,11 @@
                         <action selector="pushEraserButton:" destination="iN0-l3-epB" eventType="touchUpInside" id="zNg-dT-8D1"/>
                     </connections>
                 </button>
-                <slider opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="y3d-5j-YC6">
+                <slider opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="1" minValue="1" maxValue="10" translatesAutoresizingMaskIntoConstraints="NO" id="y3d-5j-YC6">
                     <rect key="frame" x="58" y="80" width="259" height="31"/>
+                    <connections>
+                        <action selector="changeThickness:" destination="iN0-l3-epB" eventType="valueChanged" id="w5s-Af-7L6"/>
+                    </connections>
                 </slider>
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="palette_48px.png" translatesAutoresizingMaskIntoConstraints="NO" id="njD-az-wBW">
                     <rect key="frame" x="82" y="11" width="44" height="44"/>
