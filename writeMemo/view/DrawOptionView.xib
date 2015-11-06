@@ -24,6 +24,9 @@
                         <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
+                    <connections>
+                        <action selector="pushEraserButton:" destination="iN0-l3-epB" eventType="touchUpInside" id="zNg-dT-8D1"/>
+                    </connections>
                 </button>
                 <slider opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="y3d-5j-YC6">
                     <rect key="frame" x="58" y="80" width="259" height="31"/>
@@ -31,19 +34,20 @@
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="palette_48px.png" translatesAutoresizingMaskIntoConstraints="NO" id="njD-az-wBW">
                     <rect key="frame" x="82" y="11" width="44" height="44"/>
                 </imageView>
-                <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" showsVerticalScrollIndicator="NO" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="0Fg-Of-GG7">
+                <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fn8-DF-tuV">
                     <rect key="frame" x="132" y="8" width="235" height="50"/>
-                    <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="8cC-kS-FKI">
-                        <size key="itemSize" width="50" height="50"/>
-                        <size key="headerReferenceSize" width="0.0" height="0.0"/>
-                        <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                        <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
-                    </collectionViewFlowLayout>
-                </collectionView>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                </scrollView>
             </subviews>
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="374.5" y="272.5"/>
+            <connections>
+                <outlet property="palletIconImage" destination="njD-az-wBW" id="xEv-5b-A6C"/>
+                <outlet property="palletScrollView" destination="fn8-DF-tuV" id="1hE-Kh-Tbe"/>
+                <outlet property="thickIconImage" destination="se9-Pq-Ieg" id="1h4-8B-Lcl"/>
+                <outlet property="thinIconImage" destination="fFb-0Y-Qya" id="LoK-Uu-7Hw"/>
+            </connections>
+            <point key="canvasLocation" x="374.5" y="272"/>
         </view>
     </objects>
     <resources>
