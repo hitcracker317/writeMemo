@@ -37,22 +37,12 @@ class MemoViewController: UIViewController,UITextViewDelegate {
     }
     
     @IBAction func tapMemoView(sender: AnyObject) {
+        var point = sender.locationOfTouch(0, inView: memoView)
+        println("タッチした座標:\(point)")
+        
         if(inputType == InputType.InputTypeText){
-            //テキスト入力
-            var point = sender.locationOfTouch(0, inView: memoView)
-            println("タッチした座標:\(point)")
-            
-            var textView:UITextView = UITextView(frame: CGRectMake(point.x - 60, point.y - 12, 120, 24))
-            textView.text = ""
-            textTag++
-            textView.tag = textTag //生成するtextViewにタグをつける(ひとつひとつのテキストビューを特定するため)
-            textView.delegate = self
-            textView.backgroundColor = UIColor(red:0.95, green:0.95, blue:0.00, alpha:1.0)
-            memoView.addSubview(textView)
-            
-            textView.becomeFirstResponder()
-            
-            inputType = InputType.InputTypeEditText
+           //テキスト入力
+            self.inputText(point: point)
 
         } else if (inputType == InputType.InputTypeEditText){
             //テキスト入力中のときはキーボードを閉じる
@@ -103,9 +93,34 @@ class MemoViewController: UIViewController,UITextViewDelegate {
         inputType = InputType.InputTypeDelete
     }
 
+    // MARK: - Text
+    func inputText(#point:CGPoint){
+        //テキスト入力
+        var textView:UITextView = UITextView(frame: CGRectMake(point.x - 60, point.y - 12, 120, 24))
+        textView.text = ""
+        textTag++
+        textView.tag = textTag //生成するtextViewにタグをつける(ひとつひとつのテキストビューを特定するため)
+        textView.delegate = self
+        textView.backgroundColor = UIColor(red:0.95, green:0.95, blue:0.00, alpha:1.0)
+        memoView.addSubview(textView)
+        
+        textView.becomeFirstResponder()
+        
+        inputType = InputType.InputTypeEditText
+    }
     
+    // MARK: - TextViewDelegate
+    func textViewDidChange(textView: UITextView) {
+        //入力したテキストの行数に応じてテキストビューのサイズを可変
+        var textRect:CGRect = textView.frame;
+        textRect.size.height = textView.contentSize.height
+        textView.frame = textRect;
+    }
+    
+    // MARK: - Paint
     func openDrawView(){
         drawView.frame = CGRectMake(0, self.view.frame.size.height , self.view.frame.size.width, 170)
+        drawView.backgroundColor = UIColor(red:0.17, green:0.24, blue:0.31, alpha:0.5)
         self.view.insertSubview(drawView, belowSubview: underView)
         
         self.paintViewIsAppeared = true
@@ -140,13 +155,4 @@ class MemoViewController: UIViewController,UITextViewDelegate {
             }
         )
     }
-    
-    // MARK: - TextViewDelegate
-    func textViewDidChange(textView: UITextView) {
-        //入力したテキストの行数に応じてテキストビューのサイズを可変
-        var textRect:CGRect = textView.frame;
-        textRect.size.height = textView.contentSize.height
-        textView.frame = textRect;
-    }
-    
 }

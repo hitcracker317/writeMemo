@@ -15,7 +15,6 @@ class DrawOptionView: UIView {
     
     override func drawRect(rect: CGRect) {
         
-        self.backgroundColor = UIColor(red:0.17, green:0.24, blue:0.31, alpha:0.5)
     }
     
     class func instance() -> DrawOptionView {
