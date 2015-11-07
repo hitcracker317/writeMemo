@@ -29,12 +29,12 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
     
     var inputType:InputType = InputType.InputTypeMove //初期inputTypeはmoveにしておく
     
-    @IBOutlet weak var memoView: UIView!
+    @IBOutlet weak var memoView: ACEDrawingView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
+        memoView.backgroundColor = UIColor(red:0.96, green:0.96, blue:0.98, alpha:1.0)
     }
     
     @IBAction func tapMemoView(sender: AnyObject) {
@@ -49,6 +49,8 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
             //テキスト入力中のときはキーボードを閉じる
             self.view.endEditing(true);
             inputType = InputType.InputTypeText
+        } else if (inputType == InputType.InputTypePaint){
+            //ペイントモードのときのみ描画できるようにする(他のモードのときは描画をしない)
         }
     }
     

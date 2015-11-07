@@ -41,6 +41,7 @@
 /* Begin PBXFileReference section */
 		7172D992F9EF55C619859A2E /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		CFB2C7E3E2B5ECBBE6308B65 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		DC2335781BEDD801000A40F2 /* Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Bridging-Header.h"; sourceTree = "<group>"; };
 		DC498C611BEB3E2300FD10AD /* DrawOptionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DrawOptionView.swift; path = view/DrawOptionView.swift; sourceTree = "<group>"; };
 		DC498C651BEB3E6C00FD10AD /* DrawOptionView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = DrawOptionView.xib; path = view/DrawOptionView.xib; sourceTree = "<group>"; };
 		DC498C671BEBA0FF00FD10AD /* palette_48px.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = palette_48px.png; path = images/palette_48px.png; sourceTree = "<group>"; };
@@ -165,6 +166,7 @@
 			isa = PBXGroup;
 			children = (
 				DCF4CFB21BE8769B00B0E076 /* Info.plist */,
+				DC2335781BEDD801000A40F2 /* Bridging-Header.h */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -491,6 +493,7 @@
 				INFOPLIST_FILE = writeMemo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/$(PROJECT)/Bridging-Header.h";
 			};
 			name = Debug;
 		};
@@ -502,6 +505,7 @@
 				INFOPLIST_FILE = writeMemo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/$(PROJECT)/Bridging-Header.h";
 			};
 			name = Release;
 		};
