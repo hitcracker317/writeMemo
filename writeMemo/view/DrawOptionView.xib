@@ -16,18 +16,6 @@
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="strongPen.png" translatesAutoresizingMaskIntoConstraints="NO" id="se9-Pq-Ieg">
                     <rect key="frame" x="323" y="73" width="44" height="44"/>
                 </imageView>
-                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sGV-IS-gYc">
-                    <rect key="frame" x="8" y="8" width="50" height="49"/>
-                    <color key="backgroundColor" red="0.20392156859999999" green="0.59607843140000005" blue="0.85882352939999995" alpha="1" colorSpace="calibratedRGB"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="11"/>
-                    <state key="normal" title="消しゴム">
-                        <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                    </state>
-                    <connections>
-                        <action selector="pushEraserButton:" destination="iN0-l3-epB" eventType="touchUpInside" id="zNg-dT-8D1"/>
-                    </connections>
-                </button>
                 <slider opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="1" minValue="1" maxValue="10" translatesAutoresizingMaskIntoConstraints="NO" id="y3d-5j-YC6">
                     <rect key="frame" x="58" y="80" width="259" height="31"/>
                     <connections>
@@ -35,16 +23,42 @@
                     </connections>
                 </slider>
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="palette_48px.png" translatesAutoresizingMaskIntoConstraints="NO" id="njD-az-wBW">
-                    <rect key="frame" x="82" y="11" width="44" height="44"/>
+                    <rect key="frame" x="125" y="11" width="44" height="44"/>
                 </imageView>
                 <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fn8-DF-tuV">
-                    <rect key="frame" x="132" y="8" width="235" height="50"/>
+                    <rect key="frame" x="168" y="8" width="199" height="50"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </scrollView>
+                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="y1Y-bL-Fug">
+                    <rect key="frame" x="60" y="11" width="44" height="44"/>
+                    <color key="backgroundColor" red="0.20392156859999999" green="0.59607843140000005" blue="0.85882352939999995" alpha="1" colorSpace="calibratedRGB"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                    <state key="normal" title="消しゴム">
+                        <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="changeEraserMode:" destination="iN0-l3-epB" eventType="touchUpInside" id="mzy-tx-Tyf"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sGV-IS-gYc">
+                    <rect key="frame" x="8" y="11" width="44" height="44"/>
+                    <color key="backgroundColor" red="0.85882352939999995" green="0.32549019610000002" blue="0.20392156859999999" alpha="1" colorSpace="calibratedRGB"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                    <state key="normal" title="ペン">
+                        <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="changeDrawMode:" destination="iN0-l3-epB" eventType="touchUpInside" id="2Tc-Mq-T76"/>
+                    </connections>
+                </button>
             </subviews>
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
+                <outlet property="changeDrawModeButton" destination="sGV-IS-gYc" id="HWw-KY-Dzr"/>
+                <outlet property="changeEraserModeButton" destination="y1Y-bL-Fug" id="33Z-tU-l8w"/>
                 <outlet property="palletIconImage" destination="njD-az-wBW" id="xEv-5b-A6C"/>
                 <outlet property="palletScrollView" destination="fn8-DF-tuV" id="1hE-Kh-Tbe"/>
                 <outlet property="thickIconImage" destination="se9-Pq-Ieg" id="1h4-8B-Lcl"/>
