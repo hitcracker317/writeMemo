@@ -9,7 +9,7 @@
 import UIKit
 
 protocol DrawOptionViewDelegate: class {
-    //プロトコル：ゲリゲートメソッドを定義
+    //プロトコル：デリゲートメソッドを定義
     func setThickness(#thickness:Int) //太さ
     func setColor(#color:UIColor) //色
     func changeEditMode(#isPaint:Bool) //ペンか消しゴムか
@@ -17,7 +17,6 @@ protocol DrawOptionViewDelegate: class {
 
 class DrawOptionView: UIView {
 
-    /// 移譲先
     weak var delegate: DrawOptionViewDelegate! = nil
     
     @IBOutlet weak var palletIconImage: UIImageView!
@@ -27,7 +26,7 @@ class DrawOptionView: UIView {
     @IBOutlet weak var changeDrawModeButton: UIButton!
     @IBOutlet weak var changeEraserModeButton: UIButton!
 
-    var isDrawMode:Bool = true
+    var isDrawMode:Bool = true //鉛筆モードか消しゴムモードか
     
     @IBOutlet weak var palletScrollView: UIScrollView!
 
@@ -88,32 +87,24 @@ class DrawOptionView: UIView {
     
     @IBAction func changeThickness(sender: UISlider) {
         //描画の太さを変更
-        //TODO:デリゲート(スライダーの値を渡す)
-        println("現在の太さ：\(Int(sender.value))")
-        //self.delegate.setThickness(thickness: Int(sender.value))
+        self.delegate.setThickness(thickness: Int(sender.value))
     }
     
     func changeColor(sender:UIButton){
-        println("色を変えたよ！")
-        //TODO:デリゲート(選択している色を渡す)
-        //TODO：消しゴムモードだったら、ペンモードに変更
-        self.changeDrawMode(sender)
-        
-        println(sender.backgroundColor)
-        
-        //self.delegate.setColor(color: sender.backgroundColor!)
+        //鉛筆の色を変更
+        self.changeDrawMode(sender) //消しゴムモードの場合は鉛筆モードに変更
+        self.delegate.setColor(color: sender.backgroundColor!)
     }
     
     @IBAction func changeDrawMode(sender: AnyObject) {
         //鉛筆モードに変更
         if(!isDrawMode){
-            
             //TODO：鉛筆モードを選択していることを明示するカーソル的なものを用意
             //TODO:太さのアイコンを鉛筆のアイコンに変更
             isDrawMode = true
             changeDrawModeButton.backgroundColor = UIColor(red:0.86, green:0.33, blue:0.20, alpha:1.0)
             changeEraserModeButton.backgroundColor = UIColor(red:0.20, green:0.60, blue:0.86, alpha:1.0)
-            //self.delegate.changeEditMode(isPaint: true)
+            self.delegate.changeEditMode(isPaint: true)
         }
     }
     
@@ -125,7 +116,7 @@ class DrawOptionView: UIView {
             isDrawMode = false
             changeDrawModeButton.backgroundColor = UIColor(red:0.20, green:0.60, blue:0.86, alpha:1.0)
             changeEraserModeButton.backgroundColor = UIColor(red:0.86, green:0.33, blue:0.20, alpha:1.0)
-            //self.delegate.changeEditMode(isPaint: false)
+            self.delegate.changeEditMode(isPaint: false)
         }
     }
 }

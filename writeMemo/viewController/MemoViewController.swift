@@ -8,7 +8,7 @@
 
 import UIKit
 
-class MemoViewController: UIViewController,UITextViewDelegate {
+class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDelegate {
     
     var textTag:Int = 0
     var paintViewIsAppeared:Bool = false
@@ -16,6 +16,7 @@ class MemoViewController: UIViewController,UITextViewDelegate {
     var drawView:DrawOptionView = DrawOptionView.instance()
     
     @IBOutlet weak var underView: UIView!
+    var isDrawMode:Bool = true //鉛筆モードか消しゴムモードか
     
     enum InputType: Int {
         case InputTypeText = 0
@@ -121,6 +122,7 @@ class MemoViewController: UIViewController,UITextViewDelegate {
     func openDrawView(){
         drawView.frame = CGRectMake(0, self.view.frame.size.height , self.view.frame.size.width, 170)
         drawView.backgroundColor = UIColor(red:0.17, green:0.24, blue:0.31, alpha:0.5)
+        drawView.delegate = self
         self.view.insertSubview(drawView, belowSubview: underView)
         
         self.paintViewIsAppeared = true
@@ -154,5 +156,24 @@ class MemoViewController: UIViewController,UITextViewDelegate {
                 self.drawView.removeFromSuperview()
             }
         )
+    }
+    
+    // MARK: - DrawOptionViewDelegate
+    func setThickness(#thickness: Int) {
+        println("現在の太さ：\(thickness)")
+    }
+    
+    func setColor(#color: UIColor) {
+        println("受け渡した色：\(color)")
+    }
+    
+    func changeEditMode(#isPaint: Bool) {
+        isDrawMode = isPaint
+        
+        if(isDrawMode){
+            println("鉛筆モードに切り替えたよ！")
+        } else {
+            println("消しゴムモードに切り替えたよ！")
+        }
     }
 }
