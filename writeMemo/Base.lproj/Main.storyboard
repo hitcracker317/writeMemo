@@ -106,7 +106,7 @@
                                 <subviews>
                                     <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rNt-ol-5Uf" userLabel="memoView">
                                         <rect key="frame" x="0.0" y="0.0" width="355" height="506"/>
-                                        <color key="backgroundColor" red="0.74023357160000003" green="0.90196078430000004" blue="0.53980700670000004" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         <gestureRecognizers/>
                                         <connections>
                                             <outletCollection property="gestureRecognizers" destination="9wP-xw-whn" appends="YES" id="EVr-uO-PRX"/>

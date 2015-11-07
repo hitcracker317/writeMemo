@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>7CFC66B5-67A1-4DD9-AAE1-8FC87A568137</string>
+	<key>IDESourceControlProjectName</key>
+	<string>writeMemo</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>2D7A2F7E598BC1ED113FE8D1AE33031AC6B318CD</key>
+		<string>github.com:hitcracker317/WriteMemoApp.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>writeMemo.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>2D7A2F7E598BC1ED113FE8D1AE33031AC6B318CD</key>
+		<string>..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>github.com:hitcracker317/WriteMemoApp.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>2D7A2F7E598BC1ED113FE8D1AE33031AC6B318CD</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>2D7A2F7E598BC1ED113FE8D1AE33031AC6B318CD</string>
+			<key>IDESourceControlWCCName</key>
+			<string>writeMemo</string>
+		</dict>
+	</array>
+</dict>
+</plist>
