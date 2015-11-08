@@ -17,6 +17,7 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
     
     @IBOutlet weak var underView: UIView!
     var isDrawMode:Bool = true //鉛筆モードか消しゴムモードか
+    var beforeSelectEraser = false //消しゴムモードを選択していたか
     
     enum InputType: Int {
         case InputTypeText = 0
@@ -49,14 +50,12 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
             //テキスト入力中のときはキーボードを閉じる
             self.view.endEditing(true);
             inputType = InputType.InputTypeText
-        } else if (inputType == InputType.InputTypePaint){
-            //TODO：ペイントモードのときのみ描画できるようにする(他のモードのときは描画をしない)
         }
     }
     
     // MARK: - changeInputType
     @IBAction func changeInputText(sender: AnyObject) {
-        self.closeDrawView()
+        self.changeFromDraw()
         
         //テキスト追加モードにチェンジ
         inputType = InputType.InputTypeText
@@ -65,6 +64,11 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
     @IBAction func changeInputPaint(sender: AnyObject) {
         //ペイント追加モードにチェンジ
         inputType = InputType.InputTypePaint
+        memoView.lineAlpha = 1
+        
+        if(beforeSelectEraser){
+            memoView.drawTool = ACEDrawingToolTypeEraser
+        }
         
         if(paintViewIsAppeared){
             //開いているのなら閉じる
@@ -77,21 +81,21 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
     
     @IBAction func changeInputImage(sender: AnyObject) {
         //イメージ追加モードにチェンジ
-        self.closeDrawView()
+        self.changeFromDraw()
         
         inputType = InputType.InputTypeImage
     }
     
     @IBAction func changeInputMove(sender: AnyObject) {
         //移動モードにチェンジ
-        self.closeDrawView()
+        self.changeFromDraw()
         
         inputType = InputType.InputTypeMove
     }
     
     @IBAction func changeInputDelete(sender: AnyObject) {
         //削除モードにチェンジ
-        self.closeDrawView()
+        self.changeFromDraw()
         
         inputType = InputType.InputTypeDelete
     }
@@ -126,6 +130,7 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
         memoView.drawTool = ACEDrawingToolTypePen
         memoView.lineWidth = 7
         memoView.lineColor = UIColor(red:0.00, green:0.00, blue:0.00, alpha:1.0)
+        memoView.lineAlpha = 0
     }
     
     func openDrawView(){
@@ -167,6 +172,17 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
         )
     }
     
+    func changeFromDraw(){
+        //ペイントモードから他のモードに切り替えたときに呼ばれるメソッド
+        
+        self.closeDrawView()
+        memoView.lineAlpha = 0
+        
+        if(beforeSelectEraser){
+            memoView.drawTool = ACEDrawingToolTypePen
+        }
+    }
+    
     // MARK: - DrawOptionViewDelegate
     func setThickness(#thickness: Int) {
         println("現在の太さ：\(thickness)")
@@ -184,9 +200,11 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
         if(isDrawMode){
             println("鉛筆モードに切り替えたよ！")
             memoView.drawTool = ACEDrawingToolTypePen
+            beforeSelectEraser = false
         } else {
             println("消しゴムモードに切り替えたよ！")
             memoView.drawTool = ACEDrawingToolTypeEraser
+            beforeSelectEraser = true
         }
     }
 }
