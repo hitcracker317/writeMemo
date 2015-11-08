@@ -33,8 +33,8 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        memoView.backgroundColor = UIColor(red:0.96, green:0.96, blue:0.98, alpha:1.0)
+
+        self.initializeDraw()
     }
     
     @IBAction func tapMemoView(sender: AnyObject) {
@@ -50,7 +50,7 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
             self.view.endEditing(true);
             inputType = InputType.InputTypeText
         } else if (inputType == InputType.InputTypePaint){
-            //ペイントモードのときのみ描画できるようにする(他のモードのときは描画をしない)
+            //TODO：ペイントモードのときのみ描画できるようにする(他のモードのときは描画をしない)
         }
     }
     
@@ -120,7 +120,14 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
         textView.frame = textRect;
     }
     
-    // MARK: - Paint
+    // MARK: - Draw
+    func initializeDraw(){
+        memoView.drawMode = ACEDrawingMode.Scale
+        memoView.drawTool = ACEDrawingToolTypePen
+        memoView.lineWidth = 7
+        memoView.lineColor = UIColor(red:0.00, green:0.00, blue:0.00, alpha:1.0)
+    }
+    
     func openDrawView(){
         drawView.frame = CGRectMake(0, self.view.frame.size.height , self.view.frame.size.width, 170)
         drawView.backgroundColor = UIColor(red:0.17, green:0.24, blue:0.31, alpha:0.5)
@@ -129,10 +136,10 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
         
         self.paintViewIsAppeared = true
         
-        UIView.animateWithDuration(0.5, // アニメーションの時間
-            delay: 0.0,  // アニメーションの遅延時間
-            usingSpringWithDamping: 0.5, // スプリングの効果(0~1で指定する)
-            initialSpringVelocity: 0.3,  // バネの初速。(0~1で指定する)
+        UIView.animateWithDuration(0.5,
+            delay: 0.0,
+            usingSpringWithDamping: 0.5,
+            initialSpringVelocity: 0.3,
             options: UIViewAnimationOptions.CurveEaseIn,
             animations: {() -> Void  in
                 // アニメーションする処理
@@ -145,10 +152,10 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
     func closeDrawView(){
         self.paintViewIsAppeared = false
         
-        UIView.animateWithDuration(0.3, // アニメーションの時間
-            delay: 0.0,  // アニメーションの遅延時間
-            usingSpringWithDamping: 1.0, // スプリングの効果(0..1)
-            initialSpringVelocity: 0.3,  // バネの初速。(0..1)
+        UIView.animateWithDuration(0.3,
+            delay: 0.0,
+            usingSpringWithDamping: 1.0,
+            initialSpringVelocity: 0.3,
             options: UIViewAnimationOptions.CurveEaseIn,
             animations: {() -> Void  in
                 // アニメーションする処理
@@ -163,10 +170,12 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
     // MARK: - DrawOptionViewDelegate
     func setThickness(#thickness: Int) {
         println("現在の太さ：\(thickness)")
+        self.memoView.lineWidth = CGFloat(thickness)
     }
     
     func setColor(#color: UIColor) {
         println("受け渡した色：\(color)")
+        self.memoView.lineColor = color
     }
     
     func changeEditMode(#isPaint: Bool) {
@@ -174,8 +183,10 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
         
         if(isDrawMode){
             println("鉛筆モードに切り替えたよ！")
+            memoView.drawTool = ACEDrawingToolTypePen
         } else {
             println("消しゴムモードに切り替えたよ！")
+            memoView.drawTool = ACEDrawingToolTypeEraser
         }
     }
 }

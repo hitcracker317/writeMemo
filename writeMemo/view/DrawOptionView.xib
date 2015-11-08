@@ -16,7 +16,7 @@
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="strongPen.png" translatesAutoresizingMaskIntoConstraints="NO" id="se9-Pq-Ieg">
                     <rect key="frame" x="323" y="73" width="44" height="44"/>
                 </imageView>
-                <slider opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="1" minValue="1" maxValue="10" translatesAutoresizingMaskIntoConstraints="NO" id="y3d-5j-YC6">
+                <slider opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="7" minValue="1" maxValue="13" translatesAutoresizingMaskIntoConstraints="NO" id="y3d-5j-YC6">
                     <rect key="frame" x="58" y="80" width="259" height="31"/>
                     <connections>
                         <action selector="changeThickness:" destination="iN0-l3-epB" eventType="valueChanged" id="w5s-Af-7L6"/>
