@@ -102,7 +102,7 @@
                                 <rect key="frame" x="10" y="66" width="355" height="536"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             </view>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rNt-ol-5Uf" userLabel="memoView" customClass="MemoView" customModule="writeMemo" customModuleProvider="target">
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rNt-ol-5Uf" userLabel="memoView" customClass="UIImageView">
                                 <rect key="frame" x="10" y="66" width="355" height="536"/>
                                 <gestureRecognizers/>
                             </view>
@@ -187,7 +187,7 @@
                     </view>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
-                        <outlet property="memoView" destination="rNt-ol-5Uf" id="7Wr-5M-rQq"/>
+                        <outlet property="memoView" destination="rNt-ol-5Uf" id="4A8-0h-t1V"/>
                         <outlet property="underView" destination="FCJ-mo-QhW" id="Avf-FI-XEu"/>
                     </connections>
                 </viewController>

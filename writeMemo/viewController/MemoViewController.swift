@@ -11,13 +11,20 @@ import UIKit
 class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDelegate {
     
     var textTag:Int = 0
-    var paintViewIsAppeared:Bool = false
-    
-    var drawView:DrawOptionView = DrawOptionView.instance()
     
     @IBOutlet weak var underView: UIView!
+    
+    //タッチ操作時に使用する変数
+    var touchBeganPoint:CGPoint!
+    var movePoint:CGPoint!
+    
+    //ペイント用の変数
+    var paintViewIsAppeared:Bool = false
+    var drawView:DrawOptionView = DrawOptionView.instance()
+    @IBOutlet weak var memoView: UIImageView!
+    var penThickness:Int = 0 //ペンの細さ
+    var penColor:UIColor! //ペンの色
     var isDrawMode:Bool = true //鉛筆モードか消しゴムモードか
-    var beforeSelectEraser = false //消しゴムモードを選択していたか
     
     enum InputType: Int {
         case InputTypeText = 0
@@ -29,8 +36,6 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
     }
     
     var inputType:InputType = InputType.InputTypeMove //初期inputTypeはmoveにしておく
-    
-    @IBOutlet weak var memoView: ACEDrawingView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -55,6 +60,49 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
         }*/
     }*/
     
+    // MARK: - touchInteraction
+    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
+        super.touchesEnded(touches, withEvent: event)
+        for touch: AnyObject in touches {
+            var t:UITouch = touch as! UITouch
+            touchBeganPoint = t.locationInView(memoView)
+            println("タッチした座標:\(touchBeganPoint)")
+        }
+    }
+    
+    override func touchesMoved(touches: Set<NSObject>, withEvent event: UIEvent) {
+        let touch = touches.first as! UITouch
+        movePoint = touch.locationInView(memoView) //移動した先の座標を取得
+        
+        if(inputType == InputType.InputTypePaint){
+            self.drawPaint() //ペイント操作
+        }
+        
+        //テキスト生成やオブジェクトをドラッグするときに使用する
+        /*
+        let location = aTouch.locationInView(memoView) //移動した先の座標を取得
+        let prevLocation = aTouch.previousLocationInView(memoView) //移動する前の座標を取得
+        
+        //ドラッグ操作をして移動したx,y距離をとる
+        let movePosX:CGFloat = location.x - prevLocation.x
+        let movePosY:CGFloat = location.y - prevLocation.y
+        
+        //self.memoDelegate.memoTouchMove(deltaX: movePosX, deltaY: movePosY)
+        println("移動した距離(x:\(movePosX),y:\(movePosY)")
+        */
+    }
+    
+    override func touchesEnded(touches: Set<NSObject>, withEvent event: UIEvent) {
+        super.touchesEnded(touches, withEvent: event)
+        
+        for touch: AnyObject in touches {
+        var t:UITouch = touch as! UITouch
+        let point = t.locationInView(memoView)
+        
+        println("離した座標:\(point)")
+        }
+    }
+    
     // MARK: - changeInputType
     @IBAction func changeInputText(sender: AnyObject) {
         self.changeFromDraw()
@@ -66,11 +114,6 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
     @IBAction func changeInputPaint(sender: AnyObject) {
         //ペイント追加モードにチェンジ
         inputType = InputType.InputTypePaint
-        memoView.lineAlpha = 1
-        
-        if(beforeSelectEraser){
-            memoView.drawTool = ACEDrawingToolTypeEraser
-        }
         
         if(paintViewIsAppeared){
             //開いているのなら閉じる
@@ -102,51 +145,6 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
         inputType = InputType.InputTypeDelete
     }
 
-        
-    
-    
-    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
-        super.touchesEnded(touches, withEvent: event)
-        
-        for touch: AnyObject in touches {
-        var t:UITouch = touch as! UITouch
-        let point = t.locationInView(memoView)
-        
-        //self.memoDelegate.memoTocuBegan(touchPoint: point)
-        println("タッチした座標:\(point)")
-        }
-    }
-    
-    override func touchesMoved(touches: Set<NSObject>, withEvent event: UIEvent) {
-        
-        let aTouch = touches.first as! UITouch
-        
-        let location = aTouch.locationInView(memoView) //移動した先の座標を取得
-        let prevLocation = aTouch.previousLocationInView(memoView) //移動する前の座標を取得
-        
-        //ドラッグ操作をして移動したx,y距離をとる
-        let movePosX:CGFloat = location.x - prevLocation.x
-        let movePosY:CGFloat = location.y - prevLocation.y
-        
-        //self.memoDelegate.memoTouchMove(deltaX: movePosX, deltaY: movePosY)
-        println("移動した距離(x:\(movePosX),y:\(movePosY)")
-
-    }
-    
-    override func touchesEnded(touches: Set<NSObject>, withEvent event: UIEvent) {
-        
-        super.touchesEnded(touches, withEvent: event)
-        
-        for touch: AnyObject in touches {
-        var t:UITouch = touch as! UITouch
-        let point = t.locationInView(memoView)
-            
-        //self.memoDelegate.memoTocuEnd(touchPoint: point)
-        println("離した座標:\(point)")
-        }
-    }
-
-    
     // MARK: - Text
     func inputText(#point:CGPoint){
         //テキスト入力
@@ -173,11 +171,33 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
     
     // MARK: - Draw
     func initializeDraw(){
-        memoView.drawMode = ACEDrawingMode.Scale
-        memoView.drawTool = ACEDrawingToolTypePen
-        memoView.lineWidth = 7
-        memoView.lineColor = UIColor(red:0.00, green:0.00, blue:0.00, alpha:1.0)
-        memoView.lineAlpha = 0
+        penThickness = 7
+        penColor = UIColor(red:0.00, green:0.00, blue:0.00, alpha:1.0)
+    }
+    
+    func drawPaint(){
+        //CoreGraphicsを利用してドラッグした軌跡を描画
+        
+        UIGraphicsBeginImageContext(memoView.frame.size) // 描画領域をmemoView(UIImageView)の大きさで生成
+        
+        memoView.image?.drawInRect(CGRectMake(0, 0, memoView.frame.width, memoView.frame.size.height)) //memoViewにセットされている画像（UIImageを描画)
+        CGContextSetLineCap(UIGraphicsGetCurrentContext(), kCGLineCapRound) // 線の角を丸くする
+        CGContextSetLineWidth(UIGraphicsGetCurrentContext(), CGFloat(penThickness)); // 線の太さを指定
+        CGContextSetStrokeColorWithColor(UIGraphicsGetCurrentContext(), penColor.CGColor) //線の色を指定(UIColorで)
+        
+        if(!isDrawMode){
+            //消しゴムモードのときはブレンドモードをClearにする(これで描画した線を消すことができる)
+            CGContextSetBlendMode(UIGraphicsGetCurrentContext(), kCGBlendModeClear)
+        }
+        
+        CGContextMoveToPoint(UIGraphicsGetCurrentContext(), touchBeganPoint.x, touchBeganPoint.y); // 線の描画開始座標をセット
+        CGContextAddLineToPoint(UIGraphicsGetCurrentContext(), movePoint.x, movePoint.y); // 線の描画終了座標をセット
+        CGContextStrokePath(UIGraphicsGetCurrentContext()) // 描画の開始～終了座標まで線を引く
+        memoView.image = UIGraphicsGetImageFromCurrentImageContext() // 描画領域を画像（UIImage）としてmemoViewにセット
+        
+        UIGraphicsEndImageContext() // 描画領域のクリア
+        
+        touchBeganPoint = movePoint; // 現在のタッチ座標を次の開始座標にセット
     }
     
     func openDrawView(){
@@ -221,37 +241,20 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
     
     func changeFromDraw(){
         //ペイントモードから他のモードに切り替えたときに呼ばれるメソッド
-        
         self.closeDrawView()
-        memoView.lineAlpha = 0
-        
-        if(beforeSelectEraser){
-            memoView.drawTool = ACEDrawingToolTypePen
-        }
     }
     
     // MARK: - DrawOptionViewDelegate
     func setThickness(#thickness: Int) {
         println("現在の太さ：\(thickness)")
-        self.memoView.lineWidth = CGFloat(thickness)
+        penThickness = thickness
     }
-    
     func setColor(#color: UIColor) {
         println("受け渡した色：\(color)")
-        self.memoView.lineColor = color
+        penColor = color
     }
-    
     func changeEditMode(#isPaint: Bool) {
+        println("鉛筆モード？:\(isPaint)")
         isDrawMode = isPaint
-        
-        if(isDrawMode){
-            println("鉛筆モードに切り替えたよ！")
-            memoView.drawTool = ACEDrawingToolTypePen
-            beforeSelectEraser = false
-        } else {
-            println("消しゴムモードに切り替えたよ！")
-            memoView.drawTool = ACEDrawingToolTypeEraser
-            beforeSelectEraser = true
-        }
     }
 }
