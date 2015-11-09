@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		DC12CAE91BF067F300AE6167 /* MemoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC12CAE81BF067F300AE6167 /* MemoView.swift */; };
 		DC498C621BEB3E2300FD10AD /* DrawOptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC498C611BEB3E2300FD10AD /* DrawOptionView.swift */; };
 		DC498C661BEB3E6C00FD10AD /* DrawOptionView.xib in Resources */ = {isa = PBXBuildFile; fileRef = DC498C651BEB3E6C00FD10AD /* DrawOptionView.xib */; };
 		DC498C6A1BEBA0FF00FD10AD /* palette_48px.png in Resources */ = {isa = PBXBuildFile; fileRef = DC498C671BEBA0FF00FD10AD /* palette_48px.png */; };
@@ -41,6 +42,7 @@
 /* Begin PBXFileReference section */
 		7172D992F9EF55C619859A2E /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		CFB2C7E3E2B5ECBBE6308B65 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		DC12CAE81BF067F300AE6167 /* MemoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MemoView.swift; path = view/MemoView.swift; sourceTree = "<group>"; };
 		DC2335781BEDD801000A40F2 /* Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Bridging-Header.h"; sourceTree = "<group>"; };
 		DC498C611BEB3E2300FD10AD /* DrawOptionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DrawOptionView.swift; path = view/DrawOptionView.swift; sourceTree = "<group>"; };
 		DC498C651BEB3E6C00FD10AD /* DrawOptionView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = DrawOptionView.xib; path = view/DrawOptionView.xib; sourceTree = "<group>"; };
@@ -108,6 +110,7 @@
 			children = (
 				DCF13C0C1BE9CD5800880FD6 /* MemoCollectionViewCell.swift */,
 				DCF13C0D1BE9CD5800880FD6 /* MemoCollectionViewCell.xib */,
+				DC12CAE81BF067F300AE6167 /* MemoView.swift */,
 				DC498C611BEB3E2300FD10AD /* DrawOptionView.swift */,
 				DC498C651BEB3E6C00FD10AD /* DrawOptionView.xib */,
 			);
@@ -358,6 +361,7 @@
 			files = (
 				DCF13C0E1BE9CD5800880FD6 /* MemoCollectionViewCell.swift in Sources */,
 				DCF4CFD71BE880E000B0E076 /* BackgroundViewController.swift in Sources */,
+				DC12CAE91BF067F300AE6167 /* MemoView.swift in Sources */,
 				DCF4CFB91BE8769B00B0E076 /* TopViewController.swift in Sources */,
 				DC498C621BEB3E2300FD10AD /* DrawOptionView.swift in Sources */,
 				DC5DE3791BE88CEE0069195B /* MemoViewController.swift in Sources */,

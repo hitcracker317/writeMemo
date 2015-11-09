@@ -38,7 +38,9 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
         self.initializeDraw()
     }
     
+    /*
     @IBAction func tapMemoView(sender: AnyObject) {
+        /*
         var point = sender.locationOfTouch(0, inView: memoView)
         println("タッチした座標:\(point)")
         
@@ -50,8 +52,8 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
             //テキスト入力中のときはキーボードを閉じる
             self.view.endEditing(true);
             inputType = InputType.InputTypeText
-        }
-    }
+        }*/
+    }*/
     
     // MARK: - changeInputType
     @IBAction func changeInputText(sender: AnyObject) {
@@ -100,6 +102,51 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
         inputType = InputType.InputTypeDelete
     }
 
+        
+    
+    
+    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
+        super.touchesEnded(touches, withEvent: event)
+        
+        for touch: AnyObject in touches {
+        var t:UITouch = touch as! UITouch
+        let point = t.locationInView(memoView)
+        
+        //self.memoDelegate.memoTocuBegan(touchPoint: point)
+        println("タッチした座標:\(point)")
+        }
+    }
+    
+    override func touchesMoved(touches: Set<NSObject>, withEvent event: UIEvent) {
+        
+        let aTouch = touches.first as! UITouch
+        
+        let location = aTouch.locationInView(memoView) //移動した先の座標を取得
+        let prevLocation = aTouch.previousLocationInView(memoView) //移動する前の座標を取得
+        
+        //ドラッグ操作をして移動したx,y距離をとる
+        let movePosX:CGFloat = location.x - prevLocation.x
+        let movePosY:CGFloat = location.y - prevLocation.y
+        
+        //self.memoDelegate.memoTouchMove(deltaX: movePosX, deltaY: movePosY)
+        println("移動した距離(x:\(movePosX),y:\(movePosY)")
+
+    }
+    
+    override func touchesEnded(touches: Set<NSObject>, withEvent event: UIEvent) {
+        
+        super.touchesEnded(touches, withEvent: event)
+        
+        for touch: AnyObject in touches {
+        var t:UITouch = touch as! UITouch
+        let point = t.locationInView(memoView)
+            
+        //self.memoDelegate.memoTocuEnd(touchPoint: point)
+        println("離した座標:\(point)")
+        }
+    }
+
+    
     // MARK: - Text
     func inputText(#point:CGPoint){
         //テキスト入力

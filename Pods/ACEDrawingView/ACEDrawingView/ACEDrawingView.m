@@ -333,7 +333,6 @@
         self.textView.layer.cornerRadius = 8;
         [self.textView setContentInset: UIEdgeInsetsZero];
         
-        
         [self addSubview:self.textView];
     }
     

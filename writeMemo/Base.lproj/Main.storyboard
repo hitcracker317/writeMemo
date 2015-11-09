@@ -97,20 +97,15 @@
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Kqm-YL-GGc">
                                 <rect key="frame" x="10" y="72" width="355" height="536"/>
-                                <subviews>
-                                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="VR9-oT-Djw" userLabel="memoBackView">
-                                        <rect key="frame" x="0.0" y="0.0" width="355" height="536"/>
-                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                    </view>
-                                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rNt-ol-5Uf" userLabel="memoView" customClass="ACEDrawingView">
-                                        <rect key="frame" x="0.0" y="0.0" width="355" height="536"/>
-                                        <gestureRecognizers/>
-                                        <connections>
-                                            <outletCollection property="gestureRecognizers" destination="9wP-xw-whn" appends="YES" id="EVr-uO-PRX"/>
-                                        </connections>
-                                    </view>
-                                </subviews>
                             </scrollView>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="VR9-oT-Djw" userLabel="memoBackView">
+                                <rect key="frame" x="10" y="66" width="355" height="536"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                            </view>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rNt-ol-5Uf" userLabel="memoView" customClass="MemoView" customModule="writeMemo" customModuleProvider="target">
+                                <rect key="frame" x="10" y="66" width="355" height="536"/>
+                                <gestureRecognizers/>
+                            </view>
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="FCJ-mo-QhW" userLabel="underView">
                                 <rect key="frame" x="0.0" y="618" width="375" height="49"/>
                                 <subviews>
@@ -192,16 +187,11 @@
                     </view>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
-                        <outlet property="memoView" destination="rNt-ol-5Uf" id="OGk-Vs-wLz"/>
+                        <outlet property="memoView" destination="rNt-ol-5Uf" id="7Wr-5M-rQq"/>
                         <outlet property="underView" destination="FCJ-mo-QhW" id="Avf-FI-XEu"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="WLf-r2-gnj" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <tapGestureRecognizer id="9wP-xw-whn">
-                    <connections>
-                        <action selector="tapMemoView:" destination="98M-ZN-zSH" id="mHk-yt-jjO"/>
-                    </connections>
-                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="1604.5" y="852.5"/>
         </scene>
