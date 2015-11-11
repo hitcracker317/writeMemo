@@ -23,7 +23,6 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
     @IBOutlet weak var inputImageView: UIImageView!
     
     //テキスト用の変数
-    var currentTextView:UITextView! //現在、エディットしているテキストビューを格納
     var drawTextViewWidth:CGFloat!
     var drawTextViewHeight:CGFloat!
     
@@ -78,7 +77,6 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
             println("inputImageViewの移動先の座標:\(movePoint)")
         }
         
-        
         if(inputType == InputType.InputTypeText){
             //ドラッグした範囲にUITextViewを生成する
             self.drawTextView()
@@ -111,21 +109,12 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
             if(drawTextViewWidth >= 20){
                 self.inputText()
             }
+            inputImageView.image = nil //矩形を削除
+            
         } else if (inputType == InputType.InputTypeEditText){
             //テキスト入力中のときはキーボードを閉じる
             self.view.endEditing(true);
             inputType = InputType.InputTypeText
-            
-            //入力したテキストの行数に応じてテキストビューのサイズを可変
-            var textRect:CGRect = currentTextView.frame;
-            textRect.size.height = currentTextView.contentSize.height
-            currentTextView.frame = textRect
-            
-            //テキスト入力矩形値(横縦)の初期化
-            drawTextViewWidth = 0
-            drawTextViewHeight = 0
-            currentTextView.layer.borderWidth = 0
-            currentTextView = nil
         }
     }
     
@@ -135,11 +124,13 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
         
         //テキスト追加モードにチェンジ
         inputType = InputType.InputTypeText
+        self.toggleEditableTextView()
     }
     
     @IBAction func changeInputPaint(sender: AnyObject) {
         //ペイント追加モードにチェンジ
         inputType = InputType.InputTypePaint
+        self.toggleEditableTextView()
         
         isDrawViewTouchEnabled = true
         self.changeDrawViewTouchEnabled()
@@ -155,30 +146,33 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
     
     @IBAction func changeInputImage(sender: AnyObject) {
         //イメージ追加モードにチェンジ
-        self.changeFromDraw()
-        
         inputType = InputType.InputTypeImage
+        
+        self.changeFromDraw()
+        self.toggleEditableTextView()
     }
     
     @IBAction func changeInputMove(sender: AnyObject) {
         //移動モードにチェンジ
-        self.changeFromDraw()
-        
         inputType = InputType.InputTypeMove
+        
+        self.changeFromDraw()
+        self.toggleEditableTextView()
     }
     
     @IBAction func changeInputDelete(sender: AnyObject) {
         //削除モードにチェンジ
-        self.changeFromDraw()
-        
         inputType = InputType.InputTypeDelete
+        
+        self.changeFromDraw()
+        self.toggleEditableTextView()
     }
     
     // MARK: - Text
     func drawTextView(){
         //ドラッグ操作中、テキストビューの領域の矩形を描く
         UIGraphicsBeginImageContext(inputImageView.frame.size)
-        CGContextSetFillColorWithColor(UIGraphicsGetCurrentContext(), UIColor(red:0.06, green:0.22, blue:0.49, alpha:0.5).CGColor) //矩形の描画色
+        CGContextSetFillColorWithColor(UIGraphicsGetCurrentContext(), UIColor(red:0.06, green:0.22, blue:0.49, alpha:0.3).CGColor) //矩形の描画色
         drawTextViewWidth = movePoint.x - touchBeganPoint.x
         drawTextViewHeight = movePoint.y - touchBeganPoint.y
         CGContextFillRect(UIGraphicsGetCurrentContext(), CGRectMake(touchBeganPoint.x, touchBeganPoint.y, drawTextViewWidth, drawTextViewHeight));
@@ -196,12 +190,26 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
         textView.backgroundColor = UIColor(red:0.95, green:0.95, blue:0.00, alpha:0.0)
         textView.layer.borderWidth = 2
         textView.layer.borderColor = UIColor(red:0.06, green:0.22, blue:0.49, alpha:1.0).CGColor
-        currentTextView = textView
         inputImageView.addSubview(textView)
         
         textView.becomeFirstResponder()
         
         inputType = InputType.InputTypeEditText
+    }
+    
+    func toggleEditableTextView(){
+        for view in inputImageView.subviews{
+            if let textView = view as? UITextView {
+                //UITextViewを継承しているビューのみを取得
+                if(inputType == InputType.InputTypeText){
+                    //テキストモードだったら編集可能
+                    textView.editable = true
+                } else {
+                    //それ以外のモードだったら編集無効
+                    textView.editable = false
+                }
+            }
+        }
     }
     
     // MARK: - TextViewDelegate
@@ -213,6 +221,25 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
         if(textView.contentSize.height >= drawTextViewHeight){
             textView.frame = textRect
         }
+    }
+    func textViewShouldBeginEditing(textView: UITextView) -> Bool {
+        //TODO:テキストを入力する領域がキーボードに覆われる場合、画面全体をスクロール
+        textView.layer.borderWidth = 2
+        inputType = InputType.InputTypeEditText
+        return true
+    }
+    func textViewShouldEndEditing(textView: UITextView) -> Bool {
+        //入力したテキストの行数に応じてテキストビューのサイズを可変
+        var textRect:CGRect = textView.frame;
+        textRect.size.height = textView.contentSize.height
+        textView.frame = textRect
+        
+        //テキスト入力矩形値(横縦)の初期化
+        drawTextViewWidth = 0
+        drawTextViewHeight = 0
+        textView.layer.borderWidth = 0
+        
+        return true
     }
     
     // MARK: - Draw
