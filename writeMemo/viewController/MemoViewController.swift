@@ -33,6 +33,7 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
     var penThickness:Int = 0 //ペンの細さ
     var penColor:UIColor! //ペンの色
     var isDrawMode:Bool = true //鉛筆モードか消しゴムモードか
+    var isDrawViewTouchEnabled:Bool = false //ペイントビューをタップできるか
     
     enum InputType: Int {
         case InputTypeText = 0
@@ -57,14 +58,26 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
         super.touchesEnded(touches, withEvent: event)
         for touch: AnyObject in touches {
             var t:UITouch = touch as! UITouch
-            touchBeganPoint = t.locationInView(drawImageView)
-            println("タッチした座標:\(touchBeganPoint)")
+            if(isDrawViewTouchEnabled){
+                touchBeganPoint = t.locationInView(drawImageView)
+                println("drawImageViewのタッチした座標:\(touchBeganPoint)")
+            } else {
+                touchBeganPoint = t.locationInView(inputImageView)
+                println("inputImageViewのタッチした座標:\(touchBeganPoint)")
+            }
         }
     }
     
     override func touchesMoved(touches: Set<NSObject>, withEvent event: UIEvent) {
         let touch = touches.first as! UITouch
-        movePoint = touch.locationInView(drawImageView) //移動した先の座標を取得
+        if(isDrawViewTouchEnabled){
+            movePoint = touch.locationInView(drawImageView) //drawImageViewの移動した先の座標を取得
+            println("drawImageViewの移動先の座標:\(movePoint)")
+        } else {
+            movePoint = touch.locationInView(inputImageView) //inputImageViewの移動した先の座標を取得
+            println("inputImageViewの移動先の座標:\(movePoint)")
+        }
+        
         
         if(inputType == InputType.InputTypeText){
             //ドラッグした範囲にUITextViewを生成する
@@ -128,6 +141,9 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
         //ペイント追加モードにチェンジ
         inputType = InputType.InputTypePaint
         
+        isDrawViewTouchEnabled = true
+        self.changeDrawViewTouchEnabled()
+        
         if(paintViewIsAppeared){
             //開いているのなら閉じる
             self.closeDrawView()
@@ -161,12 +177,12 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
     // MARK: - Text
     func drawTextView(){
         //ドラッグ操作中、テキストビューの領域の矩形を描く
-        UIGraphicsBeginImageContext(drawImageView.frame.size)
+        UIGraphicsBeginImageContext(inputImageView.frame.size)
         CGContextSetFillColorWithColor(UIGraphicsGetCurrentContext(), UIColor(red:0.06, green:0.22, blue:0.49, alpha:0.5).CGColor) //矩形の描画色
         drawTextViewWidth = movePoint.x - touchBeganPoint.x
         drawTextViewHeight = movePoint.y - touchBeganPoint.y
         CGContextFillRect(UIGraphicsGetCurrentContext(), CGRectMake(touchBeganPoint.x, touchBeganPoint.y, drawTextViewWidth, drawTextViewHeight));
-        drawImageView.image = UIGraphicsGetImageFromCurrentImageContext()
+        inputImageView.image = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
     }
     
@@ -181,7 +197,7 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
         textView.layer.borderWidth = 2
         textView.layer.borderColor = UIColor(red:0.06, green:0.22, blue:0.49, alpha:1.0).CGColor
         currentTextView = textView
-        drawImageView.addSubview(textView)
+        inputImageView.addSubview(textView)
         
         textView.becomeFirstResponder()
         
@@ -272,6 +288,18 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
     func changeFromDraw(){
         //ペイントモードから他のモードに切り替えたときに呼ばれるメソッド
         self.closeDrawView()
+        isDrawViewTouchEnabled = false
+        self.changeDrawViewTouchEnabled()
+    }
+    
+    func changeDrawViewTouchEnabled(){
+        if(isDrawViewTouchEnabled){
+            //drawViewのタッチを受け付ける
+            drawImageView.userInteractionEnabled = true
+        } else {
+            //drawViewのタッチを受け付けない
+            drawImageView.userInteractionEnabled = false
+        }
     }
     
     // MARK: - DrawOptionViewDelegate
