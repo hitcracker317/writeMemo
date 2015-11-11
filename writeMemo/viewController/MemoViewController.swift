@@ -34,6 +34,11 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
     var isDrawMode:Bool = true //鉛筆モードか消しゴムモードか
     var isDrawViewTouchEnabled:Bool = false //ペイントビューをタップできるか
     
+    //イメージ用の変数
+    var imageAlertView:UIView = UIView()
+    var imageAlertBackView:UIView = UIView()
+    var imageAlertViewIsAppeared:Bool = false
+    
     enum InputType: Int {
         case InputTypeText = 0
         case InputTypeEditText
@@ -64,6 +69,25 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
                 touchBeganPoint = t.locationInView(inputImageView)
                 println("inputImageViewのタッチした座標:\(touchBeganPoint)")
             }
+        }
+        
+        if(imageAlertViewIsAppeared){
+            //imageAlertViewが表示されているときは閉じる
+            imageAlertBackView.removeFromSuperview()
+            
+            UIView.animateWithDuration(0.3,
+                delay: 0.0,
+                usingSpringWithDamping: 1.0,
+                initialSpringVelocity: 0.3,
+                options: UIViewAnimationOptions.CurveEaseIn,
+                animations: {() -> Void  in
+                    self.imageAlertView.frame.origin.y = self.view.frame.size.height
+                },
+                completion:{(Bool finished) -> Void in
+                    self.imageAlertView.removeFromSuperview()
+                    self.imageAlertViewIsAppeared = false
+                }
+            )
         }
     }
     
@@ -146,10 +170,56 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
     
     @IBAction func changeInputImage(sender: AnyObject) {
         //イメージ追加モードにチェンジ
-        inputType = InputType.InputTypeImage
+        //inputType = InputType.InputTypeImage
         
         self.changeFromDraw()
-        self.toggleEditableTextView()
+        //self.toggleEditableTextView()
+        
+        
+        
+        let appearImageAlertViewHeight:CGFloat = 110
+        let marginWidth:CGFloat = 0
+        let marginHeight:CGFloat = 0
+        let buttonHeight:CGFloat = 55
+        
+        //カメラかライブラリかで写真のアップロード方法を選択するボタンを生成
+        imageAlertView.frame = CGRectMake(0, self.view.frame.size.height , self.view.frame.size.width, appearImageAlertViewHeight + 30)
+        imageAlertView.backgroundColor = UIColor(red:0.87, green:0.90, blue:0.95, alpha:1.0)
+        self.view.addSubview(imageAlertView)
+        
+        imageAlertBackView.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)
+        imageAlertBackView.backgroundColor = UIColor(red:0.17, green:0.24, blue:0.31, alpha:0.3)
+        self.view.insertSubview(imageAlertBackView, belowSubview: imageAlertView)
+        
+        imageAlertViewIsAppeared = true
+        
+        var shootPictureButton:UIButton = UIButton()
+        shootPictureButton.frame = CGRectMake(marginWidth, marginHeight, self.view.frame.size.width - (marginWidth * 2), buttonHeight)
+        shootPictureButton.backgroundColor = UIColor(red:0.87, green:0.90, blue:0.95, alpha:1.0)
+        shootPictureButton.setTitle("カメラを撮影", forState: .Normal)
+        shootPictureButton.setTitleColor(UIColor.blackColor(), forState: UIControlState.Normal)
+        shootPictureButton.addTarget(self, action: "tapShootPictureButton", forControlEvents: .TouchUpInside)
+        imageAlertView.addSubview(shootPictureButton)
+        
+        var libralyPictureButton:UIButton = UIButton()
+        libralyPictureButton.frame = CGRectMake(marginWidth,buttonHeight + (marginHeight * 2), self.view.frame.size.width - (marginWidth * 2), buttonHeight)
+        libralyPictureButton.backgroundColor = UIColor(red:0.87, green:0.90, blue:0.95, alpha:1.0)
+        libralyPictureButton.setTitle("カメラロール", forState: .Normal)
+        libralyPictureButton.setTitleColor(UIColor.blackColor(), forState: UIControlState.Normal)
+        libralyPictureButton.addTarget(self, action: "tapLibraryPictureButton", forControlEvents: .TouchUpInside)
+        imageAlertView.addSubview(libralyPictureButton)
+
+        UIView.animateWithDuration(0.5,
+            delay: 0.0,
+            usingSpringWithDamping: 0.5,
+            initialSpringVelocity: 0.3,
+            options: UIViewAnimationOptions.CurveEaseIn,
+            animations: {() -> Void  in
+                // アニメーションする処理
+                self.imageAlertView.frame.origin.y = self.view.frame.size.height - appearImageAlertViewHeight
+            },
+            completion:nil
+        )
     }
     
     @IBAction func changeInputMove(sender: AnyObject) {
@@ -343,5 +413,16 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
     func changeEditMode(#isPaint: Bool) {
         println("鉛筆モード？:\(isPaint)")
         isDrawMode = isPaint
+    }
+    
+    // MARK: - Image
+    func tapShootPictureButton(){
+        //写真を撮る
+        println("写真を撮る")
+    }
+    
+    func tapLibraryPictureButton(){
+        //カメラロール
+        println("カメラロールから取ってくる")
     }
 }
