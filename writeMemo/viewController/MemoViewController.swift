@@ -171,6 +171,7 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
     // MARK: - Text
     func drawTextView(){
         //ドラッグ操作中、テキストビューの領域の矩形を描く
+        //TODO:x軸のマイナス方向にドラッグした際も対応
         UIGraphicsBeginImageContext(inputImageView.frame.size)
         CGContextSetFillColorWithColor(UIGraphicsGetCurrentContext(), UIColor(red:0.06, green:0.22, blue:0.49, alpha:0.3).CGColor) //矩形の描画色
         drawTextViewWidth = movePoint.x - touchBeganPoint.x
@@ -184,6 +185,7 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
         //テキスト入力
         var textView:UITextView = UITextView(frame: CGRectMake(touchBeganPoint.x, touchBeganPoint.y, drawTextViewWidth, drawTextViewHeight))
         textView.text = ""
+        textView.font = UIFont(name: "KAWAIITEGAKIMOJI", size: 20)
         textTag++
         textView.tag = textTag //生成するtextViewにタグをつける(ひとつひとつのテキストビューを特定するため)
         textView.delegate = self
