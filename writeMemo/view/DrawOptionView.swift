@@ -99,7 +99,7 @@ class DrawOptionView: UIView {
     @IBAction func changeDrawMode(sender: AnyObject) {
         //鉛筆モードに変更
         if(!isDrawMode){
-            //TODO：鉛筆モードを選択していることを明示するカーソル的なものを用意
+            //TODO:鉛筆モードを選択していることを明示するカーソル的なものを用意
             //TODO:太さのアイコンを鉛筆のアイコンに変更
             isDrawMode = true
             changeDrawModeButton.backgroundColor = UIColor(red:0.86, green:0.33, blue:0.20, alpha:1.0)
@@ -111,7 +111,7 @@ class DrawOptionView: UIView {
     @IBAction func changeEraserMode(sender: AnyObject) {
         //消しゴムモードに変更
         if(isDrawMode){
-            //TODO：消しゴムモードを選択していることを明示するカーソル的なものを用意
+            //TODO:消しゴムモードを選択していることを明示するカーソル的なものを用意
             //TODO:太さのアイコンを消しゴムのアイコンに変更
             isDrawMode = false
             changeDrawModeButton.backgroundColor = UIColor(red:0.20, green:0.60, blue:0.86, alpha:1.0)
