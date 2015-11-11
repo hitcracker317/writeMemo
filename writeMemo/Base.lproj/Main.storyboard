@@ -102,7 +102,11 @@
                                 <rect key="frame" x="10" y="66" width="355" height="536"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             </view>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rNt-ol-5Uf" userLabel="memoView" customClass="UIImageView">
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rBT-ft-d3P" userLabel="inputImageView" customClass="UIImageView">
+                                <rect key="frame" x="10" y="66" width="355" height="536"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rNt-ol-5Uf" userLabel="drawImageView" customClass="UIImageView">
                                 <rect key="frame" x="10" y="66" width="355" height="536"/>
                                 <gestureRecognizers/>
                             </view>
@@ -187,7 +191,8 @@
                     </view>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
-                        <outlet property="memoView" destination="rNt-ol-5Uf" id="4A8-0h-t1V"/>
+                        <outlet property="drawImageView" destination="rNt-ol-5Uf" id="Bx6-oD-B8V"/>
+                        <outlet property="inputImageView" destination="rBT-ft-d3P" id="nRd-gI-1AI"/>
                         <outlet property="underView" destination="FCJ-mo-QhW" id="Avf-FI-XEu"/>
                     </connections>
                 </viewController>
