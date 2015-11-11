@@ -8,7 +8,7 @@
 
 import UIKit
 
-class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDelegate {
+class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate {
     
     var textTag:Int = 0
     
@@ -72,22 +72,7 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
         }
         
         if(imageAlertViewIsAppeared){
-            //imageAlertViewが表示されているときは閉じる
-            imageAlertBackView.removeFromSuperview()
-            
-            UIView.animateWithDuration(0.3,
-                delay: 0.0,
-                usingSpringWithDamping: 1.0,
-                initialSpringVelocity: 0.3,
-                options: UIViewAnimationOptions.CurveEaseIn,
-                animations: {() -> Void  in
-                    self.imageAlertView.frame.origin.y = self.view.frame.size.height
-                },
-                completion:{(Bool finished) -> Void in
-                    self.imageAlertView.removeFromSuperview()
-                    self.imageAlertViewIsAppeared = false
-                }
-            )
+            self.closeImageAlertView()
         }
     }
     
@@ -175,51 +160,7 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
         self.changeFromDraw()
         //self.toggleEditableTextView()
         
-        
-        
-        let appearImageAlertViewHeight:CGFloat = 110
-        let marginWidth:CGFloat = 0
-        let marginHeight:CGFloat = 0
-        let buttonHeight:CGFloat = 55
-        
-        //カメラかライブラリかで写真のアップロード方法を選択するボタンを生成
-        imageAlertView.frame = CGRectMake(0, self.view.frame.size.height , self.view.frame.size.width, appearImageAlertViewHeight + 30)
-        imageAlertView.backgroundColor = UIColor(red:0.87, green:0.90, blue:0.95, alpha:1.0)
-        self.view.addSubview(imageAlertView)
-        
-        imageAlertBackView.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)
-        imageAlertBackView.backgroundColor = UIColor(red:0.17, green:0.24, blue:0.31, alpha:0.3)
-        self.view.insertSubview(imageAlertBackView, belowSubview: imageAlertView)
-        
-        imageAlertViewIsAppeared = true
-        
-        var shootPictureButton:UIButton = UIButton()
-        shootPictureButton.frame = CGRectMake(marginWidth, marginHeight, self.view.frame.size.width - (marginWidth * 2), buttonHeight)
-        shootPictureButton.backgroundColor = UIColor(red:0.87, green:0.90, blue:0.95, alpha:1.0)
-        shootPictureButton.setTitle("カメラを撮影", forState: .Normal)
-        shootPictureButton.setTitleColor(UIColor.blackColor(), forState: UIControlState.Normal)
-        shootPictureButton.addTarget(self, action: "tapShootPictureButton", forControlEvents: .TouchUpInside)
-        imageAlertView.addSubview(shootPictureButton)
-        
-        var libralyPictureButton:UIButton = UIButton()
-        libralyPictureButton.frame = CGRectMake(marginWidth,buttonHeight + (marginHeight * 2), self.view.frame.size.width - (marginWidth * 2), buttonHeight)
-        libralyPictureButton.backgroundColor = UIColor(red:0.87, green:0.90, blue:0.95, alpha:1.0)
-        libralyPictureButton.setTitle("カメラロール", forState: .Normal)
-        libralyPictureButton.setTitleColor(UIColor.blackColor(), forState: UIControlState.Normal)
-        libralyPictureButton.addTarget(self, action: "tapLibraryPictureButton", forControlEvents: .TouchUpInside)
-        imageAlertView.addSubview(libralyPictureButton)
-
-        UIView.animateWithDuration(0.5,
-            delay: 0.0,
-            usingSpringWithDamping: 0.5,
-            initialSpringVelocity: 0.3,
-            options: UIViewAnimationOptions.CurveEaseIn,
-            animations: {() -> Void  in
-                // アニメーションする処理
-                self.imageAlertView.frame.origin.y = self.view.frame.size.height - appearImageAlertViewHeight
-            },
-            completion:nil
-        )
+        self.openImageAlertView()
     }
     
     @IBAction func changeInputMove(sender: AnyObject) {
@@ -416,13 +357,140 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
     }
     
     // MARK: - Image
+    func openImageAlertView(){
+        let appearImageAlertViewHeight:CGFloat = 110
+        let marginWidth:CGFloat = 0
+        let marginHeight:CGFloat = 0
+        let buttonHeight:CGFloat = 55
+        
+        //カメラかライブラリかで写真のアップロード方法を選択するボタンを生成
+        imageAlertView.frame = CGRectMake(0, self.view.frame.size.height , self.view.frame.size.width, appearImageAlertViewHeight + 30)
+        imageAlertView.backgroundColor = UIColor(red:1.00, green:1.00, blue:1.00, alpha:1.0)
+        self.view.addSubview(imageAlertView)
+        
+        //全体を覆う半透明なview
+        imageAlertBackView.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)
+        imageAlertBackView.backgroundColor = UIColor(red:0.17, green:0.24, blue:0.31, alpha:0.3)
+        self.view.insertSubview(imageAlertBackView, belowSubview: imageAlertView)
+        
+        imageAlertViewIsAppeared = true
+        
+        var shootPictureButton:UIButton = UIButton()
+        shootPictureButton.frame = CGRectMake(marginWidth, marginHeight, self.view.frame.size.width - (marginWidth * 2), buttonHeight)
+        shootPictureButton.backgroundColor = UIColor(red:1.00, green:1.00, blue:1.00, alpha:1.0)
+        shootPictureButton.setTitle("カメラを撮影", forState: .Normal)
+        shootPictureButton.setTitleColor(UIColor.blackColor(), forState: UIControlState.Normal)
+        shootPictureButton.addTarget(self, action: "tapShootPictureButton", forControlEvents: .TouchUpInside)
+        imageAlertView.addSubview(shootPictureButton)
+        
+        var libralyPictureButton:UIButton = UIButton()
+        libralyPictureButton.frame = CGRectMake(marginWidth,buttonHeight + (marginHeight * 2), self.view.frame.size.width - (marginWidth * 2), buttonHeight)
+        libralyPictureButton.backgroundColor = UIColor(red:1.00, green:1.00, blue:1.00, alpha:1.0)
+        libralyPictureButton.setTitle("カメラロール", forState: .Normal)
+        libralyPictureButton.setTitleColor(UIColor.blackColor(), forState: UIControlState.Normal)
+        libralyPictureButton.addTarget(self, action: "tapLibraryPictureButton", forControlEvents: .TouchUpInside)
+        imageAlertView.addSubview(libralyPictureButton)
+        
+        UIView.animateWithDuration(0.5,
+            delay: 0.0,
+            usingSpringWithDamping: 0.5,
+            initialSpringVelocity: 0.3,
+            options: UIViewAnimationOptions.CurveEaseIn,
+            animations: {() -> Void  in
+                // アニメーションする処理
+                self.imageAlertView.frame.origin.y = self.view.frame.size.height - appearImageAlertViewHeight
+            },
+            completion:nil
+        )
+    }
+    
+    func closeImageAlertView(){
+        //imageAlertViewが表示されているときは閉じる
+        imageAlertBackView.removeFromSuperview()
+        
+        UIView.animateWithDuration(0.3,
+            delay: 0.0,
+            usingSpringWithDamping: 1.0,
+            initialSpringVelocity: 0.3,
+            options: UIViewAnimationOptions.CurveEaseIn,
+            animations: {() -> Void  in
+                self.imageAlertView.frame.origin.y = self.view.frame.size.height
+            },
+            completion:{(Bool finished) -> Void in
+                self.imageAlertView.removeFromSuperview()
+                self.imageAlertViewIsAppeared = false
+        })
+    }
+    
     func tapShootPictureButton(){
         //写真を撮る
         println("写真を撮る")
+        
+        //使用しているデバイスでカメラが使用可能かどうか確かめる
+        let sourceType:UIImagePickerControllerSourceType = UIImagePickerControllerSourceType.Camera
+        if(UIImagePickerController.isSourceTypeAvailable(sourceType)){
+            //インスタンス作成(カメラ機能を作成)
+            let cameraPicker = UIImagePickerController()
+            cameraPicker.sourceType = sourceType
+            cameraPicker.delegate = self
+            
+            //カメラの画面をmodal表示
+            self.presentViewController(cameraPicker, animated: true, completion: nil)
+            
+        } else {
+            println("エラー")
+        }
     }
     
     func tapLibraryPictureButton(){
         //カメラロール
-        println("カメラロールから取ってくる")
+        
+        //カメラロールのURLを取得
+        let sourceType:UIImagePickerControllerSourceType = UIImagePickerControllerSourceType.PhotoLibrary
+        
+        if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.PhotoLibrary){
+            
+            let cameraPicker = UIImagePickerController()
+            
+            cameraPicker.sourceType = sourceType
+            cameraPicker.delegate = self
+            
+            self.presentViewController(cameraPicker, animated: true, completion: nil)
+        } else {
+            println("エラー")
+        }
+
     }
+    
+    //撮影が完了した際に呼ばれるメソッド
+    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [NSObject : AnyObject]) {
+        
+        self.closeImageAlertView()
+        
+        if let pickedImage = info[UIImagePickerControllerOriginalImage] as? UIImage {
+            //イメージビューとそれの土台となるビューを作成
+            //TODO:画像のビューをaddSubViewする際はテキストのビューよりも背面にする
+            var baseView:UIView = UIView()
+            baseView.frame = CGRectMake(inputImageView.frame.size.width/2 - 110, inputImageView.frame.size.height/2 - 110, 220, 220)
+            baseView.backgroundColor = UIColor(red:1.00, green:1.00, blue:1.00, alpha:1.0)
+            baseView.layer.borderWidth = 1.5
+            inputImageView.addSubview(baseView)
+            
+            var imageView = UIImageView()
+            imageView.frame = CGRectMake(10, 10, 200, 200)
+            imageView.image = pickedImage
+            baseView.addSubview(imageView)
+
+        }
+        
+        //assetURL(デバイスの中の写真が保存されている場所の情報)を取得
+        let assetURL:AnyObject = info[UIImagePickerControllerReferenceURL]!
+        //conbert phrase to NSURL
+        let url = NSURL(string: assetURL.description)
+        println("画像のurl = \(url)")
+        
+        //カメラ画面orカメラロール画面を閉じる処理
+        picker.dismissViewControllerAnimated(true, completion: nil)
+    }
+
 }
