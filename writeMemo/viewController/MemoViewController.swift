@@ -8,7 +8,7 @@
 
 import UIKit
 
-class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate {
+class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,UIGestureRecognizerDelegate {
     
     var inputViewTag:Int = 0
     
@@ -64,10 +64,10 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
             var t:UITouch = touch as! UITouch
             if(isDrawViewTouchEnabled){
                 touchBeganPoint = t.locationInView(drawImageView)
-                println("drawImageViewのタッチした座標:\(touchBeganPoint)")
+                //println("drawImageViewのタッチした座標:\(touchBeganPoint)")
             } else {
                 touchBeganPoint = t.locationInView(inputImageView)
-                println("inputImageViewのタッチした座標:\(touchBeganPoint)")
+                //println("inputImageViewのタッチした座標:\(touchBeganPoint)")
             }
         }
         
@@ -80,10 +80,10 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
         let touch = touches.first as! UITouch
         if(isDrawViewTouchEnabled){
             movePoint = touch.locationInView(drawImageView) //drawImageViewの移動した先の座標を取得
-            println("drawImageViewの移動先の座標:\(movePoint)")
+            //println("drawImageViewの移動先の座標:\(movePoint)")
         } else {
             movePoint = touch.locationInView(inputImageView) //inputImageViewの移動した先の座標を取得
-            println("inputImageViewの移動先の座標:\(movePoint)")
+            //println("inputImageViewの移動先の座標:\(movePoint)")
         }
         
         if(inputType == InputType.InputTypeText){
@@ -128,16 +128,35 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
         }
     }
     
+    // MARK: - UIGestureRecognizer
+    //TODO:moveモードのときのみ移動できるようにする
+    //TODO:移動するビューがメモのビューよりも外に出ないようにする
     func moveView(sender:UIPanGestureRecognizer){
         //ドラッグしたビューを移動
-        
-        //TODO:moveモードのときのみ移動できるようにする
-        //TODO:移動するビューがメモのビューよりも外に出ないようにする
         var translation:CGPoint = sender.translationInView(self.view)
         sender.view!.center = CGPoint(x: sender.view!.center.x + translation.x, y: sender.view!.center.y + translation.y)
         sender.setTranslation(CGPointZero, inView: self.view)
         
         println("テキストの\(sender.view?.tag)タグをつけたビューを移動してます")
+    }
+    
+    func pinchView(sender:UIPinchGestureRecognizer){
+        //ビューを拡大縮小
+        self.view.bringSubviewToFront(sender.view!)
+        sender.view!.transform = CGAffineTransformScale(sender.view!.transform,sender.scale, sender.scale)
+        sender.scale = 1.0
+    }
+    
+    func rotateView(sender:UIRotationGestureRecognizer){
+        //ビューを回転
+        self.view.bringSubviewToFront(sender.view!)
+        sender.view!.transform = CGAffineTransformRotate(sender.view!.transform, sender.rotation)
+        sender.rotation = 0
+    }
+    
+    //UIGestureRecognizerを複数受け付けるデリゲート
+    func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWithGestureRecognizer otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return true
     }
     
     // MARK: - changeInputType
@@ -217,8 +236,14 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
         textView.backgroundColor = UIColor(red:0.95, green:0.95, blue:0.00, alpha:0.0)
         textView.layer.borderWidth = 2
         textView.layer.borderColor = UIColor(red:0.06, green:0.22, blue:0.49, alpha:1.0).CGColor
-        var pan:UIPanGestureRecognizer = UIPanGestureRecognizer(target: self, action: "moveView:")
-        textView.addGestureRecognizer(pan) //生成したテキストビューをドラッグできるようにする
+        
+        //UIGestureを登録(移動、拡大縮小、回転)
+        var movePan:UIPanGestureRecognizer = UIPanGestureRecognizer(target: self, action: "moveView:")
+        var pinchPan:UIPinchGestureRecognizer = UIPinchGestureRecognizer(target: self, action: "pinchView:")
+        var rotatePan:UIRotationGestureRecognizer = UIRotationGestureRecognizer(target: self, action: "rotateView:")
+        textView.addGestureRecognizer(movePan)
+        textView.addGestureRecognizer(pinchPan)
+        textView.addGestureRecognizer(rotatePan)
         
         inputImageView.addSubview(textView) 
         
@@ -501,8 +526,14 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
             inputViewTag++
             baseView.tag = inputViewTag
             var pan:UIPanGestureRecognizer = UIPanGestureRecognizer(target: self, action: "moveView:")
-            baseView.addGestureRecognizer(pan)
-
+            
+            //UIGestureを登録(移動、拡大縮小、回転)
+            var movePan:UIPanGestureRecognizer = UIPanGestureRecognizer(target: self, action: "moveView:")
+            var pinchPan:UIPinchGestureRecognizer = UIPinchGestureRecognizer(target: self, action: "pinchView:")
+            var rotatePan:UIRotationGestureRecognizer = UIRotationGestureRecognizer(target: self, action: "rotateView:")
+            baseView.addGestureRecognizer(movePan)
+            baseView.addGestureRecognizer(pinchPan)
+            baseView.addGestureRecognizer(rotatePan)
         }
         
         //assetURL(デバイスの中の写真が保存されている場所の情報)を取得
