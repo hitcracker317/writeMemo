@@ -10,7 +10,7 @@ import UIKit
 
 class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate {
     
-    var textTag:Int = 0
+    var inputViewTag:Int = 0
     
     @IBOutlet weak var underView: UIView!
     
@@ -96,18 +96,19 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
             self.drawPaint()
         }
         
-        //テキスト生成やオブジェクトをドラッグするときに使用する
         /*
-        let location = aTouch.locationInView(memoView) //移動した先の座標を取得
-        let prevLocation = aTouch.previousLocationInView(memoView) //移動する前の座標を取得
-        
-        //ドラッグ操作をして移動したx,y距離をとる
-        let movePosX:CGFloat = location.x - prevLocation.x
-        let movePosY:CGFloat = location.y - prevLocation.y
-        
-        //self.memoDelegate.memoTouchMove(deltaX: movePosX, deltaY: movePosY)
-        println("移動した距離(x:\(movePosX),y:\(movePosY)")
-        */
+        if(inputType == InputType.InputTypeMove){
+            //配置したオブジェクトの移動
+            //テキスト生成やオブジェクトをドラッグするときに使用する
+            let location = touch.locationInView(inputImageView) //ドラッグ後の座標を取得
+            let prevLocation = touch.previousLocationInView(inputImageView) //ドラッグ前の座標を取得
+            
+            //ドラッグをして移動したx,y距離をとる
+            let movePosX:CGFloat = location.x - prevLocation.x
+            let movePosY:CGFloat = location.y - prevLocation.y
+            
+            println("移動した距離(x:\(movePosX),y:\(movePosY)")
+        }*/
     }
     
     override func touchesEnded(touches: Set<NSObject>, withEvent event: UIEvent) {
@@ -125,6 +126,18 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
             self.view.endEditing(true);
             inputType = InputType.InputTypeText
         }
+    }
+    
+    func moveView(sender:UIPanGestureRecognizer){
+        //ドラッグしたビューを移動
+        
+        //TODO:moveモードのときのみ移動できるようにする
+        //TODO:移動するビューがメモのビューよりも外に出ないようにする
+        var translation:CGPoint = sender.translationInView(self.view)
+        sender.view!.center = CGPoint(x: sender.view!.center.x + translation.x, y: sender.view!.center.y + translation.y)
+        sender.setTranslation(CGPointZero, inView: self.view)
+        
+        println("テキストの\(sender.view?.tag)タグをつけたビューを移動してます")
     }
     
     // MARK: - changeInputType
@@ -165,6 +178,7 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
     
     @IBAction func changeInputMove(sender: AnyObject) {
         //移動モードにチェンジ
+        //TODO:このモードに切り替えたら配置した文字、画像を移動・拡大縮小・移動できるようにする
         inputType = InputType.InputTypeMove
         
         self.changeFromDraw()
@@ -197,13 +211,16 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
         var textView:UITextView = UITextView(frame: CGRectMake(touchBeganPoint.x, touchBeganPoint.y, drawTextViewWidth, drawTextViewHeight))
         textView.text = ""
         textView.font = UIFont(name: "KAWAIITEGAKIMOJI", size: 20)
-        textTag++
-        textView.tag = textTag //生成するtextViewにタグをつける(ひとつひとつのテキストビューを特定するため)
+        inputViewTag++
+        textView.tag = inputViewTag //生成するtextViewにタグをつける(ひとつひとつのテキストビューを特定するため)
         textView.delegate = self
         textView.backgroundColor = UIColor(red:0.95, green:0.95, blue:0.00, alpha:0.0)
         textView.layer.borderWidth = 2
         textView.layer.borderColor = UIColor(red:0.06, green:0.22, blue:0.49, alpha:1.0).CGColor
-        inputImageView.addSubview(textView)
+        var pan:UIPanGestureRecognizer = UIPanGestureRecognizer(target: self, action: "moveView:")
+        textView.addGestureRecognizer(pan) //生成したテキストビューをドラッグできるようにする
+        
+        inputImageView.addSubview(textView) 
         
         textView.becomeFirstResponder()
         
@@ -480,6 +497,11 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
             imageView.frame = CGRectMake(10, 10, 200, 200)
             imageView.image = pickedImage
             baseView.addSubview(imageView)
+            
+            inputViewTag++
+            baseView.tag = inputViewTag
+            var pan:UIPanGestureRecognizer = UIPanGestureRecognizer(target: self, action: "moveView:")
+            baseView.addGestureRecognizer(pan)
 
         }
         
