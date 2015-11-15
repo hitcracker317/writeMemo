@@ -19,6 +19,7 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
     var movePoint:CGPoint!
     
     //メモ用のビュー
+    @IBOutlet weak var garbageView: UIView!
     @IBOutlet weak var drawImageView: UIImageView!
     @IBOutlet weak var inputImageView: UIImageView!
     
@@ -129,11 +130,15 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
     }
     
     // MARK: - UIGestureRecognizer
-    //TODO:moveモードのときのみ移動できるようにする
     //TODO:配置した要素をメモ用紙のビュー以外のところに置いた際は元の場所に戻す
     func moveView(sender:UIPanGestureRecognizer){
         
         if(inputType == InputType.InputTypeMove){
+            
+            if (sender.state == .Began) {
+                self.appearGarbageView() //削除用のビューを表示
+            }
+            
             //ドラッグしたビューを移動
             let translation:CGPoint = sender.translationInView(self.view)
             sender.view!.center = CGPoint(x: sender.view!.center.x + translation.x, y: sender.view!.center.y + translation.y)
@@ -141,15 +146,24 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
             
             //移動しているときは影をつける
             sender.view!.layer.masksToBounds = false
-            sender.view!.layer.shadowOffset = CGSizeMake(-7, 7); //左下に影をつける
-            sender.view!.layer.shadowRadius = 5;
-            sender.view!.layer.shadowOpacity = 0.6;
+            sender.view!.layer.shadowOffset = CGSizeMake(-7, 7) //左下に影をつける
+            sender.view!.layer.shadowRadius = 5
+            sender.view!.layer.shadowOpacity = 0.6
             
             print("タグ：\(sender.view?.tag)をつけたビューを移動してます")
             
             if(sender.state == .Ended){
-                //ドラッグ終了したら影を非表示
-                sender.view!.layer.shadowOpacity = 0.0;
+                sender.view!.layer.shadowOpacity = 0.0 //ドラッグ終了したら影を非表示
+                
+                if(CGRectIntersectsRect(self.garbageView.frame, sender.view!.frame)){
+                    //削除用のビューに重なっていたら
+                        //削除するか確認するアラートを表示
+                            //はいを選択すると重ねたビューを削除
+                            //いいえを選択すると削除用のビューを閉じる
+                } else {
+                    //削除用のビューに重ならなかったら
+                    self.disappearGarbageView() //削除用のビューを非表示
+                }
             }
         }
     }
@@ -177,6 +191,29 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
     //UIGestureRecognizerを複数受け付けるデリゲート
     func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWithGestureRecognizer otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         return true
+    }
+    
+    // MARK: - deleteView
+    func appearGarbageView(){
+        UIView.animateWithDuration(
+            0.1,
+            delay: 0.0,
+            options: UIViewAnimationOptions.CurveEaseIn,
+            animations: { () -> Void in
+                self.underView.center = CGPointMake(self.view.frame.width/2, self.underView.center.y + 50)
+            }, completion: nil
+        )
+    }
+    
+    func disappearGarbageView(){
+        UIView.animateWithDuration(
+            0.1,
+            delay: 0.0,
+            options: UIViewAnimationOptions.CurveEaseIn,
+            animations: { () -> Void in
+                self.underView.center = CGPointMake(self.view.frame.width/2, self.underView.center.y - 50)
+            }, completion: nil
+        )
     }
     
     // MARK: - changeInputType
@@ -247,6 +284,7 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
     func inputText(){
         //テキスト入力
         let textView:UITextView = UITextView(frame: CGRectMake(touchBeganPoint.x, touchBeganPoint.y, drawTextViewWidth, drawTextViewHeight))
+        textView.textAlignment = .Center
         textView.text = ""
         textView.font = UIFont(name: "KAWAIITEGAKIMOJI", size: 20)
         inputViewTag++
@@ -544,7 +582,6 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
             
             inputViewTag++
             baseView.tag = inputViewTag
-            let pan:UIPanGestureRecognizer = UIPanGestureRecognizer(target: self, action: "moveView:")
             
             //UIGestureを登録(移動、拡大縮小、回転)
             let movePan:UIPanGestureRecognizer = UIPanGestureRecognizer(target: self, action: "moveView:")
