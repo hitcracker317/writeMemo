@@ -130,7 +130,6 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
     
     // MARK: - UIGestureRecognizer
     //TODO:moveモードのときのみ移動できるようにする
-    //TODO:配置した要素を移動するときは要素に影をつける(浮いているかのような演出)
     //TODO:配置した要素をメモ用紙のビュー以外のところに置いた際は元の場所に戻す
     func moveView(sender:UIPanGestureRecognizer){
         //ドラッグしたビューを移動
@@ -138,7 +137,18 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
         sender.view!.center = CGPoint(x: sender.view!.center.x + translation.x, y: sender.view!.center.y + translation.y)
         sender.setTranslation(CGPointZero, inView: self.view)
         
-        print("テキストの\(sender.view?.tag)タグをつけたビューを移動してます")
+        //移動しているときは影をつける
+        sender.view!.layer.masksToBounds = false
+        sender.view!.layer.shadowOffset = CGSizeMake(-7, 7); //左下に影をつける
+        sender.view!.layer.shadowRadius = 5;
+        sender.view!.layer.shadowOpacity = 0.6;
+        
+        print("タグ：\(sender.view?.tag)をつけたビューを移動してます")
+        
+        if(sender.state == .Ended){
+            //ドラッグ終了したら影を非表示
+            sender.view!.layer.shadowOpacity = 0.0;
+        }
     }
     
     func pinchView(sender:UIPinchGestureRecognizer){
@@ -198,7 +208,6 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
     
     @IBAction func changeInputMove(sender: AnyObject) {
         //移動モードにチェンジ
-        //TODO:このモードに切り替えたら配置した文字、画像を移動・拡大縮小・移動できるようにする
         inputType = InputType.InputTypeMove
         
         self.changeFromDraw()
