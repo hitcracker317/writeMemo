@@ -132,37 +132,46 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
     //TODO:moveモードのときのみ移動できるようにする
     //TODO:配置した要素をメモ用紙のビュー以外のところに置いた際は元の場所に戻す
     func moveView(sender:UIPanGestureRecognizer){
-        //ドラッグしたビューを移動
-        let translation:CGPoint = sender.translationInView(self.view)
-        sender.view!.center = CGPoint(x: sender.view!.center.x + translation.x, y: sender.view!.center.y + translation.y)
-        sender.setTranslation(CGPointZero, inView: self.view)
         
-        //移動しているときは影をつける
-        sender.view!.layer.masksToBounds = false
-        sender.view!.layer.shadowOffset = CGSizeMake(-7, 7); //左下に影をつける
-        sender.view!.layer.shadowRadius = 5;
-        sender.view!.layer.shadowOpacity = 0.6;
-        
-        print("タグ：\(sender.view?.tag)をつけたビューを移動してます")
-        
-        if(sender.state == .Ended){
-            //ドラッグ終了したら影を非表示
-            sender.view!.layer.shadowOpacity = 0.0;
+        if(inputType == InputType.InputTypeMove){
+            //ドラッグしたビューを移動
+            let translation:CGPoint = sender.translationInView(self.view)
+            sender.view!.center = CGPoint(x: sender.view!.center.x + translation.x, y: sender.view!.center.y + translation.y)
+            sender.setTranslation(CGPointZero, inView: self.view)
+            
+            //移動しているときは影をつける
+            sender.view!.layer.masksToBounds = false
+            sender.view!.layer.shadowOffset = CGSizeMake(-7, 7); //左下に影をつける
+            sender.view!.layer.shadowRadius = 5;
+            sender.view!.layer.shadowOpacity = 0.6;
+            
+            print("タグ：\(sender.view?.tag)をつけたビューを移動してます")
+            
+            if(sender.state == .Ended){
+                //ドラッグ終了したら影を非表示
+                sender.view!.layer.shadowOpacity = 0.0;
+            }
         }
     }
     
     func pinchView(sender:UIPinchGestureRecognizer){
-        //ビューを拡大縮小
-        self.view.bringSubviewToFront(sender.view!)
-        sender.view!.transform = CGAffineTransformScale(sender.view!.transform,sender.scale, sender.scale)
-        sender.scale = 1.0
+        
+        if(inputType == InputType.InputTypeMove){
+            //ビューを拡大縮小
+            self.view.bringSubviewToFront(sender.view!)
+            sender.view!.transform = CGAffineTransformScale(sender.view!.transform,sender.scale, sender.scale)
+            sender.scale = 1.0
+        }
     }
     
     func rotateView(sender:UIRotationGestureRecognizer){
-        //ビューを回転
-        self.view.bringSubviewToFront(sender.view!)
-        sender.view!.transform = CGAffineTransformRotate(sender.view!.transform, sender.rotation)
-        sender.rotation = 0
+        
+        if(inputType == InputType.InputTypeMove){
+            //ビューを回転
+            self.view.bringSubviewToFront(sender.view!)
+            sender.view!.transform = CGAffineTransformRotate(sender.view!.transform, sender.rotation)
+            sender.rotation = 0
+        }
     }
     
     //UIGestureRecognizerを複数受け付けるデリゲート
