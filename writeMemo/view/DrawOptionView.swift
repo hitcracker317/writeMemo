@@ -10,9 +10,9 @@ import UIKit
 
 protocol DrawOptionViewDelegate: class {
     //プロトコル：デリゲートメソッドを定義
-    func setThickness(#thickness:Int) //太さ
-    func setColor(#color:UIColor) //色
-    func changeEditMode(#isPaint:Bool) //ペンか消しゴムか
+    func setThickness(thickness thickness:Int) //太さ
+    func setColor(color color:UIColor) //色
+    func changeEditMode(isPaint isPaint:Bool) //ペンか消しゴムか
 }
 
 class DrawOptionView: UIView {
@@ -48,7 +48,7 @@ class DrawOptionView: UIView {
         return UINib(nibName: "DrawOptionView", bundle: nil).instantiateWithOwner(self, options: nil)[0] as! DrawOptionView
     }
     
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         //xibやstoryboardにviewを配置した時に呼ばれる
         super.init(coder: aDecoder)
     }
@@ -57,15 +57,15 @@ class DrawOptionView: UIView {
         // XIB読み込みんだ際に呼ばれるメソッド
         
         //スクロールビューのスクロールサイズ
-        var palletWidth:CGFloat = 44
-        var palletHeight:CGFloat = 44
-        var palletMargin:CGFloat = 3
+        let palletWidth:CGFloat = 44
+        let palletHeight:CGFloat = 44
+        let palletMargin:CGFloat = 3
         palletScrollView.contentSize = CGSizeMake((palletWidth + palletMargin) * CGFloat(colorArray.count) + palletMargin , 50)
         
         for(var i = 0; i < colorArray.count; i++){
             //カラーパレットボタンを生成
             var xPosition:CGFloat = 3.0
-            var yPosition:CGFloat = 3.0
+            let yPosition:CGFloat = 3.0
             
             if i == 0 {
                 xPosition = 3
@@ -74,7 +74,7 @@ class DrawOptionView: UIView {
             }
             
             //ボタン
-            var colorButton:UIButton = UIButton()
+            let colorButton:UIButton = UIButton()
             colorButton.frame = CGRectMake(xPosition, yPosition, palletWidth, palletHeight)
             colorButton.backgroundColor = colorArray[i]
             colorButton.tag = i

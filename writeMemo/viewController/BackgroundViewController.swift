@@ -29,7 +29,7 @@ class BackgroundViewController: UIViewController {
         
         
         
-        var memoViewController:UIViewController = self.storyboard?.instantiateViewControllerWithIdentifier("MemoViewController") as! UIViewController
+        let memoViewController:UIViewController = self.storyboard?.instantiateViewControllerWithIdentifier("MemoViewController") as UIViewController!
         memoViewController.view.frame = self.view.bounds
         
         self.addChildViewController(memoViewController)
@@ -40,9 +40,9 @@ class BackgroundViewController: UIViewController {
         
     }
     
-    func goNextViewController(#fromViewController:UIViewController,toViewController:UIViewController){
+    func goNextViewController(fromViewController fromViewController:UIViewController,toViewController:UIViewController){
         //メモ画面へ遷移
-        println("メモ画面へ遷移")
+        print("メモ画面へ遷移")
         
         /*
         // 1

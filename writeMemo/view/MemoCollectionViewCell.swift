@@ -18,7 +18,7 @@ class MemoCollectionViewCell: UICollectionViewCell {
         // Initialization code
     }
     
-    func setMusicInfo(#title:String,imageURL:String){
+    func setMusicInfo(title title:String,imageURL:String){
         
         memoTitle.text = title //メモタイトルをセット
         

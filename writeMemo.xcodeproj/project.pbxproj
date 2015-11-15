@@ -260,6 +260,8 @@
 		DCF4CFA61BE8769B00B0E076 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastSwiftMigration = 0710;
+				LastSwiftUpdateCheck = 0710;
 				LastUpgradeCheck = 0640;
 				ORGANIZATIONNAME = A.M;
 				TargetAttributes = {
@@ -506,9 +508,11 @@
 			baseConfigurationReference = EEBF483615C569B483F57856 /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer: Akira Maeda (JCJV8K9T92)";
 				INFOPLIST_FILE = writeMemo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "4ade37fc-8d8a-4f99-86be-79a55abafa2e";
 				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/$(PROJECT)/Bridging-Header.h";
 			};
 			name = Debug;
@@ -521,6 +525,7 @@
 				INFOPLIST_FILE = writeMemo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "4ade37fc-8d8a-4f99-86be-79a55abafa2e";
 				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/$(PROJECT)/Bridging-Header.h";
 			};
 			name = Release;

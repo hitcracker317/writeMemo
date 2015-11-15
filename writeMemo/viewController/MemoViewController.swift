@@ -58,10 +58,10 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
     }
     
     // MARK: - touchInteraction
-    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
+    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
         super.touchesEnded(touches, withEvent: event)
         for touch: AnyObject in touches {
-            var t:UITouch = touch as! UITouch
+            let t:UITouch = touch as! UITouch
             if(isDrawViewTouchEnabled){
                 touchBeganPoint = t.locationInView(drawImageView)
                 //println("drawImageViewのタッチした座標:\(touchBeganPoint)")
@@ -76,8 +76,8 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
         }
     }
     
-    override func touchesMoved(touches: Set<NSObject>, withEvent event: UIEvent) {
-        let touch = touches.first as! UITouch
+    override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        let touch = touches.first as UITouch!
         if(isDrawViewTouchEnabled){
             movePoint = touch.locationInView(drawImageView) //drawImageViewの移動した先の座標を取得
             //println("drawImageViewの移動先の座標:\(movePoint)")
@@ -111,7 +111,7 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
         }*/
     }
     
-    override func touchesEnded(touches: Set<NSObject>, withEvent event: UIEvent) {
+    override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
         super.touchesEnded(touches, withEvent: event)
         
         if(inputType == InputType.InputTypeText){
@@ -130,14 +130,15 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
     
     // MARK: - UIGestureRecognizer
     //TODO:moveモードのときのみ移動できるようにする
-    //TODO:移動するビューがメモのビューよりも外に出ないようにする
+    //TODO:配置した要素を移動するときは要素に影をつける(浮いているかのような演出)
+    //TODO:配置した要素をメモ用紙のビュー以外のところに置いた際は元の場所に戻す
     func moveView(sender:UIPanGestureRecognizer){
         //ドラッグしたビューを移動
-        var translation:CGPoint = sender.translationInView(self.view)
+        let translation:CGPoint = sender.translationInView(self.view)
         sender.view!.center = CGPoint(x: sender.view!.center.x + translation.x, y: sender.view!.center.y + translation.y)
         sender.setTranslation(CGPointZero, inView: self.view)
         
-        println("テキストの\(sender.view?.tag)タグをつけたビューを移動してます")
+        print("テキストの\(sender.view?.tag)タグをつけたビューを移動してます")
     }
     
     func pinchView(sender:UIPinchGestureRecognizer){
@@ -227,7 +228,7 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
     
     func inputText(){
         //テキスト入力
-        var textView:UITextView = UITextView(frame: CGRectMake(touchBeganPoint.x, touchBeganPoint.y, drawTextViewWidth, drawTextViewHeight))
+        let textView:UITextView = UITextView(frame: CGRectMake(touchBeganPoint.x, touchBeganPoint.y, drawTextViewWidth, drawTextViewHeight))
         textView.text = ""
         textView.font = UIFont(name: "KAWAIITEGAKIMOJI", size: 20)
         inputViewTag++
@@ -238,9 +239,9 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
         textView.layer.borderColor = UIColor(red:0.06, green:0.22, blue:0.49, alpha:1.0).CGColor
         
         //UIGestureを登録(移動、拡大縮小、回転)
-        var movePan:UIPanGestureRecognizer = UIPanGestureRecognizer(target: self, action: "moveView:")
-        var pinchPan:UIPinchGestureRecognizer = UIPinchGestureRecognizer(target: self, action: "pinchView:")
-        var rotatePan:UIRotationGestureRecognizer = UIRotationGestureRecognizer(target: self, action: "rotateView:")
+        let movePan:UIPanGestureRecognizer = UIPanGestureRecognizer(target: self, action: "moveView:")
+        let pinchPan:UIPinchGestureRecognizer = UIPinchGestureRecognizer(target: self, action: "pinchView:")
+        let rotatePan:UIRotationGestureRecognizer = UIRotationGestureRecognizer(target: self, action: "rotateView:")
         textView.addGestureRecognizer(movePan)
         textView.addGestureRecognizer(pinchPan)
         textView.addGestureRecognizer(rotatePan)
@@ -309,13 +310,13 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
         UIGraphicsBeginImageContext(drawImageView.frame.size) // 描画領域をmemoView(UIImageView)の大きさで生成
         
         drawImageView.image?.drawInRect(CGRectMake(0, 0, drawImageView.frame.width, drawImageView.frame.size.height)) //memoViewにセットされている画像（UIImageを描画)
-        CGContextSetLineCap(UIGraphicsGetCurrentContext(), kCGLineCapRound) // 線の角を丸くする
+        CGContextSetLineCap(UIGraphicsGetCurrentContext(), CGLineCap.Round) // 線の角を丸くする
         CGContextSetLineWidth(UIGraphicsGetCurrentContext(), CGFloat(penThickness)); // 線の太さを指定
         CGContextSetStrokeColorWithColor(UIGraphicsGetCurrentContext(), penColor.CGColor) //線の色を指定(UIColorで)
         
         if(!isDrawMode){
             //消しゴムモードのときはブレンドモードをClearにする(これで描画した線を消すことができる)
-            CGContextSetBlendMode(UIGraphicsGetCurrentContext(), kCGBlendModeClear)
+            CGContextSetBlendMode(UIGraphicsGetCurrentContext(), CGBlendMode.Clear)
         }
         
         CGContextMoveToPoint(UIGraphicsGetCurrentContext(), touchBeganPoint.x, touchBeganPoint.y); // 線の描画開始座標をセット
@@ -385,16 +386,16 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
     }
     
     // MARK: - DrawOptionViewDelegate
-    func setThickness(#thickness: Int) {
-        println("現在の太さ：\(thickness)")
+    func setThickness(thickness thickness: Int) {
+        print("現在の太さ：\(thickness)")
         penThickness = thickness
     }
-    func setColor(#color: UIColor) {
-        println("受け渡した色：\(color)")
+    func setColor(color color: UIColor) {
+        print("受け渡した色：\(color)")
         penColor = color
     }
-    func changeEditMode(#isPaint: Bool) {
-        println("鉛筆モード？:\(isPaint)")
+    func changeEditMode(isPaint isPaint: Bool) {
+        print("鉛筆モード？:\(isPaint)")
         isDrawMode = isPaint
     }
     
@@ -417,7 +418,7 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
         
         imageAlertViewIsAppeared = true
         
-        var shootPictureButton:UIButton = UIButton()
+        let shootPictureButton:UIButton = UIButton()
         shootPictureButton.frame = CGRectMake(marginWidth, marginHeight, self.view.frame.size.width - (marginWidth * 2), buttonHeight)
         shootPictureButton.backgroundColor = UIColor(red:1.00, green:1.00, blue:1.00, alpha:1.0)
         shootPictureButton.setTitle("カメラを撮影", forState: .Normal)
@@ -425,7 +426,7 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
         shootPictureButton.addTarget(self, action: "tapShootPictureButton", forControlEvents: .TouchUpInside)
         imageAlertView.addSubview(shootPictureButton)
         
-        var libralyPictureButton:UIButton = UIButton()
+        let libralyPictureButton:UIButton = UIButton()
         libralyPictureButton.frame = CGRectMake(marginWidth,buttonHeight + (marginHeight * 2), self.view.frame.size.width - (marginWidth * 2), buttonHeight)
         libralyPictureButton.backgroundColor = UIColor(red:1.00, green:1.00, blue:1.00, alpha:1.0)
         libralyPictureButton.setTitle("カメラロール", forState: .Normal)
@@ -466,7 +467,7 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
     
     func tapShootPictureButton(){
         //写真を撮る
-        println("写真を撮る")
+        print("写真を撮る")
         
         //使用しているデバイスでカメラが使用可能かどうか確かめる
         let sourceType:UIImagePickerControllerSourceType = UIImagePickerControllerSourceType.Camera
@@ -480,7 +481,7 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
             self.presentViewController(cameraPicker, animated: true, completion: nil)
             
         } else {
-            println("エラー")
+            print("エラー")
         }
     }
     
@@ -499,38 +500,38 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
             
             self.presentViewController(cameraPicker, animated: true, completion: nil)
         } else {
-            println("エラー")
+            print("エラー")
         }
 
     }
     
     //撮影が完了した際に呼ばれるメソッド
-    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [NSObject : AnyObject]) {
+    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
         
         self.closeImageAlertView()
         
         if let pickedImage = info[UIImagePickerControllerOriginalImage] as? UIImage {
             //イメージビューとそれの土台となるビューを作成
             //TODO:画像のビューをaddSubViewする際はテキストのビューよりも背面にする
-            var baseView:UIView = UIView()
+            let baseView:UIView = UIView()
             baseView.frame = CGRectMake(inputImageView.frame.size.width/2 - 110, inputImageView.frame.size.height/2 - 110, 220, 220)
             baseView.backgroundColor = UIColor(red:1.00, green:1.00, blue:1.00, alpha:1.0)
             baseView.layer.borderWidth = 1.5
             inputImageView.addSubview(baseView)
             
-            var imageView = UIImageView()
+            let imageView = UIImageView()
             imageView.frame = CGRectMake(10, 10, 200, 200)
             imageView.image = pickedImage
             baseView.addSubview(imageView)
             
             inputViewTag++
             baseView.tag = inputViewTag
-            var pan:UIPanGestureRecognizer = UIPanGestureRecognizer(target: self, action: "moveView:")
+            let pan:UIPanGestureRecognizer = UIPanGestureRecognizer(target: self, action: "moveView:")
             
             //UIGestureを登録(移動、拡大縮小、回転)
-            var movePan:UIPanGestureRecognizer = UIPanGestureRecognizer(target: self, action: "moveView:")
-            var pinchPan:UIPinchGestureRecognizer = UIPinchGestureRecognizer(target: self, action: "pinchView:")
-            var rotatePan:UIRotationGestureRecognizer = UIRotationGestureRecognizer(target: self, action: "rotateView:")
+            let movePan:UIPanGestureRecognizer = UIPanGestureRecognizer(target: self, action: "moveView:")
+            let pinchPan:UIPinchGestureRecognizer = UIPinchGestureRecognizer(target: self, action: "pinchView:")
+            let rotatePan:UIRotationGestureRecognizer = UIRotationGestureRecognizer(target: self, action: "rotateView:")
             baseView.addGestureRecognizer(movePan)
             baseView.addGestureRecognizer(pinchPan)
             baseView.addGestureRecognizer(rotatePan)
@@ -540,7 +541,7 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
         let assetURL:AnyObject = info[UIImagePickerControllerReferenceURL]!
         //conbert phrase to NSURL
         let url = NSURL(string: assetURL.description)
-        println("画像のurl = \(url)")
+        print("画像のurl = \(url)")
         
         //カメラ画面orカメラロール画面を閉じる処理
         picker.dismissViewControllerAnimated(true, completion: nil)

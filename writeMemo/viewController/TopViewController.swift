@@ -17,7 +17,7 @@ class TopViewController: UIViewController ,UICollectionViewDataSource,UICollecti
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        var nib:UINib = UINib(nibName: "MemoCollectionViewCell", bundle: nil)
+        let nib:UINib = UINib(nibName: "MemoCollectionViewCell", bundle: nil)
         memoCollectionView.registerNib(nib, forCellWithReuseIdentifier: "Cell")
         
     }
@@ -32,18 +32,18 @@ class TopViewController: UIViewController ,UICollectionViewDataSource,UICollecti
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        var cell = memoCollectionView.dequeueReusableCellWithReuseIdentifier("Cell", forIndexPath: indexPath) as! MemoCollectionViewCell
+        let cell = memoCollectionView.dequeueReusableCellWithReuseIdentifier("Cell", forIndexPath: indexPath) as! MemoCollectionViewCell
         cell.memoTitle.text = "メモ\(indexPath.row)"
         return cell
     }
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        println("\(indexPath.row)を選択！")
+        print("\(indexPath.row)を選択！")
     }
     
     @IBAction func open(sender: AnyObject) {
-        var backgroundviewController = BackgroundViewController()
-        var memoViewController = self.storyboard?.instantiateViewControllerWithIdentifier("MemoViewController") as! UIViewController
+        let backgroundviewController = BackgroundViewController()
+        let memoViewController = self.storyboard?.instantiateViewControllerWithIdentifier("MemoViewController") as UIViewController!
         
         backgroundviewController.goNextViewController(fromViewController:self, toViewController: memoViewController)
         
