@@ -97,11 +97,11 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="8oB-ty-2JK">
-                                <rect key="frame" x="0.0" y="618" width="375" height="50"/>
+                                <rect key="frame" x="0.0" y="608" width="375" height="60"/>
                                 <color key="backgroundColor" red="0.90588235289999997" green="0.29803921570000003" blue="0.23529411759999999" alpha="1" colorSpace="calibratedRGB"/>
                             </view>
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="VR9-oT-Djw" userLabel="memoBackView">
-                                <rect key="frame" x="0.0" y="59" width="375" height="558"/>
+                                <rect key="frame" x="0.0" y="59" width="375" height="550"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rBT-ft-d3P" userLabel="inputImageView" customClass="UIImageView">
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="558"/>
@@ -116,10 +116,10 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="FCJ-mo-QhW" userLabel="underView">
-                                <rect key="frame" x="0.0" y="618" width="375" height="50"/>
+                                <rect key="frame" x="0.0" y="608" width="375" height="60"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Fc0-td-LMH">
-                                        <rect key="frame" x="60" y="3" width="44" height="44"/>
+                                        <rect key="frame" x="75" y="0.0" width="75" height="60"/>
                                         <state key="normal" title="paint">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
@@ -128,7 +128,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="T7r-40-b7U">
-                                        <rect key="frame" x="122" y="3" width="44" height="44"/>
+                                        <rect key="frame" x="150" y="0.0" width="75" height="60"/>
                                         <state key="normal" title="image">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
@@ -136,23 +136,14 @@
                                             <action selector="changeInputImage:" destination="98M-ZN-zSH" eventType="touchUpInside" id="pJb-5F-cx5"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IqV-yh-Vdy">
-                                        <rect key="frame" x="259" y="3" width="44" height="44"/>
-                                        <state key="normal" title="delete">
-                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="changeInputDelete:" destination="98M-ZN-zSH" eventType="touchUpInside" id="ZjA-Sc-Hoz"/>
-                                        </connections>
-                                    </button>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Z6h-Pz-xON">
-                                        <rect key="frame" x="323" y="3" width="44" height="44"/>
+                                        <rect key="frame" x="300" y="0.0" width="75" height="60"/>
                                         <state key="normal" title="more">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gfW-pY-O9V">
-                                        <rect key="frame" x="8" y="3" width="44" height="44"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="75" height="60"/>
                                         <state key="normal" title="moji">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
@@ -161,7 +152,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GJx-wm-6WI">
-                                        <rect key="frame" x="194" y="3" width="44" height="44"/>
+                                        <rect key="frame" x="225" y="0.0" width="75" height="60"/>
                                         <state key="normal" title="move">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>

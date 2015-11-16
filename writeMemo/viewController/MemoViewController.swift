@@ -8,7 +8,7 @@
 
 import UIKit
 
-class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,UIGestureRecognizerDelegate {
+class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,UIGestureRecognizerDelegate,AlertViewDelegate {
     
     var inputViewTag:Int = 0
     
@@ -48,6 +48,8 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
         case InputTypeMove
         case InputTypeDelete
     }
+    
+    var alertView:AlertView = AlertView.instanceView() //アラートのビュー
     
     var inputType:InputType = InputType.InputTypeMove //初期inputTypeはmoveにしておく
     
@@ -130,7 +132,6 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
     }
     
     // MARK: - UIGestureRecognizer
-    //TODO:配置した要素をメモ用紙のビュー以外のところに置いた際は元の場所に戻す
     func moveView(sender:UIPanGestureRecognizer){
         
         if(inputType == InputType.InputTypeMove){
@@ -156,10 +157,13 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
                 sender.view!.layer.shadowOpacity = 0.0 //ドラッグ終了したら影を非表示
                 
                 if(CGRectIntersectsRect(self.garbageView.frame, sender.view!.frame)){
-                    //削除用のビューに重なっていたら
-                        //削除するか確認するアラートを表示
-                            //はいを選択すると重ねたビューを削除
-                            //いいえを選択すると削除用のビューを閉じる
+                    //削除用のビューに重なっていたらアラートを表示
+                    alertView.delegate = self
+                    alertView.pinView = sender.view
+                    alertView.frame = CGRectMake(0, 0, self.view.frame.width, self.view.frame.height);
+                    alertView.showAlertView()
+                    self.view.addSubview(alertView)
+                    
                 } else {
                     //削除用のビューに重ならなかったら
                     self.disappearGarbageView() //削除用のビューを非表示
@@ -193,27 +197,45 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
         return true
     }
     
-    // MARK: - deleteView
+    // MARK: - garbageView
     func appearGarbageView(){
         UIView.animateWithDuration(
             0.1,
             delay: 0.0,
             options: UIViewAnimationOptions.CurveEaseIn,
             animations: { () -> Void in
-                self.underView.center = CGPointMake(self.view.frame.width/2, self.underView.center.y + 50)
+                self.underView.center = CGPointMake(self.view.frame.width/2, self.underView.center.y + self.underView.frame.height)
             }, completion: nil
         )
     }
-    
     func disappearGarbageView(){
         UIView.animateWithDuration(
             0.1,
             delay: 0.0,
             options: UIViewAnimationOptions.CurveEaseIn,
             animations: { () -> Void in
-                self.underView.center = CGPointMake(self.view.frame.width/2, self.underView.center.y - 50)
+                self.underView.center = CGPointMake(self.view.frame.width/2, self.underView.center.y - self.underView.frame.height)
             }, completion: nil
         )
+    }
+    
+    // MARK: - AlertViewDelegate
+    func tapYes(view: UIView) {
+        print("ドラッグしたビューを削除")
+        view.removeFromSuperview()
+        alertView.closeAlertView()
+    }
+    func tapNo(view:UIView) {
+        print("削除しない")
+        alertView.closeAlertView()
+        
+        UIView.animateWithDuration(0.1) { () -> Void in
+            //ドラッグしたビューをメモのビューの方に戻す
+            view.center = CGPointMake(view.center.x, self.inputImageView.frame.size.height * 0.75)
+        }
+    }
+    func removeAlertView() {
+        alertView.removeFromSuperview()
     }
     
     // MARK: - changeInputType
