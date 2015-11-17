@@ -16,6 +16,8 @@ class InputTextView: UIView ,UITextViewDelegate,ColorPalletViewDelegate{
     
     var isColorPalletAppear:ObjCBool = true
     
+    let keyBoardButtonHeight:CGFloat = 50
+    
     let colorPalletView:ColorPaletteView = ColorPaletteView()
     let fontSizeSlider = UISlider()
     
@@ -25,19 +27,39 @@ class InputTextView: UIView ,UITextViewDelegate,ColorPalletViewDelegate{
     
     func showInputTextView(){
         self.backInputTextView.backgroundColor = UIColor(red:0.20, green:0.20, blue:0.20, alpha:0.5)
+        
+        let notificationCenter = NSNotificationCenter.defaultCenter()
+        notificationCenter.addObserver(self, selector: "showKeyboard:", name: UIKeyboardDidShowNotification, object: nil)
+        
         inputTextView.becomeFirstResponder()
         
         self.prepareKeyBoard()
+    }
+    
+    func showKeyboard(notification:NSNotification){
+        if let userInfo = notification.userInfo{
+            if let keyboard = userInfo[UIKeyboardFrameEndUserInfoKey] as? NSValue{
+                let keyBoardRect = keyboard.CGRectValue()
+                
+                //キーボードの高さを元にテキストビューのframeを調整
+                let margin:CGFloat = 10.0
+                let topMargin:CGFloat = 25.0
+                
+                UIView.animateWithDuration(0.2, delay: 0, options: UIViewAnimationOptions.CurveEaseOut, animations: { () -> Void in
+                        self.inputTextView.frame = CGRectMake(margin, topMargin, self.frame.width - (margin * 2), self.frame.height - (topMargin + margin + keyBoardRect.height))
+                    }, completion: nil)
+                }
+        }
     }
     
     func prepareKeyBoard(){
         //キーボードにボタンを配置
         
         //ボタンを配置するビューをキーボードに追加する
-        let keyBoardView:UIView = UIView(frame: CGRectMake(0,0,self.frame.width,50))
-        keyBoardView.backgroundColor = UIColor.lightGrayColor()
+        let keyBoardButtonView:UIView = UIView(frame: CGRectMake(0,0,self.frame.width,keyBoardButtonHeight))
+        keyBoardButtonView.backgroundColor = UIColor.lightGrayColor()
         inputTextView.delegate = self
-        inputTextView.inputAccessoryView = keyBoardView
+        inputTextView.inputAccessoryView = keyBoardButtonView
         
         let leftAndRightMargin:CGFloat = 10.0
         let topAndBottonMargin:CGFloat = 3.0
@@ -48,31 +70,31 @@ class InputTextView: UIView ,UITextViewDelegate,ColorPalletViewDelegate{
         changeColorButton.backgroundColor = UIColor(red:0.98, green:0.87, blue:0.94, alpha:1)
         changeColorButton.setTitle("カ", forState: .Normal)
         changeColorButton.addTarget(self, action:"changeEditColor:", forControlEvents: .TouchUpInside)
-        keyBoardView.addSubview(changeColorButton)
+        keyBoardButtonView.addSubview(changeColorButton)
         //フォントサイズを変更するボタンを設置
         let changeFontSizeButton:UIButton = UIButton()
         changeFontSizeButton.frame = CGRectMake((leftAndRightMargin * 2) + changeColorButton.frame.width, topAndBottonMargin, 44, 44)
         changeFontSizeButton.backgroundColor = UIColor(red:0.82, green:0.92, blue:0.97, alpha:1)
         changeFontSizeButton.setTitle("フ", forState: .Normal)
         changeFontSizeButton.addTarget(self, action:"changeEditFontSize:", forControlEvents: .TouchUpInside)
-        keyBoardView.addSubview(changeFontSizeButton)
+        keyBoardButtonView.addSubview(changeFontSizeButton)
         
         //キーボードを閉じてテキストの編集を終えるボタン
         let finishButton:UIButton = UIButton()
-        finishButton.frame = CGRectMake(self.frame.width - 60, 0, 60, 50)
+        finishButton.frame = CGRectMake(self.frame.width - 60, 0, 60, keyBoardButtonHeight)
         finishButton.backgroundColor = UIColor(red:0.92, green:0.38, blue:0.33, alpha:1)
         finishButton.setTitle("完了", forState: .Normal)
         finishButton.addTarget(self, action:"finishEditText:", forControlEvents: .TouchUpInside)
-        keyBoardView.addSubview(finishButton)
+        keyBoardButtonView.addSubview(finishButton)
         
         
-        let colorAndFontSizeFrame:CGRect = CGRectMake((leftAndRightMargin * 3) + changeColorButton.frame.width + changeFontSizeButton.frame.width, 0, self.frame.width - ((leftAndRightMargin * 4) + changeColorButton.frame.width + changeFontSizeButton.frame.width + finishButton.frame.width), 50)
+        let colorAndFontSizeFrame:CGRect = CGRectMake((leftAndRightMargin * 3) + changeColorButton.frame.width + changeFontSizeButton.frame.width, 0, self.frame.width - ((leftAndRightMargin * 4) + changeColorButton.frame.width + changeFontSizeButton.frame.width + finishButton.frame.width), keyBoardButtonHeight)
         
         //カラーパレットのビュー
         colorPalletView.frame = colorAndFontSizeFrame
         colorPalletView.colorPalletDelgate = self
         colorPalletView.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0)
-        keyBoardView.addSubview(colorPalletView)
+        keyBoardButtonView.addSubview(colorPalletView)
         
         //フォントサイズを変更するスライダーを配置
         fontSizeSlider.frame = colorAndFontSizeFrame
@@ -83,13 +105,12 @@ class InputTextView: UIView ,UITextViewDelegate,ColorPalletViewDelegate{
         fontSizeSlider.maximumTrackTintColor = UIColor.grayColor()
         fontSizeSlider.minimumTrackTintColor = inputTextView.textColor
         fontSizeSlider.addTarget(self, action: "changeFontSize:", forControlEvents: UIControlEvents.ValueChanged)
-        keyBoardView.addSubview(fontSizeSlider)
+        keyBoardButtonView.addSubview(fontSizeSlider)
     }
     
     //MARK: - TextColor
     func changeEditColor(sender:UIButton){
         if(!isColorPalletAppear){
-            print("カラー変更モード")
             //TODO:カラーパレットを選択していることを明示
             isColorPalletAppear = true
             colorPalletView.hidden = false
@@ -106,7 +127,6 @@ class InputTextView: UIView ,UITextViewDelegate,ColorPalletViewDelegate{
     //MARK: - FontSize
     func changeEditFontSize(sender:UIButton){
         if(isColorPalletAppear){
-            print("フォントサイズ変更モード")
             //TODO:フォントサイズを選択していることを明示
             isColorPalletAppear = false
             colorPalletView.hidden = true
