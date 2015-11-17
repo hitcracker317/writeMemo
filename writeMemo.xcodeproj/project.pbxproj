@@ -31,6 +31,7 @@
 		DCF4CFD71BE880E000B0E076 /* BackgroundViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCF4CFD61BE880E000B0E076 /* BackgroundViewController.swift */; };
 		DCF5EA791BF9BE3400BB4911 /* InputTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCF5EA781BF9BE3400BB4911 /* InputTextView.swift */; };
 		DCF5EA7B1BF9BE5A00BB4911 /* InputTextView.xib in Resources */ = {isa = PBXBuildFile; fileRef = DCF5EA7A1BF9BE5A00BB4911 /* InputTextView.xib */; };
+		DCF5EA7D1BFAFED400BB4911 /* ColorPaletteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCF5EA7C1BFAFED400BB4911 /* ColorPaletteView.swift */; };
 		E9C835435ECB1EF05D21D39B /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CFB2C7E3E2B5ECBBE6308B65 /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -76,6 +77,7 @@
 		DCF4CFD61BE880E000B0E076 /* BackgroundViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BackgroundViewController.swift; path = viewController/BackgroundViewController.swift; sourceTree = "<group>"; };
 		DCF5EA781BF9BE3400BB4911 /* InputTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InputTextView.swift; path = view/InputTextView.swift; sourceTree = "<group>"; };
 		DCF5EA7A1BF9BE5A00BB4911 /* InputTextView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = InputTextView.xib; sourceTree = "<group>"; };
+		DCF5EA7C1BFAFED400BB4911 /* ColorPaletteView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ColorPaletteView.swift; path = view/ColorPaletteView.swift; sourceTree = "<group>"; };
 		EEBF483615C569B483F57856 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -136,6 +138,7 @@
 				DCBE4AA01BF8B52900F9C87F /* AlertView.xib */,
 				DCF5EA781BF9BE3400BB4911 /* InputTextView.swift */,
 				DCF5EA7A1BF9BE5A00BB4911 /* InputTextView.xib */,
+				DCF5EA7C1BFAFED400BB4911 /* ColorPaletteView.swift */,
 			);
 			name = view;
 			sourceTree = "<group>";
@@ -394,6 +397,7 @@
 				DC498C621BEB3E2300FD10AD /* DrawOptionView.swift in Sources */,
 				DC5DE3791BE88CEE0069195B /* MemoViewController.swift in Sources */,
 				DCBE4A9F1BF8B51A00F9C87F /* AlertView.swift in Sources */,
+				DCF5EA7D1BFAFED400BB4911 /* ColorPaletteView.swift in Sources */,
 				DCF5EA791BF9BE3400BB4911 /* InputTextView.swift in Sources */,
 				DCF4CFB41BE8769B00B0E076 /* AppDelegate.swift in Sources */,
 				DCF4CFB71BE8769B00B0E076 /* writeMemo.xcdatamodeld in Sources */,

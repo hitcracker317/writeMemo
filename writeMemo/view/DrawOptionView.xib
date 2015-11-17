@@ -26,9 +26,12 @@
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="palette_48px.png" translatesAutoresizingMaskIntoConstraints="NO" id="njD-az-wBW">
                     <rect key="frame" x="125" y="11" width="44" height="44"/>
                 </imageView>
-                <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fn8-DF-tuV">
+                <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fn8-DF-tuV" customClass="ColorPaletteView" customModule="writeMemo" customModuleProvider="target">
                     <rect key="frame" x="168" y="8" width="199" height="50"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <connections>
+                        <outlet property="delegate" destination="-1" id="Fts-D8-KVS"/>
+                    </connections>
                 </scrollView>
                 <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="y1Y-bL-Fug">
                     <rect key="frame" x="60" y="11" width="44" height="44"/>
@@ -60,8 +63,8 @@
             <connections>
                 <outlet property="changeDrawModeButton" destination="sGV-IS-gYc" id="HWw-KY-Dzr"/>
                 <outlet property="changeEraserModeButton" destination="y1Y-bL-Fug" id="33Z-tU-l8w"/>
+                <outlet property="colorPalletView" destination="fn8-DF-tuV" id="dt7-zL-CQt"/>
                 <outlet property="palletIconImage" destination="njD-az-wBW" id="xEv-5b-A6C"/>
-                <outlet property="palletScrollView" destination="fn8-DF-tuV" id="1hE-Kh-Tbe"/>
                 <outlet property="thickIconImage" destination="se9-Pq-Ieg" id="1h4-8B-Lcl"/>
                 <outlet property="thinIconImage" destination="fFb-0Y-Qya" id="LoK-Uu-7Hw"/>
             </connections>

@@ -8,7 +8,7 @@
 
 import UIKit
 
-class InputTextView: UIView ,UITextViewDelegate{
+class InputTextView: UIView ,UITextViewDelegate,ColorPalletViewDelegate{
 
     @IBOutlet weak var backInputTextView: UIView!
     @IBOutlet weak var scrollInputTextView: UIScrollView!
@@ -34,16 +34,19 @@ class InputTextView: UIView ,UITextViewDelegate{
         inputTextView.delegate = self
         inputTextView.inputAccessoryView = keyBoardView
         
+        let leftAndRightMargin:CGFloat = 10.0
+        let topAndBottonMargin:CGFloat = 3.0
+        
         //カラーを変更するボタンを設置
         let changeColorButton:UIButton = UIButton()
-        changeColorButton.frame = CGRectMake(10, 3, 44, 44)
+        changeColorButton.frame = CGRectMake(leftAndRightMargin, topAndBottonMargin, 44, 44)
         changeColorButton.backgroundColor = UIColor(red:0.98, green:0.87, blue:0.94, alpha:1)
         changeColorButton.setTitle("カ", forState: .Normal)
         changeColorButton.addTarget(self, action:"changeEditColor:", forControlEvents: .TouchUpInside)
         keyBoardView.addSubview(changeColorButton)
         //フォントサイズを変更するボタンを設置
         let changeFontSizeButton:UIButton = UIButton()
-        changeFontSizeButton.frame = CGRectMake(20 + changeColorButton.frame.width, 3, 44, 44)
+        changeFontSizeButton.frame = CGRectMake((leftAndRightMargin * 2) + changeColorButton.frame.width, topAndBottonMargin, 44, 44)
         changeFontSizeButton.backgroundColor = UIColor(red:0.82, green:0.92, blue:0.97, alpha:1)
         changeFontSizeButton.setTitle("フ", forState: .Normal)
         changeFontSizeButton.addTarget(self, action:"changeEditFontSize:", forControlEvents: .TouchUpInside)
@@ -57,15 +60,28 @@ class InputTextView: UIView ,UITextViewDelegate{
         finishButton.addTarget(self, action:"finishEditText:", forControlEvents: .TouchUpInside)
         keyBoardView.addSubview(finishButton)
         
-        //
+        //カラーパレットのビュー
+        let colorPalletView:ColorPaletteView = ColorPaletteView()
+        colorPalletView.frame = CGRectMake((leftAndRightMargin * 3) + changeColorButton.frame.width + changeFontSizeButton.frame.width, 0, self.frame.width - ((leftAndRightMargin * 4) + changeColorButton.frame.width + changeFontSizeButton.frame.width + finishButton.frame.width), 50)
+        colorPalletView.colorPalletDelgate = self
+        colorPalletView.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0)
+        keyBoardView.addSubview(colorPalletView)
         
     }
     
+    //MARK: - TextColor
     func changeEditColor(sender:UIButton){
-        print("カラー")
+        print("カラー変更モード")
     }
+    //MARK: - ColorPalletDelegate
+    func setColor(color: UIColor) {
+        //文字色を選択した色にする
+        self.inputTextView.textColor = color
+    }
+    
+    //MARK: - FontSize
     func changeEditFontSize(sender:UIButton){
-        print("フォントサイズ")
+        print("フォントサイズ変更モード")
     }
     
     func finishEditText(sender:UIButton){
