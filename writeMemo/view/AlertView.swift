@@ -20,6 +20,7 @@ class AlertView: UIView {
     
     var pinView:UIView!
     
+    @IBOutlet weak var backAlertView: UIView!
     @IBOutlet weak var alertView: UIView!
     @IBOutlet weak var alertLabel: UILabel!
     @IBOutlet weak var buttonYes: UIButton!
@@ -32,6 +33,7 @@ class AlertView: UIView {
     
     func showAlertView(){
         self.alertView.alpha = 1.0
+        self.backAlertView.backgroundColor = UIColor(red:0.20, green:0.20, blue:0.20, alpha:0.5)
         self.alertView.transform = CGAffineTransformMakeScale(0.8, 0.8)
         
         UIView.animateWithDuration(0.1, delay: 0.0, options: UIViewAnimationOptions.CurveEaseIn, animations: { () -> Void in

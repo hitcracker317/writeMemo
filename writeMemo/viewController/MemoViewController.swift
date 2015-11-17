@@ -24,6 +24,7 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
     @IBOutlet weak var inputImageView: UIImageView!
     
     //テキスト用の変数
+    let inputTextText:InputTextView = InputTextView.instanceInputTextView()
     var drawTextViewWidth:CGFloat!
     var drawTextViewHeight:CGFloat!
     
@@ -71,6 +72,13 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
             } else {
                 touchBeganPoint = t.locationInView(inputImageView)
                 //println("inputImageViewのタッチした座標:\(touchBeganPoint)")
+            }
+            
+            if(inputType == InputType.InputTypeText){
+                //テキスト入力用のビューを生成
+                inputTextText.frame = CGRectMake(0, 0, self.view.frame.width, self.view.frame.height)
+                inputTextText.showInputTextView()
+                self.view.addSubview(inputTextText)
             }
         }
         
@@ -160,10 +168,9 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
                     //削除用のビューに重なっていたらアラートを表示
                     alertView.delegate = self
                     alertView.pinView = sender.view
-                    alertView.frame = CGRectMake(0, 0, self.view.frame.width, self.view.frame.height);
+                    alertView.frame = CGRectMake(0, 0, self.view.frame.width, self.view.frame.height)
                     alertView.showAlertView()
                     self.view.addSubview(alertView)
-                    
                 } else {
                     //削除用のビューに重ならなかったら
                     self.disappearGarbageView() //削除用のビューを非表示
