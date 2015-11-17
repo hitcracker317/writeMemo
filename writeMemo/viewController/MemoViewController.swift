@@ -8,7 +8,7 @@
 
 import UIKit
 
-class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,UIGestureRecognizerDelegate,AlertViewDelegate {
+class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,UIGestureRecognizerDelegate,AlertViewDelegate, InputTextViewDelegate {
     
     var inputViewTag:Int = 0
     
@@ -24,9 +24,8 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
     @IBOutlet weak var inputImageView: UIImageView!
     
     //テキスト用の変数
-    let inputTextText:InputTextView = InputTextView.instanceInputTextView()
-    var drawTextViewWidth:CGFloat!
-    var drawTextViewHeight:CGFloat!
+    let inputTextView:InputTextView = InputTextView.instanceInputTextView()
+    var tempTextViewCenter:CGPoint!
     
     //ペイント用の変数
     var paintViewIsAppeared:Bool = false
@@ -75,10 +74,12 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
             }
             
             if(inputType == InputType.InputTypeText){
-                //テキスト入力用のビューを生成
-                inputTextText.frame = CGRectMake(0, 0, self.view.frame.width, self.view.frame.height)
-                inputTextText.showInputTextView()
-                self.view.addSubview(inputTextText)
+                //テキスト入力のビューを開く
+                inputTextView.frame = CGRectMake(0, 0, self.view.frame.width, self.view.frame.height)
+                inputTextView.showInputTextView()
+                inputTextView.inputTextViewDelegate = self
+                tempTextViewCenter = touchBeganPoint
+                self.view.addSubview(inputTextView)
             }
         }
         
@@ -95,11 +96,6 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
         } else {
             movePoint = touch.locationInView(inputImageView) //inputImageViewの移動した先の座標を取得
             //println("inputImageViewの移動先の座標:\(movePoint)")
-        }
-        
-        if(inputType == InputType.InputTypeText){
-            //ドラッグした範囲にUITextViewを生成する
-            self.drawTextView()
         }
         
         if(inputType == InputType.InputTypePaint){
@@ -124,19 +120,6 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
     
     override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
         super.touchesEnded(touches, withEvent: event)
-        
-        if(inputType == InputType.InputTypeText){
-            //テキストを入力
-            if(drawTextViewWidth >= 20){
-                self.inputText()
-            }
-            inputImageView.image = nil //矩形を削除
-            
-        } else if (inputType == InputType.InputTypeEditText){
-            //テキスト入力中のときはキーボードを閉じる
-            self.view.endEditing(true);
-            inputType = InputType.InputTypeText
-        }
     }
     
     // MARK: - UIGestureRecognizer
@@ -276,7 +259,7 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
         //inputType = InputType.InputTypeImage
         
         self.changeFromDraw()
-        //self.toggleEditableTextView()
+        self.toggleEditableTextView()
         
         self.openImageAlertView()
     }
@@ -298,46 +281,31 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
     }
     
     // MARK: - Text
-    func drawTextView(){
-        //ドラッグ操作中、テキストビューの領域の矩形を描く
-        //TODO:x軸のマイナス方向にドラッグした際も対応
-        UIGraphicsBeginImageContext(inputImageView.frame.size)
-        CGContextSetFillColorWithColor(UIGraphicsGetCurrentContext(), UIColor(red:0.06, green:0.22, blue:0.49, alpha:0.3).CGColor) //矩形の描画色
-        drawTextViewWidth = movePoint.x - touchBeganPoint.x
-        drawTextViewHeight = movePoint.y - touchBeganPoint.y
-        CGContextFillRect(UIGraphicsGetCurrentContext(), CGRectMake(touchBeganPoint.x, touchBeganPoint.y, drawTextViewWidth, drawTextViewHeight));
-        inputImageView.image = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-    }
-    
-    func inputText(){
-        //テキスト入力
-        let textView:UITextView = UITextView(frame: CGRectMake(touchBeganPoint.x, touchBeganPoint.y, drawTextViewWidth, drawTextViewHeight))
-        textView.textAlignment = .Center
-        textView.text = ""
-        textView.font = UIFont(name: "KAWAIITEGAKIMOJI", size: 20)
+    // MARK: - InputTextVewDelegate
+    func createTextView(text: String, color: UIColor, fontSize: Float) {
+        //タップした箇所に新しくテキストビューを生成する
+        self.inputTextView.removeFromSuperview()
+        
+        //TODO:テキストビューのwidthとheightの調整
+        let textView:UITextView = UITextView(frame: CGRectMake(0, 0, 200, 200))
+        textView.center = tempTextViewCenter
+        textView.text = text
+        textView.textColor = color
+        textView.font = UIFont(name: "KAWAIITEGAKIMOJI", size: CGFloat(fontSize))
         inputViewTag++
         textView.tag = inputViewTag //生成するtextViewにタグをつける(ひとつひとつのテキストビューを特定するため)
-        textView.delegate = self
-        textView.backgroundColor = UIColor(red:0.95, green:0.95, blue:0.00, alpha:0.0)
-        textView.layer.borderWidth = 2
-        textView.layer.borderColor = UIColor(red:0.06, green:0.22, blue:0.49, alpha:1.0).CGColor
+        textView.backgroundColor = UIColor(red:0.06, green:0.22, blue:0.49, alpha:1.0)
+    
         
-        //UIGestureを登録(移動、拡大縮小、回転)
+        //UIGestureを登録(移動、回転)
         let movePan:UIPanGestureRecognizer = UIPanGestureRecognizer(target: self, action: "moveView:")
-        let pinchPan:UIPinchGestureRecognizer = UIPinchGestureRecognizer(target: self, action: "pinchView:")
         let rotatePan:UIRotationGestureRecognizer = UIRotationGestureRecognizer(target: self, action: "rotateView:")
         textView.addGestureRecognizer(movePan)
-        textView.addGestureRecognizer(pinchPan)
         textView.addGestureRecognizer(rotatePan)
         
-        inputImageView.addSubview(textView) 
-        
-        textView.becomeFirstResponder()
-        
-        inputType = InputType.InputTypeEditText
+        inputImageView.addSubview(textView)
     }
-    
+        
     func toggleEditableTextView(){
         for view in inputImageView.subviews{
             if let textView = view as? UITextView {
@@ -351,36 +319,6 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
                 }
             }
         }
-    }
-    
-    // MARK: - TextViewDelegate
-    func textViewDidChange(textView: UITextView) {
-        //入力したテキストの行数に応じてテキストビューのサイズを可変
-        var textRect:CGRect = textView.frame;
-        textRect.size.height = textView.contentSize.height
-        
-        if(textView.contentSize.height >= drawTextViewHeight){
-            textView.frame = textRect
-        }
-    }
-    func textViewShouldBeginEditing(textView: UITextView) -> Bool {
-        //TODO:テキストを入力する領域がキーボードに覆われる場合、画面全体をスクロール
-        textView.layer.borderWidth = 2
-        inputType = InputType.InputTypeEditText
-        return true
-    }
-    func textViewShouldEndEditing(textView: UITextView) -> Bool {
-        //入力したテキストの行数に応じてテキストビューのサイズを可変
-        var textRect:CGRect = textView.frame;
-        textRect.size.height = textView.contentSize.height
-        textView.frame = textRect
-        
-        //テキスト入力矩形値(横縦)の初期化
-        drawTextViewWidth = 0
-        drawTextViewHeight = 0
-        textView.layer.borderWidth = 0
-        
-        return true
     }
     
     // MARK: - Draw
