@@ -14,6 +14,11 @@ class InputTextView: UIView ,UITextViewDelegate,ColorPalletViewDelegate{
     @IBOutlet weak var scrollInputTextView: UIScrollView!
     @IBOutlet weak var inputTextView: UITextView!
     
+    var isColorPalletAppear:ObjCBool = true
+    
+    let colorPalletView:ColorPaletteView = ColorPaletteView()
+    let fontSizeSlider = UISlider()
+    
     class func instanceInputTextView() -> InputTextView {
         return UINib(nibName: "InputTextView", bundle: nil).instantiateWithOwner(self, options: nil)[0] as! InputTextView
     }
@@ -26,7 +31,7 @@ class InputTextView: UIView ,UITextViewDelegate,ColorPalletViewDelegate{
     }
     
     func prepareKeyBoard(){
-        //キーボードに色とフォントサイズを変更するボタンを設置
+        //キーボードにボタンを配置
         
         //ボタンを配置するビューをキーボードに追加する
         let keyBoardView:UIView = UIView(frame: CGRectMake(0,0,self.frame.width,50))
@@ -60,28 +65,57 @@ class InputTextView: UIView ,UITextViewDelegate,ColorPalletViewDelegate{
         finishButton.addTarget(self, action:"finishEditText:", forControlEvents: .TouchUpInside)
         keyBoardView.addSubview(finishButton)
         
+        
+        let colorAndFontSizeFrame:CGRect = CGRectMake((leftAndRightMargin * 3) + changeColorButton.frame.width + changeFontSizeButton.frame.width, 0, self.frame.width - ((leftAndRightMargin * 4) + changeColorButton.frame.width + changeFontSizeButton.frame.width + finishButton.frame.width), 50)
+        
         //カラーパレットのビュー
-        let colorPalletView:ColorPaletteView = ColorPaletteView()
-        colorPalletView.frame = CGRectMake((leftAndRightMargin * 3) + changeColorButton.frame.width + changeFontSizeButton.frame.width, 0, self.frame.width - ((leftAndRightMargin * 4) + changeColorButton.frame.width + changeFontSizeButton.frame.width + finishButton.frame.width), 50)
+        colorPalletView.frame = colorAndFontSizeFrame
         colorPalletView.colorPalletDelgate = self
         colorPalletView.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0)
         keyBoardView.addSubview(colorPalletView)
         
+        //フォントサイズを変更するスライダーを配置
+        fontSizeSlider.frame = colorAndFontSizeFrame
+        fontSizeSlider.hidden = true
+        fontSizeSlider.minimumValue = 15
+        fontSizeSlider.maximumValue = 35
+        fontSizeSlider.value = 25
+        fontSizeSlider.maximumTrackTintColor = UIColor.grayColor()
+        fontSizeSlider.minimumTrackTintColor = inputTextView.textColor
+        fontSizeSlider.addTarget(self, action: "changeFontSize:", forControlEvents: UIControlEvents.ValueChanged)
+        keyBoardView.addSubview(fontSizeSlider)
     }
     
     //MARK: - TextColor
     func changeEditColor(sender:UIButton){
-        print("カラー変更モード")
+        if(!isColorPalletAppear){
+            print("カラー変更モード")
+            //TODO:カラーパレットを選択していることを明示
+            isColorPalletAppear = true
+            colorPalletView.hidden = false
+            fontSizeSlider.hidden = true
+        }
     }
     //MARK: - ColorPalletDelegate
     func setColor(color: UIColor) {
         //文字色を選択した色にする
         self.inputTextView.textColor = color
+        fontSizeSlider.minimumTrackTintColor = color
     }
     
     //MARK: - FontSize
     func changeEditFontSize(sender:UIButton){
-        print("フォントサイズ変更モード")
+        if(isColorPalletAppear){
+            print("フォントサイズ変更モード")
+            //TODO:フォントサイズを選択していることを明示
+            isColorPalletAppear = false
+            colorPalletView.hidden = true
+            fontSizeSlider.hidden = false
+        }
+    }
+    func changeFontSize(sender:UISlider){
+        //スライダーの位置に応じてフォントサイズを変更
+        inputTextView.font = UIFont(name: "KAWAIITEGAKIMOJI", size: CGFloat(sender.value))
     }
     
     func finishEditText(sender:UIButton){
