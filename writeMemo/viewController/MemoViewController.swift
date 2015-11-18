@@ -57,7 +57,6 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
         super.viewDidLoad()
 
         self.initializeDraw()
-        
     }
     
     // MARK: - touchInteraction
@@ -74,12 +73,8 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
             }
             
             if(inputType == InputType.InputTypeText){
-                //テキスト入力のビューを開く
-                inputTextView.frame = CGRectMake(0, 0, self.view.frame.width, self.view.frame.height)
-                inputTextView.showInputTextView()
-                inputTextView.inputTextViewDelegate = self
-                tempTextViewCenter = touchBeganPoint
-                self.view.addSubview(inputTextView)
+                //テキスト入力のビューを開く&テキストを新規作成
+                self.openInputTextView()
             }
         }
         
@@ -102,20 +97,6 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
             //ペイント操作
             self.drawPaint()
         }
-        
-        /*
-        if(inputType == InputType.InputTypeMove){
-            //配置したオブジェクトの移動
-            //テキスト生成やオブジェクトをドラッグするときに使用する
-            let location = touch.locationInView(inputImageView) //ドラッグ後の座標を取得
-            let prevLocation = touch.previousLocationInView(inputImageView) //ドラッグ前の座標を取得
-            
-            //ドラッグをして移動したx,y距離をとる
-            let movePosX:CGFloat = location.x - prevLocation.x
-            let movePosY:CGFloat = location.y - prevLocation.y
-            
-            println("移動した距離(x:\(movePosX),y:\(movePosY)")
-        }*/
     }
     
     override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
@@ -234,13 +215,11 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
         
         //テキスト追加モードにチェンジ
         inputType = InputType.InputTypeText
-        self.toggleEditableTextView()
     }
     
     @IBAction func changeInputPaint(sender: AnyObject) {
         //ペイント追加モードにチェンジ
         inputType = InputType.InputTypePaint
-        self.toggleEditableTextView()
         
         isDrawViewTouchEnabled = true
         self.changeDrawViewTouchEnabled()
@@ -259,66 +238,74 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
         //inputType = InputType.InputTypeImage
         
         self.changeFromDraw()
-        self.toggleEditableTextView()
-        
         self.openImageAlertView()
     }
     
     @IBAction func changeInputMove(sender: AnyObject) {
         //移動モードにチェンジ
         inputType = InputType.InputTypeMove
-        
         self.changeFromDraw()
-        self.toggleEditableTextView()
     }
     
     @IBAction func changeInputDelete(sender: AnyObject) {
         //削除モードにチェンジ
         inputType = InputType.InputTypeDelete
-        
         self.changeFromDraw()
-        self.toggleEditableTextView()
     }
     
     // MARK: - Text
+    func openInputTextView(){
+        //テキストビューが配置されてないところをタップしたときはテキストビューを新規生成
+        inputTextView.frame = CGRectMake(0, 0, self.view.frame.width, self.view.frame.height)
+        inputTextView.showInputTextView()
+        inputTextView.inputTextViewDelegate = self
+        tempTextViewCenter = touchBeganPoint
+        self.view.addSubview(inputTextView)
+    }
+    
+    func tapView(sender:UITapGestureRecognizer){
+        //配置したテキストビューをタップしたときは再編集
+        let selectedTextView:UITextView = sender.view as! UITextView
+        inputTextView.showEditInputTextView(selectedTextView)
+        inputTextView.inputTextViewDelegate = self
+        tempTextViewCenter = touchBeganPoint
+        self.view.addSubview(inputTextView)
+    }
+    
     // MARK: - InputTextVewDelegate
     func createTextView(text: String, color: UIColor, fontSize: Float) {
-        self.inputTextView.removeFromSuperview()
-        
         //タップした箇所に新しくテキストビューを生成する
+        self.inputTextView.removeFromSuperview()
+        self.addTextView(text, color: color, fontSize: fontSize)
+    }
+    func editTextView(text: String, color: UIColor, fontSize: Float, textView: UITextView) {
+        //テキストビューを変更
+        self.inputTextView.removeFromSuperview()
+        textView.removeFromSuperview()
+        self.addTextView(text, color: color, fontSize: fontSize)
+    }
+
+    func addTextView(text: String, color: UIColor, fontSize: Float){
         let textView:UITextView = UITextView(frame: CGRectMake(0, 0, 0, 0))
+        textView.editable = false
+        textView.selectable = false
         textView.textAlignment = .Center
         textView.text = text
         textView.textColor = color
         textView.font = UIFont(name: "KAWAIITEGAKIMOJI", size: CGFloat(fontSize))
-        inputViewTag++
-        textView.tag = inputViewTag //生成するtextViewにタグをつける(ひとつひとつのテキストビューを特定するため)
-        textView.backgroundColor = UIColor(red:0.06, green:0.22, blue:0.49, alpha:0.0)
+        textView.backgroundColor = UIColor(red:0.06, green:0.22, blue:0.49, alpha:1.0)
         textView.sizeToFit()
         textView.center = tempTextViewCenter
         
-        //UIGestureを登録(移動、回転)
-        let movePan:UIPanGestureRecognizer = UIPanGestureRecognizer(target: self, action: "moveView:")
-        let rotatePan:UIRotationGestureRecognizer = UIRotationGestureRecognizer(target: self, action: "rotateView:")
-        textView.addGestureRecognizer(movePan)
-        textView.addGestureRecognizer(rotatePan)
+        //UIGestureを登録(タップ、移動、回転)
+        let tapGesture:UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: "tapView:")
+        let moveGesture:UIPanGestureRecognizer = UIPanGestureRecognizer(target: self, action: "moveView:")
+        let rotateGesture:UIRotationGestureRecognizer = UIRotationGestureRecognizer(target: self, action: "rotateView:")
+        textView.addGestureRecognizer(tapGesture)
+        textView.addGestureRecognizer(moveGesture)
+        textView.addGestureRecognizer(rotateGesture)
         
         inputImageView.addSubview(textView)
-    }
-        
-    func toggleEditableTextView(){
-        for view in inputImageView.subviews{
-            if let textView = view as? UITextView {
-                //UITextViewを継承しているビューのみを取得
-                if(inputType == InputType.InputTypeText){
-                    //テキストモードだったら編集可能
-                    textView.editable = true
-                } else {
-                    //それ以外のモードだったら編集無効
-                    textView.editable = false
-                }
-            }
-        }
     }
     
     // MARK: - Draw

@@ -10,6 +10,7 @@ import UIKit
 
 protocol InputTextViewDelegate:class{
     func createTextView(text:String,color:UIColor,fontSize:Float)
+    func editTextView(text:String,color:UIColor,fontSize:Float,textView:UITextView)
 }
 
 class InputTextView: UIView ,UITextViewDelegate,ColorPalletViewDelegate{
@@ -30,16 +31,42 @@ class InputTextView: UIView ,UITextViewDelegate,ColorPalletViewDelegate{
     let colorPalletView:ColorPaletteView = ColorPaletteView()
     let fontSizeSlider = UISlider()
     
+    var isCreateNewTextView:ObjCBool = true
+    var memoViewControllerTextView:UITextView = UITextView()
+    
     class func instanceInputTextView() -> InputTextView {
         return UINib(nibName: "InputTextView", bundle: nil).instantiateWithOwner(self, options: nil)[0] as! InputTextView
     }
     
     func showInputTextView(){
+        //新しくテキストビューを作成する
+        self.isCreateNewTextView = true
         self.backInputTextView.backgroundColor = UIColor(red:0.20, green:0.20, blue:0.20, alpha:0.5)
         
         self.inputTextView.text = ""
         self.inputTextView.textColor = UIColor(red:0.00, green:0.00, blue:0.00, alpha:1.0)
         self.inputTextView.font = UIFont(name: "KAWAIITEGAKIMOJI", size: 25)
+        
+        let notificationCenter = NSNotificationCenter.defaultCenter()
+        notificationCenter.addObserver(self, selector: "showKeyboard:", name: UIKeyboardDidShowNotification, object: nil)
+        
+        inputTextView.becomeFirstResponder()
+        
+        self.prepareKeyBoard()
+    }
+    
+    func showEditInputTextView(textView:UITextView){
+        //テキストビューをアップデート
+        self.isCreateNewTextView = false
+        self.memoViewControllerTextView = textView
+        
+        self.backInputTextView.backgroundColor = UIColor(red:0.20, green:0.20, blue:0.20, alpha:0.5)
+        
+        self.inputTextView.text = textView.text
+        self.inputTextView.textColor = textView.textColor
+        self.inputTextView.font = textView.font
+        
+        fontSizeSlider.value = Float(textView.font!.pointSize) //TODO:スライダーの値もフォントサイズの大きさに合わせる
         
         let notificationCenter = NSNotificationCenter.defaultCenter()
         notificationCenter.addObserver(self, selector: "showKeyboard:", name: UIKeyboardDidShowNotification, object: nil)
@@ -56,9 +83,9 @@ class InputTextView: UIView ,UITextViewDelegate,ColorPalletViewDelegate{
                 
                 //キーボードの高さを元にテキストビューのframeを調整
                 UIView.animateWithDuration(0.2, delay: 0.0, options: UIViewAnimationOptions.CurveEaseOut, animations: { () -> Void in
-                        self.inputTextView.frame = CGRectMake(self.textViewMargin, self.textViewMarginTop, self.frame.width - (self.textViewMargin * 2), self.frame.height - (self.textViewMarginTop + self.textViewMargin + keyBoardRect.height))
-                    }, completion: nil)
-                }
+                    self.inputTextView.frame = CGRectMake(self.textViewMargin, self.textViewMarginTop, self.frame.width - (self.textViewMargin * 2), self.frame.height - (self.textViewMarginTop + self.textViewMargin + keyBoardRect.height))
+                }, completion: nil)
+            }
         }
     }
     
@@ -168,8 +195,12 @@ class InputTextView: UIView ,UITextViewDelegate,ColorPalletViewDelegate{
             self.inputTextView.frame = CGRectMake(self.textViewMargin, self.textViewMarginTop, self.frame.width - (self.textViewMargin * 2), 0)
             }, completion:{ (BOOL) -> Void in
                 //memoViewControllerに入力したテキストの値を受け渡す
-                self.inputTextViewDelegate.createTextView(self.inputTextView.text, color: self.inputTextView.textColor!, fontSize: self.fontSizeSlider.value)
-        })
+                if(self.isCreateNewTextView){
+                    self.inputTextViewDelegate.createTextView(self.inputTextView.text, color: self.inputTextView.textColor!, fontSize: self.fontSizeSlider.value)
+                } else {
+                    self.inputTextViewDelegate.editTextView(self.inputTextView.text, color: self.inputTextView.textColor!, fontSize: self.fontSizeSlider.value, textView: self.memoViewControllerTextView)
+                }
+            })
     }
     
 }
