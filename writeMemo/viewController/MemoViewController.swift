@@ -283,19 +283,19 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
     // MARK: - Text
     // MARK: - InputTextVewDelegate
     func createTextView(text: String, color: UIColor, fontSize: Float) {
-        //タップした箇所に新しくテキストビューを生成する
         self.inputTextView.removeFromSuperview()
         
-        //TODO:テキストビューのwidthとheightの調整
-        let textView:UITextView = UITextView(frame: CGRectMake(0, 0, 200, 200))
-        textView.center = tempTextViewCenter
+        //タップした箇所に新しくテキストビューを生成する
+        let textView:UITextView = UITextView(frame: CGRectMake(0, 0, 0, 0))
+        textView.textAlignment = .Center
         textView.text = text
         textView.textColor = color
         textView.font = UIFont(name: "KAWAIITEGAKIMOJI", size: CGFloat(fontSize))
         inputViewTag++
         textView.tag = inputViewTag //生成するtextViewにタグをつける(ひとつひとつのテキストビューを特定するため)
-        textView.backgroundColor = UIColor(red:0.06, green:0.22, blue:0.49, alpha:1.0)
-    
+        textView.backgroundColor = UIColor(red:0.06, green:0.22, blue:0.49, alpha:0.0)
+        textView.sizeToFit()
+        textView.center = tempTextViewCenter
         
         //UIGestureを登録(移動、回転)
         let movePan:UIPanGestureRecognizer = UIPanGestureRecognizer(target: self, action: "moveView:")

@@ -16,17 +16,49 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "writeMemo/view/InputTextView.swift"
-            timestampString = "469462377.283313"
+            timestampString = "469517277.267861"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "171"
-            endingLineNumber = "171"
+            startingLineNumber = "165"
+            endingLineNumber = "165"
             landmarkName = "finishEditText(_:)"
             landmarkType = "5">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "writeMemo.InputTextView.finishEditText (writeMemo.InputTextView)(__ObjC.UIButton) -&gt; ()"
+                  moduleName = "writeMemo"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/dainaser186/Desktop/writeMemo/writeMemo/view/InputTextView.swift"
+                  timestampString = "469517844.090199"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "167"
+                  endingLineNumber = "167"
+                  offsetFromSymbolStart = "248">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "writeMemo.InputTextView.(finishEditText (writeMemo.InputTextView) -&gt; (__ObjC.UIButton) -&gt; ()).(closure #1)"
+                  moduleName = "writeMemo"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/dainaser186/Desktop/writeMemo/writeMemo/view/InputTextView.swift"
+                  timestampString = "469517844.090604"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "168"
+                  endingLineNumber = "168"
+                  offsetFromSymbolStart = "28">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>
