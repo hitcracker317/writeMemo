@@ -465,14 +465,16 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
             //イメージビューとそれの土台となるビューを作成
             //TODO:画像のビューをaddSubViewする際はテキストのビューよりも背面にする
             let baseView:UIView = UIView()
-            baseView.frame = CGRectMake(inputImageView.frame.size.width/2 - 110, inputImageView.frame.size.height/2 - 110, 220, 220)
+            baseView.frame = CGRectMake(inputImageView.frame.size.width/2 - 110, inputImageView.frame.size.height/2 - 110, 210, 210)
             baseView.backgroundColor = UIColor(red:1.00, green:1.00, blue:1.00, alpha:1.0)
             baseView.layer.borderWidth = 1.5
             inputImageView.addSubview(baseView)
             
             let imageView = UIImageView()
-            imageView.frame = CGRectMake(10, 10, 200, 200)
+            imageView.frame = CGRectMake(5, 5, 200, 200)
             imageView.image = pickedImage
+            imageView.contentMode = .ScaleAspectFill
+            imageView.clipsToBounds = true
             baseView.addSubview(imageView)
             
             //UIGestureを登録(移動、拡大縮小、回転)
