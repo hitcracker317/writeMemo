@@ -20,11 +20,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "writeMemo/view/InputTextView.swift"
-            timestampString = "469603188.388602"
+            timestampString = "469607009.23404"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "193"
-            endingLineNumber = "193"
+            startingLineNumber = "196"
+            endingLineNumber = "196"
             landmarkName = "finishEditText(_:)"
             landmarkType = "5">
             <Locations>
