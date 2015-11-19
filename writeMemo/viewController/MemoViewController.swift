@@ -305,7 +305,9 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
         textView.addGestureRecognizer(moveGesture)
         textView.addGestureRecognizer(rotateGesture)
         
-        inputImageView.addSubview(textView)
+        if textView.text != "" {
+            inputImageView.addSubview(textView)
+        }
     }
     
     // MARK: - Draw
