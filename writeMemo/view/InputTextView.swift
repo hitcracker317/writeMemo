@@ -30,6 +30,7 @@ class InputTextView: UIView ,UITextViewDelegate,ColorPalletViewDelegate{
     
     let colorPalletView:ColorPaletteView = ColorPaletteView()
     let fontSizeSlider = UISlider()
+    var editSliderValue:Float = 0 //テキストビューを再編集するときのためにスライダーの値を保持
     
     var isCreateNewTextView:ObjCBool = true
     var memoViewControllerTextView:UITextView = UITextView()
@@ -56,6 +57,8 @@ class InputTextView: UIView ,UITextViewDelegate,ColorPalletViewDelegate{
     }
     
     func showEditInputTextView(textView:UITextView){
+        self.prepareKeyBoard()
+        
         //テキストビューをアップデート
         self.isCreateNewTextView = false
         self.memoViewControllerTextView = textView
@@ -66,14 +69,12 @@ class InputTextView: UIView ,UITextViewDelegate,ColorPalletViewDelegate{
         self.inputTextView.textColor = textView.textColor
         self.inputTextView.font = textView.font
         
-        fontSizeSlider.value = Float(textView.font!.pointSize) //TODO:スライダーの値もフォントサイズの大きさに合わせる
+        fontSizeSlider.value = self.editSliderValue
         
         let notificationCenter = NSNotificationCenter.defaultCenter()
         notificationCenter.addObserver(self, selector: "showKeyboard:", name: UIKeyboardDidShowNotification, object: nil)
         
         inputTextView.becomeFirstResponder()
-        
-        self.prepareKeyBoard()
     }
     
     func showKeyboard(notification:NSNotification){
@@ -189,6 +190,7 @@ class InputTextView: UIView ,UITextViewDelegate,ColorPalletViewDelegate{
         print("テキストの編集を終了")
         //テキストの編集を終了してキーボードを閉じる
         self.endEditing(true);
+        self.editSliderValue = self.fontSizeSlider.value
         
         //閉じる
         UIView.animateWithDuration(0.2, delay: 0, options: UIViewAnimationOptions.CurveEaseOut, animations: { () -> Void in
