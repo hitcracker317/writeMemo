@@ -289,12 +289,23 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
         let textView:UITextView = UITextView(frame: CGRectMake(0, 0, 0, 0))
         textView.editable = false
         textView.selectable = false
+        textView.scrollEnabled = false
         textView.textAlignment = .Center
         textView.text = text
         textView.textColor = color
         textView.font = UIFont(name: "KAWAIITEGAKIMOJI", size: CGFloat(fontSize))
         textView.backgroundColor = UIColor(red:0.06, green:0.22, blue:0.49, alpha:1.0)
         textView.sizeToFit()
+        
+        //サイズを調整
+        if (textView.frame.width > inputImageView.frame.width){
+            textView.frame = CGRectMake(0, 0, inputImageView.frame.width - 20 , textView.frame.height)
+        } else if (textView.frame.height > inputImageView.frame.height){
+            textView.frame = CGRectMake(0, 0, textView.frame.width, inputImageView.frame.height - 20)
+        } else if (textView.frame.width > inputImageView.frame.width && textView.frame.height > inputImageView.frame.height){
+            textView.frame = CGRectMake(0, 0, inputImageView.frame.width - 20, inputImageView.frame.height - 20)
+        }
+        textView.clipsToBounds = true
         textView.center = tempTextViewCenter
         
         //UIGestureを登録(タップ、移動、回転)

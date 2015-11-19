@@ -101,14 +101,14 @@
                                 <color key="backgroundColor" red="0.90588235289999997" green="0.29803921570000003" blue="0.23529411759999999" alpha="1" colorSpace="calibratedRGB"/>
                             </view>
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="VR9-oT-Djw" userLabel="memoBackView">
-                                <rect key="frame" x="0.0" y="59" width="375" height="550"/>
+                                <rect key="frame" x="0.0" y="64" width="375" height="545"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rBT-ft-d3P" userLabel="inputImageView" customClass="UIImageView">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="558"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="545"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                     </view>
                                     <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rNt-ol-5Uf" userLabel="drawImageView" customClass="UIImageView">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="558"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="545"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <gestureRecognizers/>
                                     </view>
