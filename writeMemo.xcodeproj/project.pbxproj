@@ -18,6 +18,8 @@
 		DCBE4A9F1BF8B51A00F9C87F /* AlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCBE4A9E1BF8B51A00F9C87F /* AlertView.swift */; };
 		DCBE4AA11BF8B52900F9C87F /* AlertView.xib in Resources */ = {isa = PBXBuildFile; fileRef = DCBE4AA01BF8B52900F9C87F /* AlertView.xib */; };
 		DCE83AC31BF3701300C613CC /* KTEGAKI.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DCE83AC11BF36FEA00C613CC /* KTEGAKI.ttf */; };
+		DCE9817E1BFDB09000F65635 /* ImageAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCE9817D1BFDB09000F65635 /* ImageAlertView.swift */; };
+		DCE981801BFDB0A000F65635 /* ImageAlertView.xib in Resources */ = {isa = PBXBuildFile; fileRef = DCE9817F1BFDB0A000F65635 /* ImageAlertView.xib */; };
 		DCF13C0E1BE9CD5800880FD6 /* MemoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCF13C0C1BE9CD5800880FD6 /* MemoCollectionViewCell.swift */; };
 		DCF13C0F1BE9CD5800880FD6 /* MemoCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DCF13C0D1BE9CD5800880FD6 /* MemoCollectionViewCell.xib */; };
 		DCF13C131BE9E01400880FD6 /* memoImage.png in Resources */ = {isa = PBXBuildFile; fileRef = DCF13C121BE9E01400880FD6 /* memoImage.png */; };
@@ -60,6 +62,8 @@
 		DCBE4A9E1BF8B51A00F9C87F /* AlertView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AlertView.swift; path = view/AlertView.swift; sourceTree = "<group>"; };
 		DCBE4AA01BF8B52900F9C87F /* AlertView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AlertView.xib; sourceTree = "<group>"; };
 		DCE83AC11BF36FEA00C613CC /* KTEGAKI.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = KTEGAKI.ttf; path = font/KTEGAKI.ttf; sourceTree = "<group>"; };
+		DCE9817D1BFDB09000F65635 /* ImageAlertView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ImageAlertView.swift; path = view/ImageAlertView.swift; sourceTree = "<group>"; };
+		DCE9817F1BFDB0A000F65635 /* ImageAlertView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ImageAlertView.xib; sourceTree = "<group>"; };
 		DCF13C0C1BE9CD5800880FD6 /* MemoCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MemoCollectionViewCell.swift; path = view/MemoCollectionViewCell.swift; sourceTree = "<group>"; };
 		DCF13C0D1BE9CD5800880FD6 /* MemoCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MemoCollectionViewCell.xib; path = view/MemoCollectionViewCell.xib; sourceTree = "<group>"; };
 		DCF13C121BE9E01400880FD6 /* memoImage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = memoImage.png; path = images/memoImage.png; sourceTree = "<group>"; };
@@ -139,6 +143,8 @@
 				DCF5EA781BF9BE3400BB4911 /* InputTextView.swift */,
 				DCF5EA7A1BF9BE5A00BB4911 /* InputTextView.xib */,
 				DCF5EA7C1BFAFED400BB4911 /* ColorPaletteView.swift */,
+				DCE9817D1BFDB09000F65635 /* ImageAlertView.swift */,
+				DCE9817F1BFDB0A000F65635 /* ImageAlertView.xib */,
 			);
 			name = view;
 			sourceTree = "<group>";
@@ -316,6 +322,7 @@
 				DCE83AC31BF3701300C613CC /* KTEGAKI.ttf in Resources */,
 				DCF4CFBC1BE8769B00B0E076 /* Main.storyboard in Resources */,
 				DC498C6B1BEBA0FF00FD10AD /* strongPen.png in Resources */,
+				DCE981801BFDB0A000F65635 /* ImageAlertView.xib in Resources */,
 				DCF13C131BE9E01400880FD6 /* memoImage.png in Resources */,
 				DC498C661BEB3E6C00FD10AD /* DrawOptionView.xib in Resources */,
 				DCF13C0F1BE9CD5800880FD6 /* MemoCollectionViewCell.xib in Resources */,
@@ -396,6 +403,7 @@
 				DCF4CFB91BE8769B00B0E076 /* TopViewController.swift in Sources */,
 				DC498C621BEB3E2300FD10AD /* DrawOptionView.swift in Sources */,
 				DC5DE3791BE88CEE0069195B /* MemoViewController.swift in Sources */,
+				DCE9817E1BFDB09000F65635 /* ImageAlertView.swift in Sources */,
 				DCBE4A9F1BF8B51A00F9C87F /* AlertView.swift in Sources */,
 				DCF5EA7D1BFAFED400BB4911 /* ColorPaletteView.swift in Sources */,
 				DCF5EA791BF9BE3400BB4911 /* InputTextView.swift in Sources */,

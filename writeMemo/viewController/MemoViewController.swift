@@ -8,7 +8,7 @@
 
 import UIKit
 
-class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,UIGestureRecognizerDelegate,AlertViewDelegate, InputTextViewDelegate {
+class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,UIGestureRecognizerDelegate,AlertViewDelegate, InputTextViewDelegate, ImageAlertViewDelegate {
     
     var inputViewTag:Int = 0
     
@@ -36,9 +36,7 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
     var isDrawViewTouchEnabled:Bool = false //ペイントビューをタップできるか
     
     //イメージ用の変数
-    var imageAlertView:UIView = UIView()
-    var imageAlertBackView:UIView = UIView()
-    var imageAlertViewIsAppeared:Bool = false
+    var imageAlertView:ImageAlertView = ImageAlertView.instanceImageAlertView()
     
     enum InputType: Int {
         case InputTypeText = 0
@@ -76,10 +74,6 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
                 //テキスト入力のビューを開く&テキストを新規作成
                 self.openInputTextView()
             }
-        }
-        
-        if(imageAlertViewIsAppeared){
-            self.closeImageAlertView()
         }
     }
     
@@ -424,71 +418,14 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
     
     // MARK: - Image
     func openImageAlertView(){
-        let appearImageAlertViewHeight:CGFloat = 110
-        let marginWidth:CGFloat = 0
-        let marginHeight:CGFloat = 0
-        let buttonHeight:CGFloat = 55
         
-        //カメラかライブラリかで写真のアップロード方法を選択するボタンを生成
-        imageAlertView.frame = CGRectMake(0, self.view.frame.size.height , self.view.frame.size.width, appearImageAlertViewHeight + 30)
-        imageAlertView.backgroundColor = UIColor(red:1.00, green:1.00, blue:1.00, alpha:1.0)
+        imageAlertView.frame = CGRectMake(0, 0, self.view.frame.width, self.view.frame.height)
+        imageAlertView.showImageAlertView()
+        imageAlertView.delegate = self
         self.view.addSubview(imageAlertView)
-        
-        //全体を覆う半透明なview
-        imageAlertBackView.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)
-        imageAlertBackView.backgroundColor = UIColor(red:0.17, green:0.24, blue:0.31, alpha:0.3)
-        self.view.insertSubview(imageAlertBackView, belowSubview: imageAlertView)
-        
-        imageAlertViewIsAppeared = true
-        
-        let shootPictureButton:UIButton = UIButton()
-        shootPictureButton.frame = CGRectMake(marginWidth, marginHeight, self.view.frame.size.width - (marginWidth * 2), buttonHeight)
-        shootPictureButton.backgroundColor = UIColor(red:1.00, green:1.00, blue:1.00, alpha:1.0)
-        shootPictureButton.setTitle("カメラを撮影", forState: .Normal)
-        shootPictureButton.setTitleColor(UIColor.blackColor(), forState: UIControlState.Normal)
-        shootPictureButton.addTarget(self, action: "tapShootPictureButton", forControlEvents: .TouchUpInside)
-        imageAlertView.addSubview(shootPictureButton)
-        
-        let libralyPictureButton:UIButton = UIButton()
-        libralyPictureButton.frame = CGRectMake(marginWidth,buttonHeight + (marginHeight * 2), self.view.frame.size.width - (marginWidth * 2), buttonHeight)
-        libralyPictureButton.backgroundColor = UIColor(red:1.00, green:1.00, blue:1.00, alpha:1.0)
-        libralyPictureButton.setTitle("カメラロール", forState: .Normal)
-        libralyPictureButton.setTitleColor(UIColor.blackColor(), forState: UIControlState.Normal)
-        libralyPictureButton.addTarget(self, action: "tapLibraryPictureButton", forControlEvents: .TouchUpInside)
-        imageAlertView.addSubview(libralyPictureButton)
-        
-        UIView.animateWithDuration(0.5,
-            delay: 0.0,
-            usingSpringWithDamping: 0.5,
-            initialSpringVelocity: 0.3,
-            options: UIViewAnimationOptions.CurveEaseIn,
-            animations: {() -> Void  in
-                // アニメーションする処理
-                self.imageAlertView.frame.origin.y = self.view.frame.size.height - appearImageAlertViewHeight
-            },
-            completion:nil
-        )
     }
     
-    func closeImageAlertView(){
-        //imageAlertViewが表示されているときは閉じる
-        imageAlertBackView.removeFromSuperview()
-        
-        UIView.animateWithDuration(0.3,
-            delay: 0.0,
-            usingSpringWithDamping: 1.0,
-            initialSpringVelocity: 0.3,
-            options: UIViewAnimationOptions.CurveEaseIn,
-            animations: {() -> Void  in
-                self.imageAlertView.frame.origin.y = self.view.frame.size.height
-            },
-            completion:{(Bool finished) -> Void in
-                self.imageAlertView.removeFromSuperview()
-                self.imageAlertViewIsAppeared = false
-        })
-    }
-    
-    func tapShootPictureButton(){
+    func shootPicture(){
         //写真を撮る
         print("写真を撮る")
         
@@ -507,8 +444,7 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
             print("エラー")
         }
     }
-    
-    func tapLibraryPictureButton(){
+    func openLibraryPicture(){
         //カメラロール
         
         //カメラロールのURLを取得
@@ -525,7 +461,10 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
         } else {
             print("エラー")
         }
-
+    }
+    func closeImageAlertView(){
+        //imageAlertViewを閉じる
+        imageAlertView.removeFromSuperview()
     }
     
     //撮影が完了した際に呼ばれるメソッド
@@ -546,9 +485,6 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
             imageView.frame = CGRectMake(10, 10, 200, 200)
             imageView.image = pickedImage
             baseView.addSubview(imageView)
-            
-            inputViewTag++
-            baseView.tag = inputViewTag
             
             //UIGestureを登録(移動、拡大縮小、回転)
             let movePan:UIPanGestureRecognizer = UIPanGestureRecognizer(target: self, action: "moveView:")
