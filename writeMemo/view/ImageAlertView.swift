@@ -9,7 +9,7 @@
 import UIKit
 
 protocol ImageAlertViewDelegate:class{
-    func shootPicture()
+    func shotPicture()
     func openLibraryPicture()
     func closeImageAlertView()
 }
@@ -48,7 +48,7 @@ class ImageAlertView: UIView {
     
     @IBAction func openCamera(sender: AnyObject) {
         print("カメラ")
-        self.delegate.shootPicture()
+        self.delegate.shotPicture()
     }
     @IBAction func openImageLibrary(sender: AnyObject) {
         print("カメラロール")

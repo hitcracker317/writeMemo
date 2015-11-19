@@ -418,18 +418,14 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
     
     // MARK: - Image
     func openImageAlertView(){
-        
         imageAlertView.frame = CGRectMake(0, 0, self.view.frame.width, self.view.frame.height)
         imageAlertView.showImageAlertView()
         imageAlertView.delegate = self
         self.view.addSubview(imageAlertView)
     }
     
-    func shootPicture(){
+    func shotPicture(){
         //写真を撮る
-        print("写真を撮る")
-        
-        //使用しているデバイスでカメラが使用可能かどうか確かめる
         let sourceType:UIImagePickerControllerSourceType = UIImagePickerControllerSourceType.Camera
         if(UIImagePickerController.isSourceTypeAvailable(sourceType)){
             //インスタンス作成(カメラ機能を作成)
@@ -439,15 +435,10 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
             
             //カメラの画面をmodal表示
             self.presentViewController(cameraPicker, animated: true, completion: nil)
-            
-        } else {
-            print("エラー")
         }
     }
     func openLibraryPicture(){
         //カメラロール
-        
-        //カメラロールのURLを取得
         let sourceType:UIImagePickerControllerSourceType = UIImagePickerControllerSourceType.PhotoLibrary
         
         if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.PhotoLibrary){
@@ -458,8 +449,6 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
             cameraPicker.delegate = self
             
             self.presentViewController(cameraPicker, animated: true, completion: nil)
-        } else {
-            print("エラー")
         }
     }
     func closeImageAlertView(){
@@ -493,16 +482,20 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
             baseView.addGestureRecognizer(movePan)
             baseView.addGestureRecognizer(pinchPan)
             baseView.addGestureRecognizer(rotatePan)
+            
+            if(picker.sourceType == .Camera){
+                //カメラで撮影した写真は端末に保存する
+                 UIImageWriteToSavedPhotosAlbum(pickedImage, self, "image:didFinishSavingWithError:contextInfo:", nil)
+            }
         }
-        
-        //assetURL(デバイスの中の写真が保存されている場所の情報)を取得
-        let assetURL:AnyObject = info[UIImagePickerControllerReferenceURL]!
-        //conbert phrase to NSURL
-        let url = NSURL(string: assetURL.description)
-        print("画像のurl = \(url)")
-        
-        //カメラ画面orカメラロール画面を閉じる処理
         picker.dismissViewControllerAnimated(true, completion: nil)
+    }
+    
+    func image(image: UIImage, didFinishSavingWithError error: NSError!, contextInfo: UnsafeMutablePointer<Void>) {
+        if error != nil {
+            //エラーメッセージを表示するメソッド
+            print(error.code)
+        }
     }
 
 }
