@@ -128,7 +128,8 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
                     alertView.pinView = sender.view
                     alertView.frame = CGRectMake(0, 0, self.view.frame.width, self.view.frame.height)
                     alertView.showAlertView()
-                    self.view.addSubview(alertView)
+                    let appDelegate:AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+                    appDelegate.window?.addSubview(alertView)
                 } else {
                     //削除用のビューに重ならなかったら
                     self.disappearGarbageView() //削除用のビューを非表示
@@ -184,15 +185,17 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
         )
     }
     
-    // MARK: - AlertViewDelegate
+    // MARK: - delegateAlertViewDelegate
     func tapYes(view: UIView) {
         print("ドラッグしたビューを削除")
         view.removeFromSuperview()
         alertView.closeAlertView()
+        self.disappearGarbageView()
     }
     func tapNo(view:UIView) {
         print("削除しない")
         alertView.closeAlertView()
+        self.disappearGarbageView()
         
         UIView.animateWithDuration(0.1) { () -> Void in
             //ドラッグしたビューをメモのビューの方に戻す
@@ -254,7 +257,8 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
         inputTextView.showInputTextView()
         inputTextView.inputTextViewDelegate = self
         tempTextViewCenter = touchBeganPoint
-        self.view.addSubview(inputTextView)
+        let appDelegate:AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        appDelegate.window?.addSubview(inputTextView)
     }
     
     func tapView(sender:UITapGestureRecognizer){
@@ -263,7 +267,8 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
         inputTextView.showEditInputTextView(selectedTextView)
         inputTextView.inputTextViewDelegate = self
         tempTextViewCenter = touchBeganPoint
-        self.view.addSubview(inputTextView)
+        let appDelegate:AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        appDelegate.window?.addSubview(inputTextView)
     }
     
     // MARK: - InputTextVewDelegate
@@ -421,11 +426,13 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
         imageAlertView.frame = CGRectMake(0, 0, self.view.frame.width, self.view.frame.height)
         imageAlertView.showImageAlertView()
         imageAlertView.delegate = self
-        self.view.addSubview(imageAlertView)
+        let appDelegate:AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        appDelegate.window?.addSubview(imageAlertView)
     }
     
     func shotPicture(){
         //写真を撮る
+        self.closeImageAlertView()
         let sourceType:UIImagePickerControllerSourceType = UIImagePickerControllerSourceType.Camera
         if(UIImagePickerController.isSourceTypeAvailable(sourceType)){
             //インスタンス作成(カメラ機能を作成)
@@ -439,6 +446,7 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
     }
     func openLibraryPicture(){
         //カメラロール
+        self.closeImageAlertView()
         let sourceType:UIImagePickerControllerSourceType = UIImagePickerControllerSourceType.PhotoLibrary
         
         if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.PhotoLibrary){
@@ -458,8 +466,6 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
     
     //撮影が完了した際に呼ばれるメソッド
     func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
-        
-        self.closeImageAlertView()
         
         if let pickedImage = info[UIImagePickerControllerOriginalImage] as? UIImage {
             //イメージビューとそれの土台となるビューを作成

@@ -32,7 +32,7 @@ class ImageAlertView: UIView {
     
     func showImageAlertView(){
         //カメラアップロードの方法を選択するアクションシートを表示
-        alertBackView.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.0)
+        alertBackView.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.5)
         
         UIView.animateWithDuration(0.5,
             delay: 0.0,
