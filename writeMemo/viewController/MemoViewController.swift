@@ -293,7 +293,7 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
         textView.text = text
         textView.textColor = color
         textView.font = UIFont(name: "KAWAIITEGAKIMOJI", size: CGFloat(fontSize))
-        textView.backgroundColor = UIColor(red:0.06, green:0.22, blue:0.49, alpha:1.0)
+        textView.backgroundColor = UIColor(red:0.06, green:0.22, blue:0.49, alpha:0.0)
         textView.sizeToFit()
         
         //サイズを調整

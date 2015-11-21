@@ -12,8 +12,6 @@ class TopViewController: UIViewController ,UICollectionViewDataSource,UICollecti
 
     @IBOutlet weak var memoCollectionView: UICollectionView!
     
-    @IBOutlet weak var topNavigationbar: UINavigationBar!
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -38,16 +36,10 @@ class TopViewController: UIViewController ,UICollectionViewDataSource,UICollecti
     }
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+        //メモ画面に遷移
         print("\(indexPath.row)を選択！")
+        performSegueWithIdentifier("openMemo", sender: nil) 
     }
-    
-    @IBAction func open(sender: AnyObject) {
-        let backgroundviewController = BackgroundViewController()
-        let memoViewController = self.storyboard?.instantiateViewControllerWithIdentifier("MemoViewController") as UIViewController!
         
-        backgroundviewController.goNextViewController(fromViewController:self, toViewController: memoViewController)
-        
-    }
-    
 }
 
