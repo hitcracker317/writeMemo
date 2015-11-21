@@ -8,17 +8,28 @@
 
 import UIKit
 
+protocol MemoCollectionViewDelegate: class{
+    func openDeleteAlert()
+}
+
 class MemoCollectionViewCell: UICollectionViewCell {
 
     @IBOutlet weak var memoImage: UIImageView!
     @IBOutlet weak var memoTitle: UILabel!
     
+    weak var delegate:MemoCollectionViewDelegate! = nil
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        
+        self.layer.cornerRadius = 20.0
+        self.clipsToBounds = true
+        self.layer.borderColor = UIColor(red: 2.55, green: 2.55, blue: 2.55, alpha: 1.0).CGColor
+        self.layer.borderWidth = 5
     }
     
-    func setMusicInfo(title title:String,imageURL:String){
+    func setMemoInfo(title title:String,imageURL:String){
         
         memoTitle.text = title //メモタイトルをセット
         
@@ -28,5 +39,8 @@ class MemoCollectionViewCell: UICollectionViewCell {
         
     }
 
+    @IBAction func tapDeleteButton(sender: AnyObject) {
+        self.delegate.openDeleteAlert()
+    }
     
 }

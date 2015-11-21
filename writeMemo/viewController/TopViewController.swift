@@ -8,7 +8,7 @@
 
 import UIKit
 
-class TopViewController: UIViewController ,UICollectionViewDataSource,UICollectionViewDelegate{
+class TopViewController: UIViewController ,UICollectionViewDataSource,UICollectionViewDelegate,MemoCollectionViewDelegate{
 
     @IBOutlet weak var memoCollectionView: UICollectionView!
     
@@ -32,6 +32,7 @@ class TopViewController: UIViewController ,UICollectionViewDataSource,UICollecti
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell = memoCollectionView.dequeueReusableCellWithReuseIdentifier("Cell", forIndexPath: indexPath) as! MemoCollectionViewCell
         cell.memoTitle.text = "メモ\(indexPath.row)"
+        cell.delegate = self
         return cell
     }
     
@@ -39,6 +40,11 @@ class TopViewController: UIViewController ,UICollectionViewDataSource,UICollecti
         //メモ画面に遷移
         print("\(indexPath.row)を選択！")
         performSegueWithIdentifier("openMemo", sender: nil) 
+    }
+    
+    // MARK: - MemoCollectionVewDelegate
+    func openDeleteAlert() {
+        print("削除確認をするアラートビューを表示するよ！")
     }
         
 }
