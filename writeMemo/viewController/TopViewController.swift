@@ -8,19 +8,20 @@
 
 import UIKit
 
-class TopViewController: UIViewController ,UICollectionViewDataSource,UICollectionViewDelegate,MemoCollectionViewDelegate{
+class TopViewController: UIViewController ,UICollectionViewDataSource,UICollectionViewDelegate,MemoCollectionViewDelegate,AlertViewDelegate{
 
     @IBOutlet weak var memoCollectionView: UICollectionView!
+    var deleteAlertView:AlertView = AlertView.instanceView()
+    
+    var selectedIndexPath:NSIndexPath!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         let nib:UINib = UINib(nibName: "MemoCollectionViewCell", bundle: nil)
         memoCollectionView.registerNib(nib, forCellWithReuseIdentifier: "Cell")
-        
     }
 
-    
     func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
         return 1
     }
@@ -42,9 +43,43 @@ class TopViewController: UIViewController ,UICollectionViewDataSource,UICollecti
         performSegueWithIdentifier("openMemo", sender: nil) 
     }
     
+    //カスタムセルに配置したUIButtonのインデックスパスを取得するメソッド
+    func getIndexPath(event:UIEvent) -> NSIndexPath{
+        let touch:UITouch = event.allTouches()!.first! as UITouch
+        let point:CGPoint = touch.locationInView(self.memoCollectionView)
+        let indexPath:NSIndexPath = self.memoCollectionView.indexPathForItemAtPoint(point)!
+        return indexPath
+    }
+    
     // MARK: - MemoCollectionVewDelegate
-    func openDeleteAlert() {
+    func openDeleteAlert(sender: AnyObject,event: UIEvent) {
         print("削除確認をするアラートビューを表示するよ！")
+        
+        selectedIndexPath = self.getIndexPath(event)
+        print("\(selectedIndexPath.row)番目のセルのボタンをタップ")
+        
+        deleteAlertView.frame = CGRectMake(0, 0, self.view.frame.width, self.view.frame.height)
+        deleteAlertView.delegate = self
+        deleteAlertView.showAlertView()
+        let appDelegate:AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        appDelegate.window?.addSubview(deleteAlertView)
+    }
+    
+    // MARK: - AlertViewDelegate
+    func tapYes(view: UIView) {
+        //セルを削除する
+        //TODO:削除したのちはアニメーションを施してセルを整列
+        //memoCollectionView.deleteItemsAtIndexPaths([selectedIndexPath])
+        //memoCollectionView.reloadData()
+        deleteAlertView.closeAlertView()
+        
+    }
+    func tapNo(view: UIView) {
+        //削除しない
+        deleteAlertView.closeAlertView()
+    }
+    func removeAlertView() {
+        deleteAlertView.removeFromSuperview()
     }
         
 }

@@ -125,7 +125,7 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
                 if(CGRectIntersectsRect(self.garbageView.frame, sender.view!.frame)){
                     //削除用のビューに重なっていたらアラートを表示
                     alertView.delegate = self
-                    alertView.pinView = sender.view
+                    alertView.pinView = sender.view!
                     alertView.frame = CGRectMake(0, 0, self.view.frame.width, self.view.frame.height)
                     alertView.showAlertView()
                     let appDelegate:AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate

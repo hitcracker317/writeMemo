@@ -9,7 +9,7 @@
 import UIKit
 
 protocol MemoCollectionViewDelegate: class{
-    func openDeleteAlert()
+    func openDeleteAlert(sender: AnyObject,event: UIEvent)
 }
 
 class MemoCollectionViewCell: UICollectionViewCell {
@@ -39,8 +39,8 @@ class MemoCollectionViewCell: UICollectionViewCell {
         
     }
 
-    @IBAction func tapDeleteButton(sender: AnyObject) {
-        self.delegate.openDeleteAlert()
+    @IBAction func tapDeleteButton(sender: AnyObject,event: UIEvent) {
+        self.delegate.openDeleteAlert(sender,event:event)
     }
     
 }

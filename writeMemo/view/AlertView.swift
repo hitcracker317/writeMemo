@@ -18,7 +18,7 @@ class AlertView: UIView {
     
     weak var delegate:AlertViewDelegate! = nil
     
-    var pinView:UIView!
+    var pinView:UIView = UIView()
     
     @IBOutlet weak var backAlertView: UIView!
     @IBOutlet weak var alertView: UIView!
