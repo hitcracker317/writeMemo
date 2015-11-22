@@ -8,9 +8,11 @@
 
 import UIKit
 
-class TopViewController: UIViewController ,UICollectionViewDataSource,UICollectionViewDelegate,MemoCollectionViewDelegate,AlertViewDelegate{
+class TopViewController: UIViewController ,UICollectionViewDataSource,UICollectionViewDelegate,MemoCollectionViewDelegate,AlertViewDelegate,EditMemoNameViewDelegate{
 
     @IBOutlet weak var memoCollectionView: UICollectionView!
+    
+    var editMemoNameView:EditMemoNameView = EditMemoNameView.instanceView()
     var deleteAlertView:AlertView = AlertView.instanceView()
     
     var selectedIndexPath:NSIndexPath!
@@ -21,7 +23,8 @@ class TopViewController: UIViewController ,UICollectionViewDataSource,UICollecti
         let nib:UINib = UINib(nibName: "MemoCollectionViewCell", bundle: nil)
         memoCollectionView.registerNib(nib, forCellWithReuseIdentifier: "Cell")
     }
-
+    
+    //MARK: - UICollectionViewDelegate
     func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
         return 1
     }
@@ -29,29 +32,53 @@ class TopViewController: UIViewController ,UICollectionViewDataSource,UICollecti
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 10
     }
-    
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell = memoCollectionView.dequeueReusableCellWithReuseIdentifier("Cell", forIndexPath: indexPath) as! MemoCollectionViewCell
         cell.memoTitle.text = "メモ\(indexPath.row)"
         cell.delegate = self
         return cell
     }
-    
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         //メモ画面に遷移
         print("\(indexPath.row)を選択！")
         performSegueWithIdentifier("openMemo", sender: nil) 
     }
-    
-    //カスタムセルに配置したUIButtonのインデックスパスを取得するメソッド
+        
+    // MARK: - EditMemoNameView
+    @IBAction func openEditMemoNameView(sender: AnyObject) {
+        //新規メモを作成するビューを表示
+        editMemoNameView.frame = CGRectMake(0, 0, self.view.frame.width, self.view.frame.height)
+        editMemoNameView.delegate = self
+        editMemoNameView.showAlertView()
+        let appDelegate:AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        appDelegate.window?.addSubview(editMemoNameView)
+    }
+    func tapOK() {
+        //入力した名前を元に新規メモを作成
+        editMemoNameView.closeAlertView()
+        
+        //閉じるアニメーション終了したら画面遷移
+        let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(0.3 * Double(NSEC_PER_SEC)))
+        dispatch_after(delayTime, dispatch_get_main_queue()) {
+            self.performSegueWithIdentifier("openMemo", sender: nil)
+        }
+    }
+    func tapCancel() {
+        //閉じるだけ
+        editMemoNameView.closeAlertView()
+    }
+    func removeEditMemoTitleView(){
+        editMemoNameView.removeFromSuperview()
+    }
+
+    // MARK: - DeleteMemo
     func getIndexPath(event:UIEvent) -> NSIndexPath{
+        //カスタムセルに配置したUIButtonのインデックスパスを取得するメソッド
         let touch:UITouch = event.allTouches()!.first! as UITouch
         let point:CGPoint = touch.locationInView(self.memoCollectionView)
         let indexPath:NSIndexPath = self.memoCollectionView.indexPathForItemAtPoint(point)!
         return indexPath
     }
-    
-    // MARK: - MemoCollectionVewDelegate
     func openDeleteAlert(sender: AnyObject,event: UIEvent) {
         print("削除確認をするアラートビューを表示するよ！")
         
@@ -64,8 +91,6 @@ class TopViewController: UIViewController ,UICollectionViewDataSource,UICollecti
         let appDelegate:AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         appDelegate.window?.addSubview(deleteAlertView)
     }
-    
-    // MARK: - AlertViewDelegate
     func tapYes(view: UIView) {
         //セルを削除する
         //TODO:削除したのちはアニメーションを施してセルを整列

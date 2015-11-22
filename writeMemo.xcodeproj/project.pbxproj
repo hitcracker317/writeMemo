@@ -17,6 +17,8 @@
 		DC5DE37B1BE88E9B0069195B /* background.png in Resources */ = {isa = PBXBuildFile; fileRef = DC5DE37A1BE88E9B0069195B /* background.png */; };
 		DCBE4A9F1BF8B51A00F9C87F /* AlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCBE4A9E1BF8B51A00F9C87F /* AlertView.swift */; };
 		DCBE4AA11BF8B52900F9C87F /* AlertView.xib in Resources */ = {isa = PBXBuildFile; fileRef = DCBE4AA01BF8B52900F9C87F /* AlertView.xib */; };
+		DCD8BD0D1C01C2A3008DD6E0 /* EditMemoNameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCD8BD0C1C01C2A3008DD6E0 /* EditMemoNameView.swift */; };
+		DCD8BD0F1C01C2B3008DD6E0 /* EditMemoNameView.xib in Resources */ = {isa = PBXBuildFile; fileRef = DCD8BD0E1C01C2B3008DD6E0 /* EditMemoNameView.xib */; };
 		DCE83AC31BF3701300C613CC /* KTEGAKI.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DCE83AC11BF36FEA00C613CC /* KTEGAKI.ttf */; };
 		DCE9817E1BFDB09000F65635 /* ImageAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCE9817D1BFDB09000F65635 /* ImageAlertView.swift */; };
 		DCE981801BFDB0A000F65635 /* ImageAlertView.xib in Resources */ = {isa = PBXBuildFile; fileRef = DCE9817F1BFDB0A000F65635 /* ImageAlertView.xib */; };
@@ -60,6 +62,8 @@
 		DC5DE37A1BE88E9B0069195B /* background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = background.png; path = images/background.png; sourceTree = "<group>"; };
 		DCBE4A9E1BF8B51A00F9C87F /* AlertView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AlertView.swift; path = view/AlertView.swift; sourceTree = "<group>"; };
 		DCBE4AA01BF8B52900F9C87F /* AlertView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AlertView.xib; sourceTree = "<group>"; };
+		DCD8BD0C1C01C2A3008DD6E0 /* EditMemoNameView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditMemoNameView.swift; sourceTree = "<group>"; };
+		DCD8BD0E1C01C2B3008DD6E0 /* EditMemoNameView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EditMemoNameView.xib; sourceTree = "<group>"; };
 		DCE83AC11BF36FEA00C613CC /* KTEGAKI.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = KTEGAKI.ttf; path = font/KTEGAKI.ttf; sourceTree = "<group>"; };
 		DCE9817D1BFDB09000F65635 /* ImageAlertView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ImageAlertView.swift; path = view/ImageAlertView.swift; sourceTree = "<group>"; };
 		DCE9817F1BFDB0A000F65635 /* ImageAlertView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ImageAlertView.xib; sourceTree = "<group>"; };
@@ -138,6 +142,8 @@
 				DC498C651BEB3E6C00FD10AD /* DrawOptionView.xib */,
 				DCBE4A9E1BF8B51A00F9C87F /* AlertView.swift */,
 				DCBE4AA01BF8B52900F9C87F /* AlertView.xib */,
+				DCD8BD0C1C01C2A3008DD6E0 /* EditMemoNameView.swift */,
+				DCD8BD0E1C01C2B3008DD6E0 /* EditMemoNameView.xib */,
 				DCF5EA781BF9BE3400BB4911 /* InputTextView.swift */,
 				DCF5EA7A1BF9BE5A00BB4911 /* InputTextView.xib */,
 				DCF5EA7C1BFAFED400BB4911 /* ColorPaletteView.swift */,
@@ -328,6 +334,7 @@
 				DCF4CFC11BE8769B00B0E076 /* LaunchScreen.xib in Resources */,
 				DCBE4AA11BF8B52900F9C87F /* AlertView.xib in Resources */,
 				DC498C6C1BEBA0FF00FD10AD /* thinPen.png in Resources */,
+				DCD8BD0F1C01C2B3008DD6E0 /* EditMemoNameView.xib in Resources */,
 				DCF5EA7B1BF9BE5A00BB4911 /* InputTextView.xib in Resources */,
 				DCF4CFBE1BE8769B00B0E076 /* Images.xcassets in Resources */,
 			);
@@ -403,6 +410,7 @@
 				DCBE4A9F1BF8B51A00F9C87F /* AlertView.swift in Sources */,
 				DCF5EA7D1BFAFED400BB4911 /* ColorPaletteView.swift in Sources */,
 				DCF5EA791BF9BE3400BB4911 /* InputTextView.swift in Sources */,
+				DCD8BD0D1C01C2A3008DD6E0 /* EditMemoNameView.swift in Sources */,
 				DCF4CFB41BE8769B00B0E076 /* AppDelegate.swift in Sources */,
 				DCF4CFB71BE8769B00B0E076 /* writeMemo.xcdatamodeld in Sources */,
 			);
