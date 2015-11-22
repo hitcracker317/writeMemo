@@ -14,7 +14,7 @@ protocol EditMemoNameViewDelegate:class{
     func removeEditMemoTitleView()
 }
 
-class EditMemoNameView: UIView {
+class EditMemoNameView: UIView ,UITextFieldDelegate{
 
     weak var delegate:EditMemoNameViewDelegate! = nil
     
@@ -23,11 +23,15 @@ class EditMemoNameView: UIView {
     @IBOutlet weak var alertView: UIView!
     @IBOutlet weak var backAlertView: UIView!
     
+    @IBOutlet weak var pleaseInputLabel: UILabel!
+    
     class func instanceView() -> EditMemoNameView {
         return UINib(nibName: "EditMemoNameView", bundle: nil).instantiateWithOwner(self, options: nil)[0] as! EditMemoNameView
     }
     
     func showAlertView(){
+        self.titleTextView.delegate = self
+        self.pleaseInputLabel.hidden = true
         self.alertView.alpha = 1.0
         self.backAlertView.backgroundColor = UIColor(red:0.20, green:0.20, blue:0.20, alpha:0.5)
         self.alertView.transform = CGAffineTransformMakeScale(0.8, 0.8)
@@ -54,10 +58,25 @@ class EditMemoNameView: UIView {
     }
 
     @IBAction func tapOK(sender: AnyObject) {
-        self.delegate.tapOK()
+        //タイトルが空だったら警告文を出して先には進めないようにする
+        if(titleTextView.text == ""){
+            pleaseInputLabel.hidden = false
+        } else {
+            self.delegate.tapOK()
+        }
+        
     }
     
     @IBAction func tapCancel(sender: AnyObject) {
         self.delegate.tapCancel()
+    }
+    
+    //MARK: - UITextField
+    func textFieldDidBeginEditing(textField: UITextField) {
+        pleaseInputLabel.hidden = true
+    }
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        titleTextView.resignFirstResponder();
+        return true;
     }
 }
