@@ -9,7 +9,7 @@
 import UIKit
 
 protocol EditMemoNameViewDelegate:class{
-    func tapOK()
+    func tapOK(title:NSString)
     func tapCancel()
     func removeEditMemoTitleView()
 }
@@ -62,7 +62,7 @@ class EditMemoNameView: UIView ,UITextFieldDelegate{
         if(titleTextView.text == ""){
             pleaseInputLabel.hidden = false
         } else {
-            self.delegate.tapOK()
+            self.delegate.tapOK(self.titleTextView.text!)
         }
         
     }

@@ -53,8 +53,11 @@ class TopViewController: UIViewController ,UICollectionViewDataSource,UICollecti
         let appDelegate:AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         appDelegate.window?.addSubview(editMemoNameView)
     }
-    func tapOK() {
+    func tapOK(title:NSString){
         //入力した名前を元に新規メモを作成
+        
+        MemoCRUD.sharedInstance.createEntity(title) //新規にエンティティを作成
+        
         editMemoNameView.closeAlertView()
         
         //閉じるアニメーション終了したら画面遷移

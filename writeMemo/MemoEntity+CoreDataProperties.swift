@@ -14,7 +14,7 @@ import CoreData
 
 extension MemoEntity {
 
-    @NSManaged var mamoTitle: String?
+    @NSManaged var memoTitle: String?
     @NSManaged var memoDrawing: NSData?
     @NSManaged var memoThumbnail: NSData?
     @NSManaged var memoViews: NSData?

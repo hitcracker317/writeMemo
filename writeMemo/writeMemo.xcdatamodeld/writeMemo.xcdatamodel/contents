@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="9057" systemVersion="14F1021" minimumToolsVersion="Automatic">
     <entity name="MemoEntity" representedClassName=".MemoEntity" syncable="YES">
-        <attribute name="mamoTitle" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="memoDrawing" optional="YES" attributeType="Binary" syncable="YES"/>
         <attribute name="memoThumbnail" optional="YES" attributeType="Binary" syncable="YES"/>
+        <attribute name="memoTitle" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="memoViews" optional="YES" attributeType="Binary" syncable="YES"/>
         <attribute name="saveDate" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="tagNumber" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
