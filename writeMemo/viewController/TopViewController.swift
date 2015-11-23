@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreData
 
 class TopViewController: UIViewController ,UICollectionViewDataSource,UICollectionViewDelegate,MemoCollectionViewDelegate,AlertViewDelegate,EditMemoNameViewDelegate{
 
@@ -17,11 +18,21 @@ class TopViewController: UIViewController ,UICollectionViewDataSource,UICollecti
     
     var selectedIndexPath:NSIndexPath!
     
+    var memoArray:NSMutableArray = NSMutableArray() //メモのエンティティを保持する配列
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         let nib:UINib = UINib(nibName: "MemoCollectionViewCell", bundle: nil)
         memoCollectionView.registerNib(nib, forCellWithReuseIdentifier: "Cell")
+        
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        memoArray = MemoCRUD.sharedInstance.readEntitys()
+        memoCollectionView.reloadData()
     }
     
     //MARK: - UICollectionViewDelegate
@@ -30,12 +41,15 @@ class TopViewController: UIViewController ,UICollectionViewDataSource,UICollecti
     }
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 10
+        return memoArray.count
     }
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell = memoCollectionView.dequeueReusableCellWithReuseIdentifier("Cell", forIndexPath: indexPath) as! MemoCollectionViewCell
-        cell.memoTitle.text = "メモ\(indexPath.row)"
+        
+        let memoEntity:MemoEntity = memoArray[indexPath.row] as! MemoEntity
+        cell.memoTitle.text = memoEntity.memoTitle
         cell.delegate = self
+        
         return cell
     }
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
