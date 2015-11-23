@@ -19,6 +19,7 @@ extension MemoEntity {
     @NSManaged var memoThumbnail: NSData?
     @NSManaged var memoViews: NSData?
     @NSManaged var saveDate: NSDate?
-    @NSManaged var tagNumber: NSNumber?
+    @NSManaged var memoID: NSNumber?
+    @NSManaged var viewTagNumber: NSNumber?
 
 }

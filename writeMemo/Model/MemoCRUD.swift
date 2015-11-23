@@ -45,7 +45,39 @@ class MemoCRUD: NSObject {
         return memoEntityArray
     }
     
-    func createEntity(title:NSString){
+    func readMemoEntity(memoID:Int) -> MemoEntity{
+        
+        var memoEntity:MemoEntity!
+        
+        if let managedObjectContext = appdelegate.managedObjectContext{
+            
+            let entity = NSEntityDescription.entityForName("MemoEntity", inManagedObjectContext: managedObjectContext)
+            
+            let fetchRequest = NSFetchRequest(entityName:"MemoEntity")
+            fetchRequest.entity = entity
+            
+            //IDを指定することで、対象のデータを取得
+            let predicate = NSPredicate(format: "%K = %@","memoID",NSNumber(integer: memoID))
+            fetchRequest.predicate = predicate
+                
+            do {
+                //取得完了
+                let results = try managedObjectContext.executeFetchRequest(fetchRequest)
+                
+                for managedObject in results {
+                    print(managedObject)
+                    memoEntity = managedObject as! MemoEntity
+                }
+            } catch let error as NSError {
+                //取得失敗
+                print("Fetch failed: \(error.localizedDescription)")
+            }
+
+        }
+        return memoEntity
+    }
+    
+    func createEntity(title:NSString,id:Int){
         //データモデルを新規に作成
         
         if let managedObjectContext = appdelegate.managedObjectContext{
@@ -56,6 +88,7 @@ class MemoCRUD: NSObject {
             //メモのタイトル、作成した日付
             let memoEntity = managedObject as! MemoEntity
             memoEntity.memoTitle = title as String
+            memoEntity.memoID = id
             memoEntity.saveDate = NSDate()
             
             appdelegate.saveContext() //データの保存処理(これ忘れないでね！)

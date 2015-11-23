@@ -23,9 +23,13 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
     @IBOutlet weak var drawImageView: UIImageView!
     @IBOutlet weak var inputImageView: UIImageView!
     
+    //アラート
+    var alertView:AlertView = AlertView.instanceView()
+    
     //テキスト用の変数
     let inputTextView:InputTextView = InputTextView.instanceInputTextView()
     var tempTextViewCenter:CGPoint!
+    var inputType:InputType = InputType.InputTypeMove //初期inputTypeはmoveにしておく
     
     //ペイント用の変数
     var paintViewIsAppeared:Bool = false
@@ -47,14 +51,21 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
         case InputTypeDelete
     }
     
-    var alertView:AlertView = AlertView.instanceView() //アラートのビュー
-    
-    var inputType:InputType = InputType.InputTypeMove //初期inputTypeはmoveにしておく
+    //CoreData
+    var memoEntity:MemoEntity!
+    var selectedMemoID:Int = 0 //選択したメモのID
+    var totalViewTag:Int = 0 //ビューのタグのトータル値
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         self.initializeDraw()
+        
+        memoEntity = MemoCRUD.sharedInstance.readMemoEntity(selectedMemoID) //選択したメモのエンティティを取得する
+        print("メモのタイトル:\(memoEntity.memoTitle)")
+        
+        self.navigationItem.title = memoEntity.memoTitle
     }
     
     // MARK: - touchInteraction
@@ -64,10 +75,8 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
             let t:UITouch = touch as! UITouch
             if(isDrawViewTouchEnabled){
                 touchBeganPoint = t.locationInView(drawImageView)
-                //println("drawImageViewのタッチした座標:\(touchBeganPoint)")
             } else {
                 touchBeganPoint = t.locationInView(inputImageView)
-                //println("inputImageViewのタッチした座標:\(touchBeganPoint)")
             }
             
             if(inputType == InputType.InputTypeText){
@@ -81,20 +90,14 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
         let touch = touches.first as UITouch!
         if(isDrawViewTouchEnabled){
             movePoint = touch.locationInView(drawImageView) //drawImageViewの移動した先の座標を取得
-            //println("drawImageViewの移動先の座標:\(movePoint)")
         } else {
             movePoint = touch.locationInView(inputImageView) //inputImageViewの移動した先の座標を取得
-            //println("inputImageViewの移動先の座標:\(movePoint)")
         }
         
         if(inputType == InputType.InputTypePaint){
             //ペイント操作
             self.drawPaint()
         }
-    }
-    
-    override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        super.touchesEnded(touches, withEvent: event)
     }
     
     // MARK: - UIGestureRecognizer

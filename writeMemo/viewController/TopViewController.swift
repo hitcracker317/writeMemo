@@ -16,9 +16,13 @@ class TopViewController: UIViewController ,UICollectionViewDataSource,UICollecti
     var editMemoNameView:EditMemoNameView = EditMemoNameView.instanceView()
     var deleteAlertView:AlertView = AlertView.instanceView()
     
-    var selectedIndexPath:NSIndexPath!
+    var deleteIndexPath:NSIndexPath!
     
+    var selectedMemoEntity:MemoEntity! //メモのエンティティ
     var memoArray:NSMutableArray = NSMutableArray() //メモのエンティティを保持する配列
+    var totalMemoID:Int = 0
+    
+    var transitionNewMemo:Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,6 +30,8 @@ class TopViewController: UIViewController ,UICollectionViewDataSource,UICollecti
         let nib:UINib = UINib(nibName: "MemoCollectionViewCell", bundle: nil)
         memoCollectionView.registerNib(nib, forCellWithReuseIdentifier: "Cell")
         
+        let ud:NSUserDefaults = NSUserDefaults.standardUserDefaults()
+        totalMemoID = ud.integerForKey("totalMemoID")
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -55,9 +61,26 @@ class TopViewController: UIViewController ,UICollectionViewDataSource,UICollecti
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         //メモ画面に遷移
         print("\(indexPath.row)を選択！")
-        performSegueWithIdentifier("openMemo", sender: nil) 
-    }
         
+        selectedMemoEntity = memoArray[indexPath.row] as! MemoEntity
+        performSegueWithIdentifier("openMemo", sender: nil)
+    }
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if(segue.identifier == "openMemo"){
+            let controller = segue.destinationViewController as! MemoViewController
+            
+            if(transitionNewMemo){
+                //新規作成をしたときは現在のtotalMemoIDをmemoViewControllerに受け渡す
+                controller.selectedMemoID = totalMemoID
+            } else {
+                //セルを選択したときはセルのエンティティが持つID値を受け渡す
+                controller.selectedMemoID = Int(selectedMemoEntity.memoID!)
+            }
+        }
+    }
+    
+    
     // MARK: - EditMemoNameView
     @IBAction func openEditMemoNameView(sender: AnyObject) {
         //新規メモを作成するビューを表示
@@ -69,8 +92,14 @@ class TopViewController: UIViewController ,UICollectionViewDataSource,UICollecti
     }
     func tapOK(title:NSString){
         //入力した名前を元に新規メモを作成
+        transitionNewMemo = true
         
-        MemoCRUD.sharedInstance.createEntity(title) //新規にエンティティを作成
+        totalMemoID++
+        MemoCRUD.sharedInstance.createEntity(title, id: totalMemoID) //新規にエンティティを作成
+        
+        let ud = NSUserDefaults.standardUserDefaults()
+        ud.setInteger(totalMemoID, forKey: "totalMemoID")
+        ud.synchronize()
         
         editMemoNameView.closeAlertView()
         
@@ -96,11 +125,12 @@ class TopViewController: UIViewController ,UICollectionViewDataSource,UICollecti
         let indexPath:NSIndexPath = self.memoCollectionView.indexPathForItemAtPoint(point)!
         return indexPath
     }
+    
     func openDeleteAlert(sender: AnyObject,event: UIEvent) {
         print("削除確認をするアラートビューを表示するよ！")
         
-        selectedIndexPath = self.getIndexPath(event)
-        print("\(selectedIndexPath.row)番目のセルのボタンをタップ")
+        deleteIndexPath = self.getIndexPath(event)
+        print("\(deleteIndexPath.row)番目のセルのボタンをタップ")
         
         deleteAlertView.frame = CGRectMake(0, 0, self.view.frame.width, self.view.frame.height)
         deleteAlertView.delegate = self
@@ -108,18 +138,20 @@ class TopViewController: UIViewController ,UICollectionViewDataSource,UICollecti
         let appDelegate:AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         appDelegate.window?.addSubview(deleteAlertView)
     }
+    
     func tapYes(view: UIView) {
         //セルを削除する
         //TODO:削除したのちはアニメーションを施してセルを整列
         //memoCollectionView.deleteItemsAtIndexPaths([selectedIndexPath])
         //memoCollectionView.reloadData()
         deleteAlertView.closeAlertView()
-        
     }
+    
     func tapNo(view: UIView) {
         //削除しない
         deleteAlertView.closeAlertView()
     }
+    
     func removeAlertView() {
         deleteAlertView.removeFromSuperview()
     }
