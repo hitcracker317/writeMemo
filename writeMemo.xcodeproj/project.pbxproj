@@ -15,6 +15,8 @@
 		DC498C6C1BEBA0FF00FD10AD /* thinPen.png in Resources */ = {isa = PBXBuildFile; fileRef = DC498C691BEBA0FF00FD10AD /* thinPen.png */; };
 		DC5DE3791BE88CEE0069195B /* MemoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC5DE3781BE88CEE0069195B /* MemoViewController.swift */; };
 		DC5DE37B1BE88E9B0069195B /* background.png in Resources */ = {isa = PBXBuildFile; fileRef = DC5DE37A1BE88E9B0069195B /* background.png */; };
+		DCB621AF1C02E0EB004287A3 /* MemoEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCB621AD1C02E0EB004287A3 /* MemoEntity+CoreDataProperties.swift */; };
+		DCB621B01C02E0EB004287A3 /* MemoEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCB621AE1C02E0EB004287A3 /* MemoEntity.swift */; };
 		DCBE4A9F1BF8B51A00F9C87F /* AlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCBE4A9E1BF8B51A00F9C87F /* AlertView.swift */; };
 		DCBE4AA11BF8B52900F9C87F /* AlertView.xib in Resources */ = {isa = PBXBuildFile; fileRef = DCBE4AA01BF8B52900F9C87F /* AlertView.xib */; };
 		DCD8BD0D1C01C2A3008DD6E0 /* EditMemoNameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCD8BD0C1C01C2A3008DD6E0 /* EditMemoNameView.swift */; };
@@ -60,13 +62,15 @@
 		DC498C691BEBA0FF00FD10AD /* thinPen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = thinPen.png; path = images/thinPen.png; sourceTree = "<group>"; };
 		DC5DE3781BE88CEE0069195B /* MemoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MemoViewController.swift; path = viewController/MemoViewController.swift; sourceTree = "<group>"; };
 		DC5DE37A1BE88E9B0069195B /* background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = background.png; path = images/background.png; sourceTree = "<group>"; };
+		DCB621AD1C02E0EB004287A3 /* MemoEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MemoEntity+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		DCB621AE1C02E0EB004287A3 /* MemoEntity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MemoEntity.swift; sourceTree = "<group>"; };
 		DCBE4A9E1BF8B51A00F9C87F /* AlertView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AlertView.swift; path = view/AlertView.swift; sourceTree = "<group>"; };
-		DCBE4AA01BF8B52900F9C87F /* AlertView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AlertView.xib; sourceTree = "<group>"; };
-		DCD8BD0C1C01C2A3008DD6E0 /* EditMemoNameView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditMemoNameView.swift; sourceTree = "<group>"; };
-		DCD8BD0E1C01C2B3008DD6E0 /* EditMemoNameView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EditMemoNameView.xib; sourceTree = "<group>"; };
+		DCBE4AA01BF8B52900F9C87F /* AlertView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = AlertView.xib; path = view/AlertView.xib; sourceTree = "<group>"; };
+		DCD8BD0C1C01C2A3008DD6E0 /* EditMemoNameView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EditMemoNameView.swift; path = view/EditMemoNameView.swift; sourceTree = "<group>"; };
+		DCD8BD0E1C01C2B3008DD6E0 /* EditMemoNameView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = EditMemoNameView.xib; path = view/EditMemoNameView.xib; sourceTree = "<group>"; };
 		DCE83AC11BF36FEA00C613CC /* KTEGAKI.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = KTEGAKI.ttf; path = font/KTEGAKI.ttf; sourceTree = "<group>"; };
 		DCE9817D1BFDB09000F65635 /* ImageAlertView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ImageAlertView.swift; path = view/ImageAlertView.swift; sourceTree = "<group>"; };
-		DCE9817F1BFDB0A000F65635 /* ImageAlertView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ImageAlertView.xib; sourceTree = "<group>"; };
+		DCE9817F1BFDB0A000F65635 /* ImageAlertView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ImageAlertView.xib; path = view/ImageAlertView.xib; sourceTree = "<group>"; };
 		DCF13C0C1BE9CD5800880FD6 /* MemoCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MemoCollectionViewCell.swift; path = view/MemoCollectionViewCell.swift; sourceTree = "<group>"; };
 		DCF13C0D1BE9CD5800880FD6 /* MemoCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MemoCollectionViewCell.xib; path = view/MemoCollectionViewCell.xib; sourceTree = "<group>"; };
 		DCF13C121BE9E01400880FD6 /* memoImage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = memoImage.png; path = images/memoImage.png; sourceTree = "<group>"; };
@@ -82,7 +86,7 @@
 		DCF4CFCB1BE8769C00B0E076 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DCF4CFCC1BE8769C00B0E076 /* writeMemoTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = writeMemoTests.swift; sourceTree = "<group>"; };
 		DCF5EA781BF9BE3400BB4911 /* InputTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InputTextView.swift; path = view/InputTextView.swift; sourceTree = "<group>"; };
-		DCF5EA7A1BF9BE5A00BB4911 /* InputTextView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = InputTextView.xib; sourceTree = "<group>"; };
+		DCF5EA7A1BF9BE5A00BB4911 /* InputTextView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = InputTextView.xib; path = view/InputTextView.xib; sourceTree = "<group>"; };
 		DCF5EA7C1BFAFED400BB4911 /* ColorPaletteView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ColorPaletteView.swift; path = view/ColorPaletteView.swift; sourceTree = "<group>"; };
 		EEBF483615C569B483F57856 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -123,6 +127,15 @@
 				CFB2C7E3E2B5ECBBE6308B65 /* libPods.a */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		DCB621A41C02DF0A004287A3 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				DCB621AD1C02E0EB004287A3 /* MemoEntity+CoreDataProperties.swift */,
+				DCB621AE1C02E0EB004287A3 /* MemoEntity.swift */,
+			);
+			name = Model;
 			sourceTree = "<group>";
 		};
 		DCE83ABE1BF32C8700C613CC /* fonts */ = {
@@ -191,6 +204,7 @@
 				DCF4CFB31BE8769B00B0E076 /* AppDelegate.swift */,
 				DCF4CFBA1BE8769B00B0E076 /* Main.storyboard */,
 				DCF4CFD81BE8825400B0E076 /* viewController */,
+				DCB621A41C02DF0A004287A3 /* Model */,
 				DCF13C101BE9CD6400880FD6 /* view */,
 				DCF4CFBD1BE8769B00B0E076 /* Images.xcassets */,
 				DCE83ABE1BF32C8700C613CC /* fonts */,
@@ -410,6 +424,8 @@
 				DCBE4A9F1BF8B51A00F9C87F /* AlertView.swift in Sources */,
 				DCF5EA7D1BFAFED400BB4911 /* ColorPaletteView.swift in Sources */,
 				DCF5EA791BF9BE3400BB4911 /* InputTextView.swift in Sources */,
+				DCB621B01C02E0EB004287A3 /* MemoEntity.swift in Sources */,
+				DCB621AF1C02E0EB004287A3 /* MemoEntity+CoreDataProperties.swift in Sources */,
 				DCD8BD0D1C01C2A3008DD6E0 /* EditMemoNameView.swift in Sources */,
 				DCF4CFB41BE8769B00B0E076 /* AppDelegate.swift in Sources */,
 				DCF4CFB71BE8769B00B0E076 /* writeMemo.xcdatamodeld in Sources */,
