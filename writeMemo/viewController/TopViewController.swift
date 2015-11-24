@@ -37,6 +37,9 @@ class TopViewController: UIViewController ,UICollectionViewDataSource,UICollecti
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
+        //初期化
+        transitionNewMemo = false
+        
         memoArray = MemoCRUD.sharedInstance.readEntitys()
         memoCollectionView.reloadData()
     }

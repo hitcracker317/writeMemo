@@ -53,6 +53,7 @@ class EditMemoNameView: UIView ,UITextFieldDelegate{
                     self.alertView.transform = CGAffineTransformMakeScale(0.8, 0.8)
                     }, completion: {(BOOL) -> Void in
                         self.delegate.removeEditMemoTitleView()
+                        self.titleTextView.text = ""
                 })
         })
     }
