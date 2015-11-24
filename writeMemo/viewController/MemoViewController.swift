@@ -55,7 +55,7 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
     var memoEntity:MemoEntity!
     var selectedMemoID:Int = 0 //選択したメモのID
     var totalViewTag:Int = 0 //ビューのタグのトータル値
-
+    var viewsDictionary:NSMutableDictionary = NSMutableDictionary() //配置したビューを格納する配列
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -66,6 +66,13 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
         print("メモのタイトル:\(memoEntity.memoTitle)")
         
         self.navigationItem.title = memoEntity.memoTitle
+        self.totalViewTag = Int(memoEntity.viewTagNumber!) //viewのタグ数
+    
+        if (memoEntity.memoViews != nil){
+            //memoEntity.memoViewsがnilだとクラッシュするのでnilじゃなときのみ処理を入れる
+            viewsDictionary = NSKeyedUnarchiver.unarchiveObjectWithData(memoEntity.memoViews!)! as! NSMutableDictionary //画面に生成したviewを格納するdictionary
+        }
+        
     }
     
     // MARK: - touchInteraction
@@ -119,8 +126,6 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
             sender.view!.layer.shadowOffset = CGSizeMake(-7, 7) //左下に影をつける
             sender.view!.layer.shadowRadius = 5
             sender.view!.layer.shadowOpacity = 0.6
-            
-            print("タグ：\(sender.view?.tag)をつけたビューを移動してます")
             
             if(sender.state == .Ended){
                 sender.view!.layer.shadowOpacity = 0.0 //ドラッグ終了したら影を非表示
@@ -191,7 +196,14 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
     // MARK: - delegateAlertViewDelegate
     func tapYes(view: UIView) {
         print("ドラッグしたビューを削除")
+        
+        //viewをdictionaryから削除
+        let viewTagkey:NSString = "タグ\(view.tag)"
         view.removeFromSuperview()
+        viewsDictionary.removeObjectForKey(viewTagkey)
+        
+        //TODO:削除したdictionaryを保存
+        
         alertView.closeAlertView()
         self.disappearGarbageView()
     }
@@ -276,18 +288,18 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
     
     // MARK: - InputTextVewDelegate
     func createTextView(text: String, color: UIColor, fontSize: Float) {
-        //タップした箇所に新しくテキストビューを生成する
+        //タップした箇所に新規にテキストビューを生成する
         self.inputTextView.removeFromSuperview()
-        self.addTextView(text, color: color, fontSize: fontSize)
+        self.addTextView(text, color: color, fontSize: fontSize, isNewTextView: true, textViewTag: 0)
     }
     func editTextView(text: String, color: UIColor, fontSize: Float, textView: UITextView) {
-        //テキストビューを変更
+        //テキストビューを編集
         self.inputTextView.removeFromSuperview()
+        self.addTextView(text, color: color, fontSize: fontSize, isNewTextView: false,textViewTag: textView.tag)
         textView.removeFromSuperview()
-        self.addTextView(text, color: color, fontSize: fontSize)
     }
 
-    func addTextView(text: String, color: UIColor, fontSize: Float){
+    func addTextView(text: String, color: UIColor, fontSize: Float, isNewTextView:Bool, textViewTag:Int){
         let textView:UITextView = UITextView(frame: CGRectMake(0, 0, 0, 0))
         textView.editable = false
         textView.selectable = false
@@ -319,6 +331,22 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
         textView.addGestureRecognizer(rotateGesture)
         
         if textView.text != "" {
+            //文字列が空のときにはテキストを生成しない
+            
+            if(isNewTextView){
+                //新規にviewを生成する場合はタグをカウントアップしてviewを生成
+                totalViewTag++
+                textView.tag = totalViewTag
+            } else {
+                //編集した場合は編集前のタグを保持しておいて、そちらを再度生成するビューのタグにセット
+                textView.tag = textViewTag
+            }
+            
+            let viewTagKey:NSString = "タグ\(textView.tag)"
+            viewsDictionary[viewTagKey] = textView //dictionaryにビューを追加 or 中身を差し替え
+            
+            //TODO:メモの内容を保存(タグのトータル値も)
+            
             inputImageView.addSubview(textView)
         }
     }
@@ -485,6 +513,14 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
             imageView.contentMode = .ScaleAspectFill
             imageView.clipsToBounds = true
             baseView.addSubview(imageView)
+            
+            //ビューにタグを付与してdictionary
+            totalViewTag++
+            baseView.tag = totalViewTag
+            let viewTagKey = "タグ\(baseView.tag)"
+            viewsDictionary[viewTagKey] = baseView
+            
+            //TODO:セーブ(タグのトータル値も)
             
             //UIGestureを登録(移動、拡大縮小、回転)
             let movePan:UIPanGestureRecognizer = UIPanGestureRecognizer(target: self, action: "moveView:")
