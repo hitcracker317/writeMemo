@@ -71,6 +71,33 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
         if (memoEntity.memoViews != nil){
             //memoEntity.memoViewsがnilだとクラッシュするのでnilじゃなときのみ処理を入れる
             viewsDictionary = NSKeyedUnarchiver.unarchiveObjectWithData(memoEntity.memoViews!)! as! NSMutableDictionary //画面に生成したviewを格納するdictionary
+            
+            //TODO:すべてのビューを列挙
+            for(key,someViews) in viewsDictionary {
+                let someView:UIView = someViews as! UIView
+                inputImageView.addSubview(someView)
+                
+                //TODO:画像のボーダーが保持されていないかもしれない
+                //TODO:画像が逆さま
+                
+                //TODO:keyの値をチェック!!!
+                if(key.containsString("イメージ")){
+                    //イメージビューのとき
+                }
+                
+                
+                //TODO:画像の移動、回転、拡大が消えている
+                
+                //TODO:テキストのタップ、移動、回転が消えている
+            }
+        }
+        
+        if(drawImageView.image == nil){
+            //drawImageViewの初期化
+            drawImageView.image = UIGraphicsGetImageFromCurrentImageContext()
+        }
+        if(memoEntity.memoDrawing != nil){
+            drawImageView.image = UIImage(data: memoEntity.memoDrawing!)
         }
         
     }
@@ -141,6 +168,8 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
                 } else {
                     //削除用のビューに重ならなかったら
                     self.disappearGarbageView() //削除用のビューを非表示
+                    
+                    //TODO:セーブ
                 }
             }
         }
@@ -342,10 +371,11 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
                 textView.tag = textViewTag
             }
             
-            let viewTagKey:NSString = "タグ\(textView.tag)"
+            let viewTagKey:NSString = "テキストタグ\(textView.tag)"
             viewsDictionary[viewTagKey] = textView //dictionaryにビューを追加 or 中身を差し替え
             
             //TODO:メモの内容を保存(タグのトータル値も)
+            MemoCRUD.sharedInstance.saveEntity(selectedMemoID, memoViews: viewsDictionary, viewTagNumber: totalViewTag, memoDrawingImageView: drawImageView, memoThumbnailImageView: drawImageView)
             
             inputImageView.addSubview(textView)
         }
@@ -505,9 +535,18 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
             baseView.frame = CGRectMake(inputImageView.frame.size.width/2 - 110, inputImageView.frame.size.height/2 - 110, 210, 210)
             baseView.backgroundColor = UIColor(red:1.00, green:1.00, blue:1.00, alpha:1.0)
             baseView.layer.borderWidth = 1.5
+            
+            //UIGestureを登録(移動、拡大縮小、回転)
+            let movePan:UIPanGestureRecognizer = UIPanGestureRecognizer(target: self, action: "moveView:")
+            let pinchPan:UIPinchGestureRecognizer = UIPinchGestureRecognizer(target: self, action: "pinchView:")
+            let rotatePan:UIRotationGestureRecognizer = UIRotationGestureRecognizer(target: self, action: "rotateView:")
+            baseView.addGestureRecognizer(movePan)
+            baseView.addGestureRecognizer(pinchPan)
+            baseView.addGestureRecognizer(rotatePan)
+
             inputImageView.addSubview(baseView)
             
-            let imageView = UIImageView()
+            let imageView:UIImageView = UIImageView()
             imageView.frame = CGRectMake(5, 5, 200, 200)
             imageView.image = pickedImage
             imageView.contentMode = .ScaleAspectFill
@@ -517,18 +556,11 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
             //ビューにタグを付与してdictionary
             totalViewTag++
             baseView.tag = totalViewTag
-            let viewTagKey = "タグ\(baseView.tag)"
+            let viewTagKey = "イメージタグ\(baseView.tag)"
             viewsDictionary[viewTagKey] = baseView
             
             //TODO:セーブ(タグのトータル値も)
-            
-            //UIGestureを登録(移動、拡大縮小、回転)
-            let movePan:UIPanGestureRecognizer = UIPanGestureRecognizer(target: self, action: "moveView:")
-            let pinchPan:UIPinchGestureRecognizer = UIPinchGestureRecognizer(target: self, action: "pinchView:")
-            let rotatePan:UIRotationGestureRecognizer = UIRotationGestureRecognizer(target: self, action: "rotateView:")
-            baseView.addGestureRecognizer(movePan)
-            baseView.addGestureRecognizer(pinchPan)
-            baseView.addGestureRecognizer(rotatePan)
+            MemoCRUD.sharedInstance.saveEntity(selectedMemoID, memoViews: viewsDictionary, viewTagNumber: totalViewTag, memoDrawingImageView: drawImageView, memoThumbnailImageView: drawImageView)
             
             if(picker.sourceType == .Camera){
                 //カメラで撮影した写真は端末に保存する
