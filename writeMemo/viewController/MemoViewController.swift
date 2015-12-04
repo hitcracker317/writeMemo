@@ -310,7 +310,7 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
         let selectedTextView:UITextView = sender.view as! UITextView
         inputTextView.showEditInputTextView(selectedTextView)
         inputTextView.inputTextViewDelegate = self
-        tempTextViewCenter = touchBeganPoint
+        tempTextViewCenter = sender.view?.center
         let appDelegate:AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         appDelegate.window?.addSubview(inputTextView)
     }
