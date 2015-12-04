@@ -1,20 +1,24 @@
-_Store
-*.swp
-*~.nib
- 
+### Xcode ###
+# Xcode
+#
+# gitignore contributors: remember to update Global/Xcode.gitignore, Objective-C.gitignore & Swift.gitignore
+
+## Build generated
 build/
- 
-# Xcode project files except for the project file
-#*.xcodeproj/*
-#!*.xcodeproj/project.pbxproj
- 
+DerivedData
+
+## Various settings
 *.pbxuser
-*.perspective
+!default.pbxuser
+*.mode1v3
+!default.mode1v3
+*.mode2v3
+!default.mode2v3
 *.perspectivev3
- 
-#!xcuserdata/
-#*.xcuserstate
-UserInterfaceState.xcuserstate
- 
-# Windows image thumbnail file
-Thumbs.db
+!default.perspectivev3
+xcuserdata
+
+## Other
+*.xccheckout
+*.moved-aside
+*.xcuserstate
