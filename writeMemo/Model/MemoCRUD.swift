@@ -10,7 +10,7 @@ import UIKit
 import CoreData
 
 class MemoCRUD: NSObject {
-    static let sharedInstance = MemoCRUD()
+    static let sharedInstance:MemoCRUD = MemoCRUD() //シングルトン
     
     let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
     

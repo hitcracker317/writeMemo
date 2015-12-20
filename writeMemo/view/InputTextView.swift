@@ -30,7 +30,7 @@ class InputTextView: UIView ,UITextViewDelegate,ColorPalletViewDelegate{
     
     let colorPalletView:ColorPaletteView = ColorPaletteView()
     let fontSizeSlider = UISlider()
-    var editSliderValue:Float = 0 //テキストビューを再編集するときのためにスライダーの値を保持
+     var editSliderValue:CGFloat = 0 //テキストビューを再編集するときのためにスライダーの値を保持
     
     var isCreateNewTextView:ObjCBool = true
     var memoViewControllerTextView:UITextView = UITextView()
@@ -46,7 +46,7 @@ class InputTextView: UIView ,UITextViewDelegate,ColorPalletViewDelegate{
         
         self.inputTextView.text = ""
         self.inputTextView.textColor = UIColor(red:0.00, green:0.00, blue:0.00, alpha:1.0)
-        self.inputTextView.font = UIFont(name: "KAWAIITEGAKIMOJI", size: 25)
+        self.inputTextView.font = UIFont(name: "HiraginoSans-W3", size: 25)
         
         let notificationCenter = NSNotificationCenter.defaultCenter()
         notificationCenter.addObserver(self, selector: "showKeyboard:", name: UIKeyboardDidShowNotification, object: nil)
@@ -69,7 +69,8 @@ class InputTextView: UIView ,UITextViewDelegate,ColorPalletViewDelegate{
         self.inputTextView.textColor = textView.textColor
         self.inputTextView.font = textView.font
         
-        fontSizeSlider.value = self.editSliderValue
+        fontSizeSlider.value = Float(self.editSliderValue)
+        fontSizeSlider.minimumTrackTintColor = inputTextView.textColor
         
         let notificationCenter = NSNotificationCenter.defaultCenter()
         notificationCenter.addObserver(self, selector: "showKeyboard:", name: UIKeyboardDidShowNotification, object: nil)
@@ -183,14 +184,14 @@ class InputTextView: UIView ,UITextViewDelegate,ColorPalletViewDelegate{
     }
     func changeFontSize(sender:UISlider){
         //スライダーの位置に応じてフォントサイズを変更
-        inputTextView.font = UIFont(name: "KAWAIITEGAKIMOJI", size: CGFloat(sender.value))
+        inputTextView.font = UIFont(name:"HiraginoSans-W3", size: CGFloat(sender.value))
     }
     
     func finishEditText(sender:UIButton){
         print("テキストの編集を終了")
         //テキストの編集を終了してキーボードを閉じる
         self.endEditing(true);
-        self.editSliderValue = self.fontSizeSlider.value
+        self.editSliderValue = CGFloat(self.fontSizeSlider.value)
         
         //閉じる
         UIView.animateWithDuration(0.2, delay: 0, options: UIViewAnimationOptions.CurveEaseOut, animations: { () -> Void in

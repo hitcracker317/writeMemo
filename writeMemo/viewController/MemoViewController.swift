@@ -81,14 +81,22 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
                 //TODO:画像が逆さま
                 
                 //TODO:keyの値をチェック!!!
-                if(key.containsString("イメージ")){
-                    //イメージビューのとき
+                if(key.containsString("テキスト")){
+                    //テキストビューのとき
+                    //TODO:テキストのタップ、移動、回転が消えている
+                    let tapGesture:UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: "tapView:")
+                    let moveGesture:UIPanGestureRecognizer = UIPanGestureRecognizer(target: self, action: "moveView:")
+                    let rotateGesture:UIRotationGestureRecognizer = UIRotationGestureRecognizer(target: self, action: "rotateView:")
+                    someView.addGestureRecognizer(tapGesture)
+                    someView.addGestureRecognizer(moveGesture)
+                    someView.addGestureRecognizer(rotateGesture)
                 }
-                
-                
-                //TODO:画像の移動、回転、拡大が消えている
-                
-                //TODO:テキストのタップ、移動、回転が消えている
+
+                if(key.containsString("イメージ")){
+                    //画像のとき
+                    //TODO:画像の移動、回転、拡大が消えている
+                    
+                }
             }
         }
         
@@ -308,6 +316,7 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
     func tapView(sender:UITapGestureRecognizer){
         //配置したテキストビューをタップしたときは再編集
         let selectedTextView:UITextView = sender.view as! UITextView
+        inputTextView.editSliderValue = (selectedTextView.font?.pointSize)! //タップしたラベルのフォントサイズを受け渡す。
         inputTextView.showEditInputTextView(selectedTextView)
         inputTextView.inputTextViewDelegate = self
         tempTextViewCenter = sender.view?.center
@@ -331,12 +340,12 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
     func addTextView(text: String, color: UIColor, fontSize: Float, isNewTextView:Bool, textViewTag:Int){
         let textView:UITextView = UITextView(frame: CGRectMake(0, 0, 0, 0))
         textView.editable = false
-        textView.selectable = false
+        textView.selectable = true
         textView.scrollEnabled = false
         textView.textAlignment = .Center
         textView.text = text
         textView.textColor = color
-        textView.font = UIFont(name: "KAWAIITEGAKIMOJI", size: CGFloat(fontSize))
+        textView.font = UIFont(name: "HiraginoSans-W3", size: CGFloat(fontSize))
         textView.backgroundColor = UIColor(red:0.06, green:0.22, blue:0.49, alpha:0.0)
         textView.sizeToFit()
         
