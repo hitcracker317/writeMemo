@@ -12,7 +12,7 @@ import CoreData
 class MemoCRUD: NSObject {
     static let sharedInstance:MemoCRUD = MemoCRUD() //シングルトン
     
-    let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+    let appDelegate = UIApplication.shared.delegate as! AppDelegate
     
     //MARK: - READ
     func readEntitys() -> NSMutableArray{
@@ -22,12 +22,13 @@ class MemoCRUD: NSObject {
         
         if let managedObjectContext = appDelegate.managedObjectContext{
             
-            let entity = NSEntityDescription.entityForName("MemoEntity", inManagedObjectContext: managedObjectContext)
-            let fetchRequest:NSFetchRequest = NSFetchRequest(entityName: "MemoEntity")
-            fetchRequest.entity = entity
+            let entity = NSEntityDescription.entity(forEntityName: "MemoEntity", in: managedObjectContext)
+            //let fetchRequest:NSFetchRequest = NSFetchRequest(entityName: "MemoEntity")
+            //fetchRequest.entity = entity
             
             
             //フェッチリクエスト(データの検索と取得処理)の実行
+            /*
             do {
                 //取得完了
                 let results = try managedObjectContext.executeFetchRequest(fetchRequest)
@@ -41,6 +42,7 @@ class MemoCRUD: NSObject {
                 //取得失敗
                 print("Fetch failed: \(error.localizedDescription)")
             }
+            */
         }
         return memoEntityArray
     }
@@ -51,18 +53,18 @@ class MemoCRUD: NSObject {
         
         if let managedObjectContext = appDelegate.managedObjectContext{
             
-            let entity = NSEntityDescription.entityForName("MemoEntity", inManagedObjectContext: managedObjectContext)
+            let entity = NSEntityDescription.entity(forEntityName: "MemoEntity", in: managedObjectContext)
             
-            let fetchRequest = NSFetchRequest(entityName:"MemoEntity")
+            let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName:"MemoEntity")
             fetchRequest.entity = entity
             
             //IDを指定することで、対象のデータを取得
-            let predicate = NSPredicate(format: "%K = %@","memoID",NSNumber(integer: memoID))
+            let predicate = NSPredicate(format: "%K = %@","memoID",NSNumber(value: memoID))
             fetchRequest.predicate = predicate
                 
             do {
                 //取得完了
-                let results = try managedObjectContext.executeFetchRequest(fetchRequest)
+                let results = try managedObjectContext.fetch(fetchRequest)
                 
                 for managedObject in results {
                     print(managedObject)
@@ -84,12 +86,12 @@ class MemoCRUD: NSObject {
         if let managedObjectContext = appDelegate.managedObjectContext{
         
             //新しくデータを作成するためのEntityを作成
-            let managedObject:AnyObject = NSEntityDescription.insertNewObjectForEntityForName("MemoEntity", inManagedObjectContext: managedObjectContext)
+            let managedObject:AnyObject = NSEntityDescription.insertNewObject(forEntityName: "MemoEntity", into: managedObjectContext)
         
             //メモのタイトル、作成した日付
             let memoEntity = managedObject as! MemoEntity
             memoEntity.memoTitle = title as String
-            memoEntity.memoID = id
+            memoEntity.memoID = id as NSNumber
             memoEntity.saveDate = NSDate()
             
             appDelegate.saveContext()
@@ -103,30 +105,30 @@ class MemoCRUD: NSObject {
         var memoEntity:MemoEntity!
         
         if let managedObjectContext = appDelegate.managedObjectContext{
-             let entityDiscription = NSEntityDescription.entityForName("MemoEntity", inManagedObjectContext: managedObjectContext)
-            let fetchRequest = NSFetchRequest();
+            let entityDiscription = NSEntityDescription.entity(forEntityName: "MemoEntity", in: managedObjectContext)
+            let fetchRequest = NSFetchRequest<NSFetchRequestResult>();
             fetchRequest.entity = entityDiscription;
-            let predicate = NSPredicate(format: "%K = %@", "memoID", NSNumber(integer:memoID))
+            let predicate = NSPredicate(format: "%K = %@", "memoID", NSNumber(value:memoID))
             fetchRequest.predicate = predicate
             
             do {
                 //取得完了
-                let results = try managedObjectContext.executeFetchRequest(fetchRequest)
+                let results = try managedObjectContext.fetch(fetchRequest)
                 
                 for managedObject in results {
                     print(managedObject)
                     memoEntity = managedObject as! MemoEntity
                     
                     memoEntity.saveDate = NSDate() //最後に更新した日時
-                    memoEntity.memoViews = NSKeyedArchiver.archivedDataWithRootObject(memoViews) //メモのビュー
-                    memoEntity.viewTagNumber = viewTagNumber //ビューのタグの総数
+                    memoEntity.memoViews = NSKeyedArchiver.archivedData(withRootObject: memoViews) as NSData //メモのビュー
+                    memoEntity.viewTagNumber = viewTagNumber as NSNumber //ビューのタグの総数
                     
                     if(memoDrawingImageView.image != nil){
-                        memoEntity.memoDrawing = UIImagePNGRepresentation(memoDrawingImageView.image!) //ペイントした絵
+                        memoEntity.memoDrawing = UIImagePNGRepresentation(memoDrawingImageView.image!) as! NSData //ペイントした絵
                     }
                     
                     if(memoThumbnailImageView.image != nil){
-                        memoEntity.memoThumbnail = UIImagePNGRepresentation(memoThumbnailImageView.image!) //メモのスクショ
+                        memoEntity.memoThumbnail = UIImagePNGRepresentation(memoThumbnailImageView.image!) as! NSData //メモのスクショ
                     }
                 }
             } catch let error as NSError {
