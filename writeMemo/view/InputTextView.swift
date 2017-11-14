@@ -36,7 +36,7 @@ class InputTextView: UIView ,UITextViewDelegate,ColorPalletViewDelegate{
     var memoViewControllerTextView:UITextView = UITextView()
     
     class func instanceInputTextView() -> InputTextView {
-        return UINib(nibName: "InputTextView", bundle: nil).instantiateWithOwner(self, options: nil)[0] as! InputTextView
+        return UINib(nibName: "InputTextView", bundle: nil).instantiate(withOwner: self, options: nil)[0] as! InputTextView
     }
     
     func showInputTextView(){
@@ -48,7 +48,7 @@ class InputTextView: UIView ,UITextViewDelegate,ColorPalletViewDelegate{
         self.inputTextView.textColor = UIColor(red:0.00, green:0.00, blue:0.00, alpha:1.0)
         self.inputTextView.font = UIFont(name: "HiraginoSans-W3", size: 25)
         
-        let notificationCenter = NSNotificationCenter.defaultCenter()
+        let notificationCenter = NotificationCenter.defaultCenter
         notificationCenter.addObserver(self, selector: "showKeyboard:", name: UIKeyboardDidShowNotification, object: nil)
         
         inputTextView.becomeFirstResponder()
@@ -72,8 +72,8 @@ class InputTextView: UIView ,UITextViewDelegate,ColorPalletViewDelegate{
         fontSizeSlider.value = Float(self.editSliderValue)
         fontSizeSlider.minimumTrackTintColor = inputTextView.textColor
         
-        let notificationCenter = NSNotificationCenter.defaultCenter()
-        notificationCenter.addObserver(self, selector: "showKeyboard:", name: UIKeyboardDidShowNotification, object: nil)
+        let notificationCenter = NotificationCenter.default
+        notificationCenter.addObserver(self, selector: "showKeyboard:", name: NSNotification.Name.UIKeyboardDidShow, object: nil)
         
         inputTextView.becomeFirstResponder()
     }
@@ -81,10 +81,10 @@ class InputTextView: UIView ,UITextViewDelegate,ColorPalletViewDelegate{
     func showKeyboard(notification:NSNotification){
         if let userInfo = notification.userInfo{
             if let keyboard = userInfo[UIKeyboardFrameEndUserInfoKey] as? NSValue{
-                let keyBoardRect = keyboard.CGRectValue()
+                let keyBoardRect = keyboard.cgRectValue
                 
                 //キーボードの高さを元にテキストビューのframeを調整
-                UIView.animateWithDuration(0.2, delay: 0.0, options: UIViewAnimationOptions.CurveEaseOut, animations: { () -> Void in
+                UIView.animate(withDuration: 0.2, delay: 0.0, options: UIViewAnimationOptions.curveEaseOut, animations: { () -> Void in
                     self.inputTextView.frame = CGRectMake(self.textViewMargin, self.textViewMarginTop, self.frame.width - (self.textViewMargin * 2), self.frame.height - (self.textViewMarginTop + self.textViewMargin + keyBoardRect.height))
                 }, completion: nil)
             }
@@ -96,7 +96,7 @@ class InputTextView: UIView ,UITextViewDelegate,ColorPalletViewDelegate{
         
         //ボタンを配置するビューをキーボードに追加する
         let keyBoardButtonView:UIView = UIView(frame: CGRectMake(0,0,self.frame.width,keyBoardButtonHeight))
-        keyBoardButtonView.backgroundColor = UIColor.lightGrayColor()
+        keyBoardButtonView.backgroundColor = UIColor.lightGray
         inputTextView.delegate = self
         inputTextView.inputAccessoryView = keyBoardButtonView
         
@@ -107,23 +107,23 @@ class InputTextView: UIView ,UITextViewDelegate,ColorPalletViewDelegate{
         let changeColorButton:UIButton = UIButton()
         changeColorButton.frame = CGRectMake(leftAndRightMargin, topAndBottonMargin, 44, 44)
         changeColorButton.backgroundColor = UIColor(red:0.98, green:0.87, blue:0.94, alpha:1)
-        changeColorButton.setTitle("カ", forState: .Normal)
-        changeColorButton.addTarget(self, action:"changeEditColor:", forControlEvents: .TouchUpInside)
+        changeColorButton.setTitle("カ", for: .Normal)
+        changeColorButton.addTarget(self, action:"changeEditColor:", for: .touchUpInside)
         keyBoardButtonView.addSubview(changeColorButton)
         //フォントサイズを変更するボタンを設置
         let changeFontSizeButton:UIButton = UIButton()
         changeFontSizeButton.frame = CGRectMake((leftAndRightMargin * 2) + changeColorButton.frame.width, topAndBottonMargin, 44, 44)
         changeFontSizeButton.backgroundColor = UIColor(red:0.82, green:0.92, blue:0.97, alpha:1)
-        changeFontSizeButton.setTitle("フ", forState: .Normal)
-        changeFontSizeButton.addTarget(self, action:"changeEditFontSize:", forControlEvents: .TouchUpInside)
+        changeFontSizeButton.setTitle("フ", for: .Normal)
+        changeFontSizeButton.addTarget(self, action:"changeEditFontSize:", for: .touchUpInside)
         keyBoardButtonView.addSubview(changeFontSizeButton)
         
         //キーボードを閉じてテキストの編集を終えるボタン
         let finishButton:UIButton = UIButton()
         finishButton.frame = CGRectMake(self.frame.width - 60, 0, 60, keyBoardButtonHeight)
         finishButton.backgroundColor = UIColor(red:0.92, green:0.38, blue:0.33, alpha:1)
-        finishButton.setTitle("完了", forState: .Normal)
-        finishButton.addTarget(self, action:"finishEditText:", forControlEvents: .TouchUpInside)
+        finishButton.setTitle("完了", for: .Normal)
+        finishButton.addTarget(self, action:"finishEditText:", for: .touchUpInside)
         keyBoardButtonView.addSubview(finishButton)
         
         
@@ -133,26 +133,26 @@ class InputTextView: UIView ,UITextViewDelegate,ColorPalletViewDelegate{
         colorPalletView.frame = colorAndFontSizeFrame
         colorPalletView.colorPalletDelgate = self
         colorPalletView.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0)
-        if(isColorPalletAppear){
-            colorPalletView.hidden = false
+        if(isColorPalletAppear).boolValue{
+            colorPalletView.isHidden = false
         } else {
-            colorPalletView.hidden = true
+            colorPalletView.isHidden = true
         }
         keyBoardButtonView.addSubview(colorPalletView)
         
         //フォントサイズを変更するスライダーを配置
         fontSizeSlider.frame = colorAndFontSizeFrame
-        fontSizeSlider.hidden = true
+        fontSizeSlider.isHidden = true
         fontSizeSlider.minimumValue = 15
         fontSizeSlider.maximumValue = 35
         fontSizeSlider.value = 25
-        fontSizeSlider.maximumTrackTintColor = UIColor.grayColor()
+        fontSizeSlider.maximumTrackTintColor = UIColor.gray
         fontSizeSlider.minimumTrackTintColor = inputTextView.textColor
-        fontSizeSlider.addTarget(self, action: "changeFontSize:", forControlEvents: UIControlEvents.ValueChanged)
-        if(isColorPalletAppear){
-            fontSizeSlider.hidden = true
+        fontSizeSlider.addTarget(self, action: "changeFontSize:", for: UIControlEvents.valueChanged)
+        if(isColorPalletAppear).boolValue{
+            fontSizeSlider.isHidden = true
         } else {
-            fontSizeSlider.hidden = false
+            fontSizeSlider.isHidden = false
         }
         keyBoardButtonView.addSubview(fontSizeSlider)
     }
@@ -162,8 +162,8 @@ class InputTextView: UIView ,UITextViewDelegate,ColorPalletViewDelegate{
         if(!isColorPalletAppear){
             //TODO:カラーパレットを選択していることを明示
             isColorPalletAppear = true
-            colorPalletView.hidden = false
-            fontSizeSlider.hidden = true
+            colorPalletView.isHidden = false
+            fontSizeSlider.isHidden = true
         }
     }
     //MARK: - ColorPalletDelegate
@@ -175,11 +175,11 @@ class InputTextView: UIView ,UITextViewDelegate,ColorPalletViewDelegate{
     
     //MARK: - FontSize
     func changeEditFontSize(sender:UIButton){
-        if(isColorPalletAppear){
+        if(isColorPalletAppear).boolValue{
             //TODO:フォントサイズを選択していることを明示
             isColorPalletAppear = false
-            colorPalletView.hidden = true
-            fontSizeSlider.hidden = false
+            colorPalletView.isHidden = true
+            fontSizeSlider.isHidden = false
         }
     }
     func changeFontSize(sender:UISlider){
@@ -194,12 +194,12 @@ class InputTextView: UIView ,UITextViewDelegate,ColorPalletViewDelegate{
         self.editSliderValue = CGFloat(self.fontSizeSlider.value)
         
         //閉じる
-        UIView.animateWithDuration(0.2, delay: 0, options: UIViewAnimationOptions.CurveEaseOut, animations: { () -> Void in
+        UIView.animate(withDuration: 0.2, delay: 0, options: UIViewAnimationOptions.curveEaseOutcurveEaseOut, animations: { () -> Void in
             self.inputTextView.frame = CGRectMake(self.textViewMargin, self.textViewMarginTop, self.frame.width - (self.textViewMargin * 2), 0)
             }, completion:{ (BOOL) -> Void in
                 //memoViewControllerに入力したテキストの値を受け渡す
                 if(self.isCreateNewTextView){
-                    self.inputTextViewDelegate.createTextView(self.inputTextView.text, color: self.inputTextView.textColor!, fontSize: self.fontSizeSlider.value)
+                    self.inputTextViewDelegate.createTextView(text: self.inputTextView.text, color: self.inputTextView.textColor!, fontSize: self.fontSizeSlider.value)
                 } else {
                     self.inputTextViewDelegate.editTextView(self.inputTextView.text, color: self.inputTextView.textColor!, fontSize: self.fontSizeSlider.value, textView: self.memoViewControllerTextView)
                 }

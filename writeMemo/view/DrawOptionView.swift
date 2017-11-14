@@ -31,7 +31,7 @@ class DrawOptionView: UIView, ColorPalletViewDelegate {
     @IBOutlet weak var colorPalletView: ColorPaletteView!
     
     class func instance() -> DrawOptionView {
-        return UINib(nibName: "DrawOptionView", bundle: nil).instantiateWithOwner(self, options: nil)[0] as! DrawOptionView
+        return UINib(nibName: "DrawOptionView", bundle: nil).instantiate(withOwner: self, options: nil)[0] as! DrawOptionView
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -51,7 +51,7 @@ class DrawOptionView: UIView, ColorPalletViewDelegate {
     
     func setColor(color: UIColor) {
         //鉛筆の色を変更
-        self.changeDrawMode(color) //消しゴムモードの場合は鉛筆モードに変更
+        self.changeDrawMode(sender: color) //消しゴムモードの場合は鉛筆モードに変更
         self.delegate.setColor(color: color)
     }
     

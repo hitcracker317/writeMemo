@@ -26,31 +26,31 @@ class EditMemoNameView: UIView ,UITextFieldDelegate{
     @IBOutlet weak var pleaseInputLabel: UILabel!
     
     class func instanceView() -> EditMemoNameView {
-        return UINib(nibName: "EditMemoNameView", bundle: nil).instantiateWithOwner(self, options: nil)[0] as! EditMemoNameView
+        return UINib(nibName: "EditMemoNameView", bundle: nil).instantiate(withOwner: self, options: nil)[0] as! EditMemoNameView
     }
     
     func showAlertView(){
         self.titleTextView.delegate = self
-        self.pleaseInputLabel.hidden = true
+        self.pleaseInputLabel.isHidden = true
         self.alertView.alpha = 1.0
         self.backAlertView.backgroundColor = UIColor(red:0.20, green:0.20, blue:0.20, alpha:0.5)
-        self.alertView.transform = CGAffineTransformMakeScale(0.8, 0.8)
+        self.alertView.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
         
-        UIView.animateWithDuration(0.1, delay: 0.0, options: UIViewAnimationOptions.CurveEaseIn, animations: { () -> Void in
-            self.alertView.transform = CGAffineTransformMakeScale(1.2, 1.2)
+        UIView.animate(withDuration: 0.1, delay: 0.0, options: UIViewAnimationOptions.curveEaseIn, animations: { () -> Void in
+            self.alertView.transform = CGAffineTransform(scaleX: 1.2, y: 1.2)
             }, completion: {(BOOL) -> Void in
-                UIView.animateWithDuration(0.1, delay: 0.0, options: UIViewAnimationOptions.CurveEaseIn, animations: { () -> Void in
-                    self.alertView.transform = CGAffineTransformMakeScale(1.0, 1.0)
+                UIView.animate(withDuration: 0.1, delay: 0.0, options: UIViewAnimationOptions.curveEaseIn, animations: { () -> Void in
+                    self.alertView.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
                     }, completion: nil)
         })
     }
     
     func closeAlertView(){
-        UIView.animateWithDuration(0.1, delay: 0.0, options: UIViewAnimationOptions.CurveEaseIn, animations: { () -> Void in
-            self.alertView.transform = CGAffineTransformMakeScale(1.2, 1.2)
+        UIView.animate(withDuration: 0.1, delay: 0.0, options: UIViewAnimationOptions.curveEaseIn, animations: { () -> Void in
+            self.alertView.transform = CGAffineTransform(scaleX: 1.2, y: 1.2)
             }, completion: {(BOOL) -> Void in
-                UIView.animateWithDuration(0.1, delay: 0.0, options: UIViewAnimationOptions.CurveEaseIn, animations: { () -> Void in
-                    self.alertView.transform = CGAffineTransformMakeScale(0.8, 0.8)
+                UIView.animateWithDuration(0.1, delay: 0.0, options: UIViewAnimationOptions.curveEaseIn, animations: { () -> Void in
+                    self.alertView.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
                     }, completion: {(BOOL) -> Void in
                         self.delegate.removeEditMemoTitleView()
                         self.titleTextView.text = ""
@@ -61,9 +61,9 @@ class EditMemoNameView: UIView ,UITextFieldDelegate{
     @IBAction func tapOK(sender: AnyObject) {
         //タイトルが空だったら警告文を出して先には進めないようにする
         if(titleTextView.text == ""){
-            pleaseInputLabel.hidden = false
+            pleaseInputLabel.isHidden = false
         } else {
-            self.delegate.tapOK(self.titleTextView.text!)
+            self.delegate.tapOK(title: self.titleTextView.text! as NSString)
         }
         
     }
@@ -74,7 +74,7 @@ class EditMemoNameView: UIView ,UITextFieldDelegate{
     
     //MARK: - UITextField
     func textFieldDidBeginEditing(textField: UITextField) {
-        pleaseInputLabel.hidden = true
+        pleaseInputLabel.isHiddenisHidden = true
     }
     func textFieldShouldReturn(textField: UITextField) -> Bool {
         titleTextView.resignFirstResponder();

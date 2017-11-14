@@ -62,7 +62,7 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
 
         self.initializeDraw()
         
-        memoEntity = MemoCRUD.sharedInstance.readMemoEntity(selectedMemoID) //選択したメモのエンティティを取得する
+        memoEntity = MemoCRUD.sharedInstance.readMemoEntity(memoID: selectedMemoID) //選択したメモのエンティティを取得する
         print("メモのタイトル:\(memoEntity.memoTitle)")
         
         self.navigationItem.title = memoEntity.memoTitle
@@ -70,7 +70,7 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
     
         if (memoEntity.memoViews != nil){
             //memoEntity.memoViewsがnilだとクラッシュするのでnilじゃなときのみ処理を入れる
-            viewsDictionary = NSKeyedUnarchiver.unarchiveObjectWithData(memoEntity.memoViews!)! as! NSMutableDictionary //画面に生成したviewを格納するdictionary
+            viewsDictionary = NSKeyedUnarchiver.unarchiveObject(with: memoEntity.memoViews! as Data)! as! NSMutableDictionary //画面に生成したviewを格納するdictionary
             
             //TODO:すべてのビューを列挙
             for(key,someViews) in viewsDictionary {
@@ -81,7 +81,7 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
                 //TODO:画像が逆さま
                 
                 //TODO:keyの値をチェック!!!
-                if(key.containsString("テキスト")){
+                if((key as AnyObject).contains("テキスト")){
                     //テキストビューのとき
                     //TODO:テキストのタップ、移動、回転が消えている
                     let tapGesture:UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: "tapView:")
@@ -92,7 +92,7 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
                     someView.addGestureRecognizer(rotateGesture)
                 }
 
-                if(key.containsString("イメージ")){
+                if((key as AnyObject).contains("イメージ")){
                     //画像のとき
                     //TODO:画像の移動、回転、拡大が消えている
                     
@@ -105,20 +105,20 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
             drawImageView.image = UIGraphicsGetImageFromCurrentImageContext()
         }
         if(memoEntity.memoDrawing != nil){
-            drawImageView.image = UIImage(data: memoEntity.memoDrawing!)
+            drawImageView.image = UIImage(data: memoEntity.memoDrawing! as Data)
         }
         
     }
     
     // MARK: - touchInteraction
-    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        super.touchesEnded(touches, withEvent: event)
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesEnded(touches, with: event)
         for touch: AnyObject in touches {
             let t:UITouch = touch as! UITouch
             if(isDrawViewTouchEnabled){
-                touchBeganPoint = t.locationInView(drawImageView)
+                touchBeganPoint = t.location(in: drawImageView)
             } else {
-                touchBeganPoint = t.locationInView(inputImageView)
+                touchBeganPoint = t.location(in: inputImageView)
             }
             
             if(inputType == InputType.InputTypeText){
@@ -128,12 +128,12 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
         }
     }
     
-    override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         let touch = touches.first as UITouch!
         if(isDrawViewTouchEnabled){
-            movePoint = touch.locationInView(drawImageView) //drawImageViewの移動した先の座標を取得
+            movePoint = touch?.location(in: drawImageView) //drawImageViewの移動した先の座標を取得
         } else {
-            movePoint = touch.locationInView(inputImageView) //inputImageViewの移動した先の座標を取得
+            movePoint = touch?.location(in: inputImageView) //inputImageViewの移動した先の座標を取得
         }
         
         if(inputType == InputType.InputTypePaint){
@@ -147,31 +147,31 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
         
         if(inputType == InputType.InputTypeMove){
             
-            if (sender.state == .Began) {
+            if (sender.state == .began) {
                 self.appearGarbageView() //削除用のビューを表示
             }
             
             //ドラッグしたビューを移動
-            let translation:CGPoint = sender.translationInView(self.view)
+            let translation:CGPoint = sender.translation(in: self.view)
             sender.view!.center = CGPoint(x: sender.view!.center.x + translation.x, y: sender.view!.center.y + translation.y)
-            sender.setTranslation(CGPointZero, inView: self.view)
+            sender.setTranslation(CGPoint.zero , in: self.view)
             
             //移動しているときは影をつける
             sender.view!.layer.masksToBounds = false
-            sender.view!.layer.shadowOffset = CGSizeMake(-7, 7) //左下に影をつける
+            sender.view!.layer.shadowOffset = CGSize(width: -7, height: 7) //左下に影をつける
             sender.view!.layer.shadowRadius = 5
             sender.view!.layer.shadowOpacity = 0.6
             
-            if(sender.state == .Ended){
+            if(sender.state == .ended){
                 sender.view!.layer.shadowOpacity = 0.0 //ドラッグ終了したら影を非表示
                 
-                if(CGRectIntersectsRect(self.garbageView.frame, sender.view!.frame)){
+                if(self.garbageView.frame.intersects(sender.view!.frame)){
                     //削除用のビューに重なっていたらアラートを表示
                     alertView.delegate = self
                     alertView.pinView = sender.view!
-                    alertView.frame = CGRectMake(0, 0, self.view.frame.width, self.view.frame.height)
+                    alertView.frame = CGRect(x:0, y:0, width:self.view.frame.width, height:self.view.frame.height)
                     alertView.showAlertView()
-                    let appDelegate:AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+                    let appDelegate:AppDelegate = UIApplication.shared.delegate as! AppDelegate
                     appDelegate.window?.addSubview(alertView)
                 } else {
                     //削除用のビューに重ならなかったら
@@ -187,8 +187,9 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
         
         if(inputType == InputType.InputTypeMove){
             //ビューを拡大縮小
-            self.view.bringSubviewToFront(sender.view!)
-            sender.view!.transform = CGAffineTransformScale(sender.view!.transform,sender.scale, sender.scale)
+            self.view.bringSubview(toFront: sender.view!)
+            //sender.view!.transform = CGAffineTransformScale(sender.view!.transform,sender.scale, sender.scale)
+            //sender.view!.transform.scaledBy(x: sender.view!, y: sender.view!)
             sender.scale = 1.0
         }
     }
@@ -197,8 +198,9 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
         
         if(inputType == InputType.InputTypeMove){
             //ビューを回転
-            self.view.bringSubviewToFront(sender.view!)
-            sender.view!.transform = CGAffineTransformRotate(sender.view!.transform, sender.rotation)
+            self.view.bringSubview(toFront: sender.view!)
+            //sender.view!.transform = CGAffineTransformRotate(sender.view!.transform, sender.rotation)
+            sender.view!.transform.rotated(by: sender.rotation)
             sender.rotation = 0
         }
     }
@@ -210,22 +212,22 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
     
     // MARK: - garbageView
     func appearGarbageView(){
-        UIView.animateWithDuration(
-            0.1,
+        UIView.animate(
+            withDuration: 0.1,
             delay: 0.0,
-            options: UIViewAnimationOptions.CurveEaseIn,
+            options: UIViewAnimationOptions.curveEaseIn,
             animations: { () -> Void in
-                self.underView.center = CGPointMake(self.view.frame.width/2, self.underView.center.y + self.underView.frame.height)
+                self.underView.center = CGPoint(x:self.view.frame.width/2, y:self.underView.center.y + self.underView.frame.height)
             }, completion: nil
         )
     }
     func disappearGarbageView(){
-        UIView.animateWithDuration(
-            0.1,
+        UIView.animate(
+            withDuration: 0.1,
             delay: 0.0,
-            options: UIViewAnimationOptions.CurveEaseIn,
+            options: UIViewAnimationOptions.curveEaseIn,
             animations: { () -> Void in
-                self.underView.center = CGPointMake(self.view.frame.width/2, self.underView.center.y - self.underView.frame.height)
+                self.underView.center = CGPoint(x:self.view.frame.width/2, y:self.underView.center.y - self.underView.frame.height)
             }, completion: nil
         )
     }
@@ -235,9 +237,9 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
         print("ドラッグしたビューを削除")
         
         //viewをdictionaryから削除
-        let viewTagkey:NSString = "タグ\(view.tag)"
+        let viewTagkey:NSString = "タグ\(view.tag)" as NSString
         view.removeFromSuperview()
-        viewsDictionary.removeObjectForKey(viewTagkey)
+        viewsDictionary.removeObject(forKey: viewTagkey)
         
         //TODO:削除したdictionaryを保存
         
@@ -249,9 +251,9 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
         alertView.closeAlertView()
         self.disappearGarbageView()
         
-        UIView.animateWithDuration(0.1) { () -> Void in
+        UIView.animate(withDuration: 0.1) { () -> Void in
             //ドラッグしたビューをメモのビューの方に戻す
-            view.center = CGPointMake(view.center.x, self.inputImageView.frame.size.height * 0.75)
+            view.center = CGPoint(x:view.center.x, y:self.inputImageView.frame.size.height * 0.75)
         }
     }
     func removeAlertView() {
@@ -305,11 +307,11 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
     // MARK: - Text
     func openInputTextView(){
         //テキストビューが配置されてないところをタップしたときはテキストビューを新規生成
-        inputTextView.frame = CGRectMake(0, 0, self.view.frame.width, self.view.frame.height)
+        inputTextView.frame = CGRect(x:0, y:0, width:self.view.frame.width, height:self.view.frame.height)
         inputTextView.showInputTextView()
         inputTextView.inputTextViewDelegate = self
         tempTextViewCenter = touchBeganPoint
-        let appDelegate:AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        let appDelegate:AppDelegate = UIApplication.shared.delegate as! AppDelegate
         appDelegate.window?.addSubview(inputTextView)
     }
     
@@ -317,10 +319,10 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
         //配置したテキストビューをタップしたときは再編集
         let selectedTextView:UITextView = sender.view as! UITextView
         inputTextView.editSliderValue = (selectedTextView.font?.pointSize)! //タップしたラベルのフォントサイズを受け渡す。
-        inputTextView.showEditInputTextView(selectedTextView)
+        inputTextView.showEditInputTextView(textView: selectedTextView)
         inputTextView.inputTextViewDelegate = self
         tempTextViewCenter = sender.view?.center
-        let appDelegate:AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        let appDelegate:AppDelegate = UIApplication.shared.delegate as! AppDelegate
         appDelegate.window?.addSubview(inputTextView)
     }
     
@@ -328,21 +330,21 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
     func createTextView(text: String, color: UIColor, fontSize: Float) {
         //タップした箇所に新規にテキストビューを生成する
         self.inputTextView.removeFromSuperview()
-        self.addTextView(text, color: color, fontSize: fontSize, isNewTextView: true, textViewTag: 0)
+        self.addTextView(text: text, color: color, fontSize: fontSize, isNewTextView: true, textViewTag: 0)
     }
     func editTextView(text: String, color: UIColor, fontSize: Float, textView: UITextView) {
         //テキストビューを編集
         self.inputTextView.removeFromSuperview()
-        self.addTextView(text, color: color, fontSize: fontSize, isNewTextView: false,textViewTag: textView.tag)
+        self.addTextView(text: text, color: color, fontSize: fontSize, isNewTextView: false,textViewTag: textView.tag)
         textView.removeFromSuperview()
     }
 
     func addTextView(text: String, color: UIColor, fontSize: Float, isNewTextView:Bool, textViewTag:Int){
-        let textView:UITextView = UITextView(frame: CGRectMake(0, 0, 0, 0))
-        textView.editable = false
-        textView.selectable = true
-        textView.scrollEnabled = false
-        textView.textAlignment = .Center
+        let textView:UITextView = UITextView(frame: CGRect(x:0, y:0, width:0, height:0))
+        textView.isEditable = false
+        textView.isSelectable = true
+        textView.isScrollEnabled = false
+        textView.textAlignment = .center
         textView.text = text
         textView.textColor = color
         textView.font = UIFont(name: "HiraginoSans-W3", size: CGFloat(fontSize))
@@ -351,11 +353,11 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
         
         //サイズを調整
         if (textView.frame.width > inputImageView.frame.width){
-            textView.frame = CGRectMake(0, 0, inputImageView.frame.width - 20 , textView.frame.height)
+            textView.frame = CGRect(x:0, y:0, width:inputImageView.frame.width - 20, height:textView.frame.height)
         } else if (textView.frame.height > inputImageView.frame.height){
-            textView.frame = CGRectMake(0, 0, textView.frame.width, inputImageView.frame.height - 20)
+            textView.frame = CGRect(x:0, y:0, width:textView.frame.width, height:inputImageView.frame.height - 20)
         } else if (textView.frame.width > inputImageView.frame.width && textView.frame.height > inputImageView.frame.height){
-            textView.frame = CGRectMake(0, 0, inputImageView.frame.width - 20, inputImageView.frame.height - 20)
+            textView.frame = CGRect(x:0, y:0, width:inputImageView.frame.width, height:inputImageView.frame.height - 20)
         }
         textView.clipsToBounds = true
         textView.center = tempTextViewCenter
@@ -373,18 +375,18 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
             
             if(isNewTextView){
                 //新規にviewを生成する場合はタグをカウントアップしてviewを生成
-                totalViewTag++
+                totalViewTag+=1
                 textView.tag = totalViewTag
             } else {
                 //編集した場合は編集前のタグを保持しておいて、そちらを再度生成するビューのタグにセット
                 textView.tag = textViewTag
             }
             
-            let viewTagKey:NSString = "テキストタグ\(textView.tag)"
+            let viewTagKey:NSString = "テキストタグ\(textView.tag)" as NSString
             viewsDictionary[viewTagKey] = textView //dictionaryにビューを追加 or 中身を差し替え
             
             //TODO:メモの内容を保存(タグのトータル値も)
-            MemoCRUD.sharedInstance.saveEntity(selectedMemoID, memoViews: viewsDictionary, viewTagNumber: totalViewTag, memoDrawingImageView: drawImageView, memoThumbnailImageView: drawImageView)
+            MemoCRUD.sharedInstance.saveEntity(memoID: selectedMemoID, memoViews: viewsDictionary, viewTagNumber: totalViewTag, memoDrawingImageView: drawImageView, memoThumbnailImageView: drawImageView)
             
             inputImageView.addSubview(textView)
         }
@@ -401,19 +403,20 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
         
         UIGraphicsBeginImageContext(drawImageView.frame.size) // 描画領域をmemoView(UIImageView)の大きさで生成
         
-        drawImageView.image?.drawInRect(CGRectMake(0, 0, drawImageView.frame.width, drawImageView.frame.size.height)) //memoViewにセットされている画像（UIImageを描画)
-        CGContextSetLineCap(UIGraphicsGetCurrentContext(), CGLineCap.Round) // 線の角を丸くする
-        CGContextSetLineWidth(UIGraphicsGetCurrentContext(), CGFloat(penThickness)); // 線の太さを指定
-        CGContextSetStrokeColorWithColor(UIGraphicsGetCurrentContext(), penColor.CGColor) //線の色を指定(UIColorで)
+        drawImageView.image?.draw(in: CGRect(x:0, y:0, width:drawImageView.frame.width, height:drawImageView.frame.size.height)) //memoViewにセットされている画像（UIImageを描画)
+        UIGraphicsGetCurrentContext()!.setLineCap(CGLineCap.round) // 線の角を丸くする
+        UIGraphicsGetCurrentContext()!.setLineWidth(CGFloat(penThickness)); // 線の太さを指定
+        UIGraphicsGetCurrentContext()!.setStrokeColor(penColor.cgColor) //線の色を指定(UIColorで)
         
         if(!isDrawMode){
             //消しゴムモードのときはブレンドモードをClearにする(これで描画した線を消すことができる)
-            CGContextSetBlendMode(UIGraphicsGetCurrentContext(), CGBlendMode.Clear)
+            UIGraphicsGetCurrentContext()!.setBlendMode(CGBlendMode.clear)
         }
-        
-        CGContextMoveToPoint(UIGraphicsGetCurrentContext(), touchBeganPoint.x, touchBeganPoint.y); // 線の描画開始座標をセット
-        CGContextAddLineToPoint(UIGraphicsGetCurrentContext(), movePoint.x, movePoint.y); // 線の描画終了座標をセット
-        CGContextStrokePath(UIGraphicsGetCurrentContext()) // 描画の開始～終了座標まで線を引く
+
+        let context: CGContext = UIGraphicsGetCurrentContext()!
+        context.move(to: CGPoint(x:touchBeganPoint.x, y:touchBeganPoint.y)) // 線の描画開始座標をセット
+        context.addLine(to: CGPoint(x:movePoint.x ,y:movePoint.y)) // 線の描画終了座標をセット
+        context.strokePath() // 描画の開始～終了座標まで線を引く
         drawImageView.image = UIGraphicsGetImageFromCurrentImageContext() // 描画領域を画像（UIImage）としてmemoViewにセット
         
         UIGraphicsEndImageContext() // 描画領域のクリア
@@ -422,18 +425,18 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
     }
     
     func openDrawView(){
-        drawOptionView.frame = CGRectMake(0, self.view.frame.size.height , self.view.frame.size.width, 170)
+        drawOptionView.frame = CGRect(x:0, y:self.view.frame.size.height , width:self.view.frame.size.width, height:170)
         drawOptionView.backgroundColor = UIColor(red:0.17, green:0.24, blue:0.31, alpha:0.5)
         drawOptionView.delegate = self
         self.view.insertSubview(drawOptionView, belowSubview: underView)
         
         self.paintViewIsAppeared = true
         
-        UIView.animateWithDuration(0.5,
+        UIView.animate(withDuration: 0.5,
             delay: 0.0,
             usingSpringWithDamping: 0.5,
             initialSpringVelocity: 0.3,
-            options: UIViewAnimationOptions.CurveEaseIn,
+            options: UIViewAnimationOptions.curveEaseIn,
             animations: {() -> Void  in
                 // アニメーションする処理
                 self.drawOptionView.frame.origin.y = self.view.frame.size.height - 135 - 44
@@ -445,16 +448,16 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
     func closeDrawView(){
         self.paintViewIsAppeared = false
         
-        UIView.animateWithDuration(0.3,
+        UIView.animate(withDuration: 0.3,
             delay: 0.0,
             usingSpringWithDamping: 1.0,
             initialSpringVelocity: 0.3,
-            options: UIViewAnimationOptions.CurveEaseIn,
+            options: UIViewAnimationOptions.curveEaseIn,
             animations: {() -> Void  in
                 // アニメーションする処理
                 self.drawOptionView.frame.origin.y = self.view.frame.size.height
             },
-            completion:{(Bool finished) -> Void in
+            completion:{(finished) -> Void in
                 self.drawOptionView.removeFromSuperview()
             }
         )
@@ -470,10 +473,10 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
     func changeDrawViewTouchEnabled(){
         if(isDrawViewTouchEnabled){
             //drawViewのタッチを受け付ける
-            drawImageView.userInteractionEnabled = true
+            drawImageView.isUserInteractionEnabled = true
         } else {
             //drawViewのタッチを受け付けない
-            drawImageView.userInteractionEnabled = false
+            drawImageView.isUserInteractionEnabled = false
         }
     }
     
@@ -493,17 +496,17 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
     
     // MARK: - Image
     func openImageAlertView(){
-        imageAlertView.frame = CGRectMake(0, 0, self.view.frame.width, self.view.frame.height)
+        imageAlertView.frame = CGRect(x:0, y:0, width:self.view.frame.width, height:self.view.frame.height)
         imageAlertView.showImageAlertView()
         imageAlertView.delegate = self
-        let appDelegate:AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        let appDelegate:AppDelegate = UIApplication.shared.delegate as! AppDelegate
         appDelegate.window?.addSubview(imageAlertView)
     }
     
     func shotPicture(){
         //写真を撮る
         self.closeImageAlertView()
-        let sourceType:UIImagePickerControllerSourceType = UIImagePickerControllerSourceType.Camera
+        let sourceType:UIImagePickerControllerSourceType = UIImagePickerControllerSourceType.camera
         if(UIImagePickerController.isSourceTypeAvailable(sourceType)){
             //インスタンス作成(カメラ機能を作成)
             let cameraPicker = UIImagePickerController()
@@ -511,22 +514,22 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
             cameraPicker.delegate = self
             
             //カメラの画面をmodal表示
-            self.presentViewController(cameraPicker, animated: true, completion: nil)
+            self.present(cameraPicker, animated: true, completion: nil)
         }
     }
     func openLibraryPicture(){
         //カメラロール
         self.closeImageAlertView()
-        let sourceType:UIImagePickerControllerSourceType = UIImagePickerControllerSourceType.PhotoLibrary
+        let sourceType:UIImagePickerControllerSourceType = UIImagePickerControllerSourceType.photoLibrary
         
-        if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.PhotoLibrary){
+        if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.photoLibrary){
             
             let cameraPicker = UIImagePickerController()
             
             cameraPicker.sourceType = sourceType
             cameraPicker.delegate = self
             
-            self.presentViewController(cameraPicker, animated: true, completion: nil)
+            self.present(cameraPicker, animated: true, completion: nil)
         }
     }
     func closeImageAlertView(){
@@ -541,7 +544,7 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
             //イメージビューとそれの土台となるビューを作成
             //TODO:画像のビューをaddSubViewする際はテキストのビューよりも背面にする
             let baseView:UIView = UIView()
-            baseView.frame = CGRectMake(inputImageView.frame.size.width/2 - 110, inputImageView.frame.size.height/2 - 110, 210, 210)
+            baseView.frame = CGRect(x:inputImageView.frame.size.width/2 - 110, y:inputImageView.frame.size.height/2 - 110, width:210, height:210)
             baseView.backgroundColor = UIColor(red:1.00, green:1.00, blue:1.00, alpha:1.0)
             baseView.layer.borderWidth = 1.5
             
@@ -556,27 +559,27 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
             inputImageView.addSubview(baseView)
             
             let imageView:UIImageView = UIImageView()
-            imageView.frame = CGRectMake(5, 5, 200, 200)
+            imageView.frame = CGRect(x:5, y:5, width:200, height:200)
             imageView.image = pickedImage
-            imageView.contentMode = .ScaleAspectFill
+            imageView.contentMode = .scaleAspectFill
             imageView.clipsToBounds = true
             baseView.addSubview(imageView)
             
             //ビューにタグを付与してdictionary
-            totalViewTag++
+            totalViewTag+=1
             baseView.tag = totalViewTag
             let viewTagKey = "イメージタグ\(baseView.tag)"
             viewsDictionary[viewTagKey] = baseView
             
             //TODO:セーブ(タグのトータル値も)
-            MemoCRUD.sharedInstance.saveEntity(selectedMemoID, memoViews: viewsDictionary, viewTagNumber: totalViewTag, memoDrawingImageView: drawImageView, memoThumbnailImageView: drawImageView)
+            MemoCRUD.sharedInstance.saveEntity(memoID: selectedMemoID, memoViews: viewsDictionary, viewTagNumber: totalViewTag, memoDrawingImageView: drawImageView, memoThumbnailImageView: drawImageView)
             
-            if(picker.sourceType == .Camera){
+            if(picker.sourceType == .camera){
                 //カメラで撮影した写真は端末に保存する
                  UIImageWriteToSavedPhotosAlbum(pickedImage, self, "image:didFinishSavingWithError:contextInfo:", nil)
             }
         }
-        picker.dismissViewControllerAnimated(true, completion: nil)
+        picker.dismiss(animated: true, completion: nil)
     }
     
     func image(image: UIImage, didFinishSavingWithError error: NSError!, contextInfo: UnsafeMutablePointer<Void>) {

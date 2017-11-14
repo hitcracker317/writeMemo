@@ -22,7 +22,7 @@ class ImageAlertView: UIView {
     @IBOutlet weak var alertView: UIView!
     
     class func instanceImageAlertView() -> ImageAlertView {
-        return UINib(nibName: "ImageAlertView", bundle: nil).instantiateWithOwner(self, options: nil)[0] as! ImageAlertView
+        return UINib(nibName: "ImageAlertView", bundle: nil).instantiate(withOwner: self, options: nil)[0] as! ImageAlertView
     }
     
     override func awakeFromNib() {
@@ -34,11 +34,11 @@ class ImageAlertView: UIView {
         //カメラアップロードの方法を選択するアクションシートを表示
         alertBackView.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.5)
         
-        UIView.animateWithDuration(0.5,
+        UIView.animate(withDuration: 0.5,
             delay: 0.0,
             usingSpringWithDamping: 0.5,
             initialSpringVelocity: 0.3,
-            options: UIViewAnimationOptions.CurveEaseIn,
+            options: UIViewAnimationOptions.curveEaseIn,
             animations: {() -> Void  in
                 self.alertView.center = CGPointMake(self.frame.width/2, self.frame.height - (self.alertView.frame.height/2))
             },
@@ -56,21 +56,21 @@ class ImageAlertView: UIView {
     }
     
     @IBAction func tapAlertViewBack(sender: AnyObject) {
-        self.closeAlertView(sender)
+        self.closeAlertView(sender: sender)
     }
     @IBAction func closeAlertView(sender: AnyObject) {
         print("閉じる")
         alertBackView.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.0)
         
-        UIView.animateWithDuration(0.3,
+        UIView.animate(withDuration: 0.3,
             delay: 0.0,
             usingSpringWithDamping: 1.0,
             initialSpringVelocity: 0.3,
-            options: UIViewAnimationOptions.CurveEaseIn,
+            options: UIViewAnimationOptions.curveEaseIn,
             animations: {() -> Void  in
                 self.alertView.center = CGPointMake(self.frame.width/2, self.frame.height + (self.alertView.frame.height/2)) //最初は画面下部に隠す
             },
-            completion:{(Bool finished) -> Void in
+            completion:{(finished) -> Void in
                 self.delegate.closeImageAlertView()
         })
 

@@ -28,29 +28,29 @@ class AlertView: UIView {
     
     
     class func instanceView() -> AlertView {
-        return UINib(nibName: "AlertView", bundle: nil).instantiateWithOwner(self, options: nil)[0] as! AlertView
+        return UINib(nibName: "AlertView", bundle: nil).instantiate(withOwner: self, options: nil)[0] as! AlertView
     }
     
     func showAlertView(){
         self.alertView.alpha = 1.0
         self.backAlertView.backgroundColor = UIColor(red:0.20, green:0.20, blue:0.20, alpha:0.5)
-        self.alertView.transform = CGAffineTransformMakeScale(0.8, 0.8)
+        self.alertView.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
         
-        UIView.animateWithDuration(0.1, delay: 0.0, options: UIViewAnimationOptions.CurveEaseIn, animations: { () -> Void in
-            self.alertView.transform = CGAffineTransformMakeScale(1.2, 1.2)
+        UIView.animate(withDuration: 0.1, delay: 0.0, options: UIViewAnimationOptions.curveEaseIn, animations: { () -> Void in
+            self.alertView.transform = CGAffineTransform(scaleX: 1.2, y: 1.2)
         }, completion: {(BOOL) -> Void in
-            UIView.animateWithDuration(0.1, delay: 0.0, options: UIViewAnimationOptions.CurveEaseIn, animations: { () -> Void in
-                self.alertView.transform = CGAffineTransformMakeScale(1.0, 1.0)
+            UIView.animate(withDuration: 0.1, delay: 0.0, options: UIViewAnimationOptions.curveEaseIn, animations: { () -> Void in
+                self.alertView.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
             }, completion: nil)
         })
     }
     
     func closeAlertView(){
-        UIView.animateWithDuration(0.1, delay: 0.0, options: UIViewAnimationOptions.CurveEaseIn, animations: { () -> Void in
-            self.alertView.transform = CGAffineTransformMakeScale(1.2, 1.2)
+        UIView.animate(withDuration: 0.1, delay: 0.0, options: UIViewAnimationOptions.curveEaseIn, animations: { () -> Void in
+            self.alertView.transform = CGAffineTransform(scaleX: 1.2, y: 1.2)
         }, completion: {(BOOL) -> Void in
-            UIView.animateWithDuration(0.1, delay: 0.0, options: UIViewAnimationOptions.CurveEaseIn, animations: { () -> Void in
-                self.alertView.transform = CGAffineTransformMakeScale(0.8, 0.8)
+            UIView.animate(withDuration: 0.1, delay: 0.0, options: UIViewAnimationOptions.curveEaseIn, animations: { () -> Void in
+                self.alertView.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
             }, completion: {(BOOL) -> Void in
                 self.delegate.removeAlertView()
             })
@@ -58,11 +58,11 @@ class AlertView: UIView {
     }
     
     @IBAction func tapYes(sender: AnyObject) {
-        self.delegate.tapYes(pinView)
+        self.delegate.tapYes(view: pinView)
     }
     
     @IBAction func tapNo(sender: AnyObject) {
-        self.delegate.tapNo(pinView)
+        self.delegate.tapNo(view: pinView)
     }
     
 }

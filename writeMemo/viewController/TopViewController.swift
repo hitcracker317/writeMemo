@@ -28,13 +28,13 @@ class TopViewController: UIViewController ,UICollectionViewDataSource,UICollecti
         super.viewDidLoad()
         
         let nib:UINib = UINib(nibName: "MemoCollectionViewCell", bundle: nil)
-        memoCollectionView.registerNib(nib, forCellWithReuseIdentifier: "Cell")
+        memoCollectionView.register(nib, forCellWithReuseIdentifier: "Cell")
         
-        let ud:NSUserDefaults = NSUserDefaults.standardUserDefaults()
-        totalMemoID = ud.integerForKey("totalMemoID")
+        let ud:UserDefaults = UserDefaults.standard
+        totalMemoID = ud.integer(forKey: "totalMemoID")
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         //初期化
@@ -49,11 +49,11 @@ class TopViewController: UIViewController ,UICollectionViewDataSource,UICollecti
         return 1
     }
     
-    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return memoArray.count
     }
-    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let cell = memoCollectionView.dequeueReusableCellWithReuseIdentifier("Cell", forIndexPath: indexPath) as! MemoCollectionViewCell
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = memoCollectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath) as! MemoCollectionViewCell
         
         let memoEntity:MemoEntity = memoArray[indexPath.row] as! MemoEntity
         cell.memoTitle.text = memoEntity.memoTitle
@@ -61,17 +61,17 @@ class TopViewController: UIViewController ,UICollectionViewDataSource,UICollecti
         
         return cell
     }
-    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: IndexPath) {
         //メモ画面に遷移
         print("\(indexPath.row)を選択！")
         
         selectedMemoEntity = memoArray[indexPath.row] as! MemoEntity
-        performSegueWithIdentifier("openMemo", sender: nil)
+        performSegue(withIdentifier: "openMemo", sender: nil)
     }
     
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if(segue.identifier == "openMemo"){
-            let controller = segue.destinationViewController as! MemoViewController
+            let controller = segue.destination as! MemoViewController
             
             if(transitionNewMemo){
                 //新規作成をしたときは現在のtotalMemoIDをmemoViewControllerに受け渡す
@@ -87,29 +87,28 @@ class TopViewController: UIViewController ,UICollectionViewDataSource,UICollecti
     // MARK: - EditMemoNameView
     @IBAction func openEditMemoNameView(sender: AnyObject) {
         //新規メモを作成するビューを表示
-        editMemoNameView.frame = CGRectMake(0, 0, self.view.frame.width, self.view.frame.height)
+        editMemoNameView.frame = CGRect(x:0, y:0, width:self.view.frame.width, height:self.view.frame.height)
         editMemoNameView.delegate = self
         editMemoNameView.showAlertView()
-        let appDelegate:AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        let appDelegate:AppDelegate = UIApplication.shared.delegate as! AppDelegate
         appDelegate.window?.addSubview(editMemoNameView)
     }
     func tapOK(title:NSString){
         //入力した名前を元に新規メモを作成
         transitionNewMemo = true
         
-        totalMemoID++
-        MemoCRUD.sharedInstance.createEntity(title, id: totalMemoID) //新規にエンティティを作成
+        totalMemoID+=1
+        MemoCRUD.sharedInstance.createEntity(title: title, id: totalMemoID) //新規にエンティティを作成
         
-        let ud = NSUserDefaults.standardUserDefaults()
-        ud.setInteger(totalMemoID, forKey: "totalMemoID")
+        let ud = UserDefaults.standard
+        ud.set(totalMemoID, forKey: "totalMemoID")
         ud.synchronize()
         
         editMemoNameView.closeAlertView()
         
         //閉じるアニメーション終了したら画面遷移
-        let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(0.3 * Double(NSEC_PER_SEC)))
-        dispatch_after(delayTime, dispatch_get_main_queue()) {
-            self.performSegueWithIdentifier("openMemo", sender: nil)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+            self.performSegue(withIdentifier: "openMemo", sender: nil)
         }
     }
     func tapCancel() {
@@ -123,22 +122,22 @@ class TopViewController: UIViewController ,UICollectionViewDataSource,UICollecti
     // MARK: - DeleteMemo
     func getIndexPath(event:UIEvent) -> NSIndexPath{
         //カスタムセルに配置したUIButtonのインデックスパスを取得するメソッド
-        let touch:UITouch = event.allTouches()!.first! as UITouch
-        let point:CGPoint = touch.locationInView(self.memoCollectionView)
-        let indexPath:NSIndexPath = self.memoCollectionView.indexPathForItemAtPoint(point)!
+        let touch:UITouch = event.allTouches!.first! as UITouch
+        let point:CGPoint = touch.location(in: self.memoCollectionView)
+        let indexPath:NSIndexPath = self.memoCollectionView.indexPathForItem(at: point)! as NSIndexPath
         return indexPath
     }
     
     func openDeleteAlert(sender: AnyObject,event: UIEvent) {
         print("削除確認をするアラートビューを表示するよ！")
         
-        deleteIndexPath = self.getIndexPath(event)
+        deleteIndexPath = self.getIndexPath(event: event)
         print("\(deleteIndexPath.row)番目のセルのボタンをタップ")
         
-        deleteAlertView.frame = CGRectMake(0, 0, self.view.frame.width, self.view.frame.height)
+        deleteAlertView.frame = CGRect(x:0, y:0, width:self.view.frame.width, height:self.view.frame.height)
         deleteAlertView.delegate = self
         deleteAlertView.showAlertView()
-        let appDelegate:AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        let appDelegate:AppDelegate = UIApplication.shared.delegate as! AppDelegate
         appDelegate.window?.addSubview(deleteAlertView)
     }
     

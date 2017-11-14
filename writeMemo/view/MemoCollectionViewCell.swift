@@ -25,7 +25,7 @@ class MemoCollectionViewCell: UICollectionViewCell {
         
         self.layer.cornerRadius = 20.0
         self.clipsToBounds = true
-        self.layer.borderColor = UIColor(red: 2.55, green: 2.55, blue: 2.55, alpha: 1.0).CGColor
+        self.layer.borderColor = UIColor(red: 2.55, green: 2.55, blue: 2.55, alpha: 1.0).cgColor
         self.layer.borderWidth = 5
     }
     
@@ -40,7 +40,7 @@ class MemoCollectionViewCell: UICollectionViewCell {
     }
 
     @IBAction func tapDeleteButton(sender: AnyObject,event: UIEvent) {
-        self.delegate.openDeleteAlert(sender,event:event)
+        self.delegate.openDeleteAlert(sender: sender,event:event)
     }
     
 }

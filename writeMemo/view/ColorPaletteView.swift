@@ -30,8 +30,8 @@ class ColorPaletteView: UIScrollView {
         UIColor(red:0.67, green:0.49, blue:0.23, alpha:1.0)/*茶色*/
     ]
     
-    override func drawRect(rect: CGRect) {
-        super.drawRect(rect)
+    override func drawdraw(_ rect: CGRect) {
+        super.draw(rect)
         
         self.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0)
         
@@ -57,7 +57,7 @@ class ColorPaletteView: UIScrollView {
             colorButton.frame = CGRectMake(xPosition, yPosition, palletWidth, palletHeight)
             colorButton.backgroundColor = colorArray[i]
             colorButton.tag = i
-            colorButton.addTarget(self, action:"changeColor:", forControlEvents:.TouchUpInside)
+            colorButton.addTarget(self, action:"changeColor:", for:.touchUpInside)
             self.addSubview(colorButton)
         }
         
@@ -68,7 +68,7 @@ class ColorPaletteView: UIScrollView {
     func changeColor(sender:UIButton){
         //鉛筆の色を変更
         //self.changeDrawMode(sender) //消しゴムモードの場合は鉛筆モードに変更
-        self.colorPalletDelgate.setColor(sender.backgroundColor!)
+        self.colorPalletDelgate.setColor(color: sender.backgroundColor!)
     }
 
     
