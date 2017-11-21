@@ -30,7 +30,7 @@ class ColorPaletteView: UIScrollView {
         UIColor(red:0.67, green:0.49, blue:0.23, alpha:1.0)/*茶色*/
     ]
     
-    override func drawdraw(_ rect: CGRect) {
+    override func draw(_ rect: CGRect) {
         super.draw(rect)
         
         self.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0)
@@ -39,30 +39,28 @@ class ColorPaletteView: UIScrollView {
         let palletWidth:CGFloat = 44
         let palletHeight:CGFloat = 44
         let palletMargin:CGFloat = 3
-        self.contentSize = CGSizeMake((palletWidth + palletMargin) * CGFloat(colorArray.count) + palletMargin , 50)
-        
-        for(var i = 0; i < colorArray.count; i++){
+        self.contentSize = CGSize(width:(palletWidth + palletMargin) * CGFloat(colorArray.count) + palletMargin, height: 50)
+
+        for i in 0..<colorArray.count {
             //カラーパレットボタンを生成
             var xPosition:CGFloat = 3.0
             let yPosition:CGFloat = 3.0
-            
+
             if i == 0 {
                 xPosition = 3
             } else if i >= 1 {
                 xPosition = ((palletWidth + palletMargin) * CGFloat(i)) + palletMargin
             }
-            
+
             //ボタン
             let colorButton:UIButton = UIButton()
-            colorButton.frame = CGRectMake(xPosition, yPosition, palletWidth, palletHeight)
+            colorButton.frame = CGRect(x:xPosition, y:yPosition, width:palletWidth,  height:palletHeight)
             colorButton.backgroundColor = colorArray[i]
             colorButton.tag = i
             colorButton.addTarget(self, action:"changeColor:", for:.touchUpInside)
             self.addSubview(colorButton)
         }
-        
-        self.contentOffset = CGPointMake(0, 0) //スクロールの初期位置
-
+        self.contentOffset = CGPoint(x:0, y:0) //スクロールの初期位置
     }
         
     func changeColor(sender:UIButton){
@@ -70,6 +68,4 @@ class ColorPaletteView: UIScrollView {
         //self.changeDrawMode(sender) //消しゴムモードの場合は鉛筆モードに変更
         self.colorPalletDelgate.setColor(color: sender.backgroundColor!)
     }
-
-    
 }

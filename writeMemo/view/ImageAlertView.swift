@@ -27,7 +27,7 @@ class ImageAlertView: UIView {
     
     override func awakeFromNib() {
         // XIB読み込みんだ際に呼ばれるメソッド
-        alertView.center = CGPointMake(self.frame.width/2, self.frame.height + (self.alertView.frame.height/2)) //最初は画面下部に隠す   
+        alertView.center = CGPoint(x:self.frame.width/2, y:self.frame.height + (self.alertView.frame.height/2)) //最初は画面下部に隠す
     }
     
     func showImageAlertView(){
@@ -40,7 +40,7 @@ class ImageAlertView: UIView {
             initialSpringVelocity: 0.3,
             options: UIViewAnimationOptions.curveEaseIn,
             animations: {() -> Void  in
-                self.alertView.center = CGPointMake(self.frame.width/2, self.frame.height - (self.alertView.frame.height/2))
+                self.alertView.center = CGPoint(x:self.frame.width/2, y:self.frame.height - (self.alertView.frame.height/2))
             },
             completion:nil
         )
@@ -68,7 +68,7 @@ class ImageAlertView: UIView {
             initialSpringVelocity: 0.3,
             options: UIViewAnimationOptions.curveEaseIn,
             animations: {() -> Void  in
-                self.alertView.center = CGPointMake(self.frame.width/2, self.frame.height + (self.alertView.frame.height/2)) //最初は画面下部に隠す
+                self.alertView.center = CGPoint(x:self.frame.width/2, y:self.frame.height + (self.alertView.frame.height/2)) //最初は画面下部に隠す
             },
             completion:{(finished) -> Void in
                 self.delegate.closeImageAlertView()

@@ -46,16 +46,22 @@ class EditMemoNameView: UIView ,UITextFieldDelegate{
     }
     
     func closeAlertView(){
-        UIView.animate(withDuration: 0.1, delay: 0.0, options: UIViewAnimationOptions.curveEaseIn, animations: { () -> Void in
-            self.alertView.transform = CGAffineTransform(scaleX: 1.2, y: 1.2)
-            }, completion: {(BOOL) -> Void in
-                UIView.animateWithDuration(0.1, delay: 0.0, options: UIViewAnimationOptions.curveEaseIn, animations: { () -> Void in
+        UIView.animate(
+            withDuration: 0.1,
+            delay: 0.0,
+            options: UIViewAnimationOptions.curveEaseIn,
+            animations: { () -> Void in
+                self.alertView.transform = CGAffineTransform(scaleX: 1.2, y: 1.2)
+                }, completion: {(BOOL) -> Void in
+                    UIView.animate(withDuration: 0.1, delay: 0.0, options: UIViewAnimationOptions.curveEaseIn, animations: { () -> Void in
                     self.alertView.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
                     }, completion: {(BOOL) -> Void in
                         self.delegate.removeEditMemoTitleView()
                         self.titleTextView.text = ""
-                })
-        })
+                    }
+                )
+            }
+        )
     }
 
     @IBAction func tapOK(sender: AnyObject) {
@@ -74,7 +80,7 @@ class EditMemoNameView: UIView ,UITextFieldDelegate{
     
     //MARK: - UITextField
     func textFieldDidBeginEditing(textField: UITextField) {
-        pleaseInputLabel.isHiddenisHidden = true
+        pleaseInputLabel.isHidden = true
     }
     func textFieldShouldReturn(textField: UITextField) -> Bool {
         titleTextView.resignFirstResponder();
