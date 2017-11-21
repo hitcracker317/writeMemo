@@ -1,11 +1,3 @@
-//
-//  MemoViewController.swift
-//  writeMemo
-//
-//  Created by 前田 晃良 on 2015/11/03.
-//  Copyright (c) 2015年 A.M. All rights reserved.
-//
-
 import UIKit
 
 class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,UIGestureRecognizerDelegate,AlertViewDelegate, InputTextViewDelegate, ImageAlertViewDelegate {

@@ -1,11 +1,3 @@
-//
-//  ColorPaletteScrollView.swift
-//  writeMemo
-//
-//  Created by 前田 晃良 on 2015/11/17.
-//  Copyright © 2015年 A.M. All rights reserved.
-//
-
 import UIKit
 
 protocol ColorPalletViewDelegate:class{
