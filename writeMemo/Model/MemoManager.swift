@@ -26,7 +26,7 @@ class MemoManager: Object {
     }
 
     //MARK: - DERETE
-    func deleteMemo() {
+    func deleteMemo(memoID:Int) {
         //メモをデータベースから削除
     }
 }

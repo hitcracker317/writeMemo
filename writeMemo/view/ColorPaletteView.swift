@@ -49,7 +49,7 @@ class ColorPaletteView: UIScrollView {
             colorButton.frame = CGRect(x:xPosition, y:yPosition, width:palletWidth,  height:palletHeight)
             colorButton.backgroundColor = colorArray[i]
             colorButton.tag = i
-            colorButton.addTarget(self, action:"changeColor:", for:.touchUpInside)
+            colorButton.addTarget(self, action:#selector(changeColor), for:.touchUpInside)
             self.addSubview(colorButton)
         }
         self.contentOffset = CGPoint(x:0, y:0) //スクロールの初期位置

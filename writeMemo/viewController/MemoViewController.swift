@@ -54,12 +54,13 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
 
         self.initializeDraw()
         
-        memoEntity = MemoCRUD.sharedInstance.readMemoEntity(memoID: selectedMemoID) //選択したメモのエンティティを取得する
+        //memoEntity = MemoCRUD.sharedInstance.readMemoEntity(memoID: selectedMemoID) //選択したメモのエンティティを取得する
         //print("メモのタイトル:\(memoEntity.memoTitle)")
         
-        self.navigationItem.title = memoEntity.memoTitle
-        self.totalViewTag = Int(memoEntity.viewTagNumber!) //viewのタグ数
-    
+        //self.navigationItem.title = memoEntity.memoTitle
+        //self.totalViewTag = Int(memoEntity.viewTagNumber!) //viewのタグ数
+
+        /*
         if (memoEntity.memoViews != nil){
             //memoEntity.memoViewsがnilだとクラッシュするのでnilじゃなときのみ処理を入れる
             viewsDictionary = NSKeyedUnarchiver.unarchiveObject(with: memoEntity.memoViews! as Data)! as! NSMutableDictionary //画面に生成したviewを格納するdictionary
@@ -99,6 +100,7 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
         if(memoEntity.memoDrawing != nil){
             drawImageView.image = UIImage(data: memoEntity.memoDrawing! as Data)
         }
+        */
         
     }
     
@@ -252,15 +254,14 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
         alertView.removeFromSuperview()
     }
     
-    // MARK: - changeInputType
-    @IBAction func changeInputText(sender: AnyObject) {
+    // MARK: - changeTextMode
+    @IBAction func changeTextMode(_ sender: Any) {
+        //テキスト入力モードにチェンジ
         self.changeFromDraw()
-        
-        //テキスト追加モードにチェンジ
         inputType = InputType.InputTypeText
     }
-    
-    @IBAction func changeInputPaint(sender: AnyObject) {
+
+    @IBAction func changeInpautPaint(sender: AnyObject) {
         //ペイント追加モードにチェンジ
         inputType = InputType.InputTypePaint
         

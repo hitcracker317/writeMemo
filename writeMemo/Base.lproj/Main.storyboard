@@ -155,7 +155,7 @@
                                             <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </state>
                                         <connections>
-                                            <action selector="changeInputText:" destination="98M-ZN-zSH" eventType="touchUpInside" id="UH0-IZ-wSk"/>
+                                            <action selector="changeTextMode:" destination="98M-ZN-zSH" eventType="touchUpInside" id="lTv-7N-R79"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GJx-wm-6WI">

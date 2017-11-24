@@ -41,7 +41,7 @@ class InputTextView: UIView ,UITextViewDelegate,ColorPalletViewDelegate{
         self.inputTextView.font = UIFont(name: "HiraginoSans-W3", size: 25)
         
         let notificationCenter = NotificationCenter.default
-        notificationCenter.addObserver(self, selector: "showKeyboard:", name: NSNotification.Name.UIKeyboardDidShow, object: nil)
+        notificationCenter.addObserver(self, selector: #selector(showKeyboard), name: NSNotification.Name.UIKeyboardDidShow, object: nil)
         
         inputTextView.becomeFirstResponder()
         
@@ -65,7 +65,7 @@ class InputTextView: UIView ,UITextViewDelegate,ColorPalletViewDelegate{
         fontSizeSlider.minimumTrackTintColor = inputTextView.textColor
         
         let notificationCenter = NotificationCenter.default
-        notificationCenter.addObserver(self, selector: "showKeyboard:", name: NSNotification.Name.UIKeyboardDidShow, object: nil)
+        notificationCenter.addObserver(self, selector: #selector(showKeyboard), name: NSNotification.Name.UIKeyboardDidShow, object: nil)
         
         inputTextView.becomeFirstResponder()
     }
@@ -99,14 +99,14 @@ class InputTextView: UIView ,UITextViewDelegate,ColorPalletViewDelegate{
         changeColorButton.frame = CGRect(x:leftAndRightMargin, y:topAndBottonMargin, width:44, height:44)
         changeColorButton.backgroundColor = UIColor(red:0.98, green:0.87, blue:0.94, alpha:1)
         changeColorButton.setTitle("カ", for: .normal)
-        changeColorButton.addTarget(self, action:"changeEditColor:", for: .touchUpInside)
+        changeColorButton.addTarget(self, action:#selector(changeEditColor), for: .touchUpInside)
         keyBoardButtonView.addSubview(changeColorButton)
         //フォントサイズを変更するボタンを設置
         let changeFontSizeButton:UIButton = UIButton()
         changeFontSizeButton.frame = CGRect(x:(leftAndRightMargin * 2) + changeColorButton.frame.width, y:topAndBottonMargin, width:44, height:44)
         changeFontSizeButton.backgroundColor = UIColor(red:0.82, green:0.92, blue:0.97, alpha:1)
         changeFontSizeButton.setTitle("フ", for: .normal)
-        changeFontSizeButton.addTarget(self, action:"changeEditFontSize:", for: .touchUpInside)
+        changeFontSizeButton.addTarget(self, action:#selector(changeEditFontSize), for: .touchUpInside)
         keyBoardButtonView.addSubview(changeFontSizeButton)
         
         //キーボードを閉じてテキストの編集を終えるボタン
@@ -114,7 +114,7 @@ class InputTextView: UIView ,UITextViewDelegate,ColorPalletViewDelegate{
         finishButton.frame = CGRect(x:self.frame.width - 60, y:0, width:60, height: keyBoardButtonHeight)
         finishButton.backgroundColor = UIColor(red:0.92, green:0.38, blue:0.33, alpha:1)
         finishButton.setTitle("完了", for: .normal)
-        finishButton.addTarget(self, action:"finishEditText:", for: .touchUpInside)
+        finishButton.addTarget(self, action:#selector(finishEditText), for: .touchUpInside)
         keyBoardButtonView.addSubview(finishButton)
         
         
@@ -139,7 +139,7 @@ class InputTextView: UIView ,UITextViewDelegate,ColorPalletViewDelegate{
         fontSizeSlider.value = 25
         fontSizeSlider.maximumTrackTintColor = UIColor.gray
         fontSizeSlider.minimumTrackTintColor = inputTextView.textColor
-        fontSizeSlider.addTarget(self, action: "changeFontSize:", for: UIControlEvents.valueChanged)
+        fontSizeSlider.addTarget(self, action: #selector(changeFontSize), for: UIControlEvents.valueChanged)
         if(isColorPalletAppear).boolValue{
             fontSizeSlider.isHidden = true
         } else {
