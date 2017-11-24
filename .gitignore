@@ -18,6 +18,9 @@ DerivedData
 !default.perspectivev3
 xcuserdata
 
+#CocoaPod
+Pods/*
+
 ## Other
 *.xccheckout
 *.moved-aside
