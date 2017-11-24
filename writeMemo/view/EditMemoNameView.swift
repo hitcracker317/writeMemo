@@ -56,20 +56,19 @@ class EditMemoNameView: UIView ,UITextFieldDelegate{
         )
     }
 
-    @IBAction func tapOK(sender: AnyObject) {
+    @IBAction func tapOK(_ sender: Any) {
         //タイトルが空だったら警告文を出して先には進めないようにする
         if(titleTextView.text == ""){
             pleaseInputLabel.isHidden = false
         } else {
             self.delegate.tapOK(title: self.titleTextView.text! as NSString)
         }
-        
     }
-    
-    @IBAction func tapCancel(sender: AnyObject) {
+
+    @IBAction func tapCancel(_ sender: Any) {
         self.delegate.tapCancel()
     }
-    
+
     //MARK: - UITextField
     func textFieldDidBeginEditing(textField: UITextField) {
         pleaseInputLabel.isHidden = true

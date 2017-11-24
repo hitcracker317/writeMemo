@@ -55,7 +55,7 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
         self.initializeDraw()
         
         memoEntity = MemoCRUD.sharedInstance.readMemoEntity(memoID: selectedMemoID) //選択したメモのエンティティを取得する
-        print("メモのタイトル:\(memoEntity.memoTitle)")
+        //print("メモのタイトル:\(memoEntity.memoTitle)")
         
         self.navigationItem.title = memoEntity.memoTitle
         self.totalViewTag = Int(memoEntity.viewTagNumber!) //viewのタグ数

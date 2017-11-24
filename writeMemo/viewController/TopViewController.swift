@@ -75,9 +75,8 @@ class TopViewController: UIViewController ,UICollectionViewDataSource,UICollecti
         }
     }
     
-    
     // MARK: - EditMemoNameView
-    @IBAction func openEditMemoNameView(sender: AnyObject) {
+    @IBAction func newMemoCreate(_ sender: Any) {
         //新規メモを作成するビューを表示
         editMemoNameView.frame = CGRect(x:0, y:0, width:self.view.frame.width, height:self.view.frame.height)
         editMemoNameView.delegate = self
@@ -85,6 +84,7 @@ class TopViewController: UIViewController ,UICollectionViewDataSource,UICollecti
         let appDelegate:AppDelegate = UIApplication.shared.delegate as! AppDelegate
         appDelegate.window?.addSubview(editMemoNameView)
     }
+
     func tapOK(title:NSString){
         //入力した名前を元に新規メモを作成
         transitionNewMemo = true

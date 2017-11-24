@@ -38,10 +38,9 @@ class MemoCRUD: NSObject {
         }
         return memoEntityArray
     }
-    
-    func readMemoEntity(memoID:Int) -> MemoEntity{
-        
-        var memoEntity:MemoEntity!
+
+    func readMemoEntity(memoID:Int) -> MemoEntity?{
+        var memoEntity:MemoEntity?
         
         if let managedObjectContext = appDelegate.managedObjectContext{
             
@@ -71,6 +70,7 @@ class MemoCRUD: NSObject {
         return memoEntity
     }
     
+
     //MARK: - CREATE
     func createEntity(title:NSString,id:Int){
         //データモデルを新規に作成
