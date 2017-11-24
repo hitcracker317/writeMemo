@@ -254,8 +254,8 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
         alertView.removeFromSuperview()
     }
     
-    // MARK: - changeTextMode
-    @IBAction func changeTextMode(_ sender: Any) {
+    // MARK: - changeInputText
+    @IBAction func changeInputText(_ sender: Any) {
         //テキスト入力モードにチェンジ
         self.changeFromDraw()
         inputType = InputType.InputTypeText
@@ -356,9 +356,9 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
         textView.center = tempTextViewCenter
         
         //UIGestureを登録(タップ、移動、回転)
-        let tapGesture:UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: "tapView:")
-        let moveGesture:UIPanGestureRecognizer = UIPanGestureRecognizer(target: self, action: "moveView:")
-        let rotateGesture:UIRotationGestureRecognizer = UIRotationGestureRecognizer(target: self, action: "rotateView:")
+        let tapGesture:UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(tapView))
+        let moveGesture:UIPanGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(moveView))
+        let rotateGesture:UIRotationGestureRecognizer = UIRotationGestureRecognizer(target: self, action: #selector(rotateView))
         textView.addGestureRecognizer(tapGesture)
         textView.addGestureRecognizer(moveGesture)
         textView.addGestureRecognizer(rotateGesture)
@@ -542,9 +542,9 @@ class MemoViewController: UIViewController,DrawOptionViewDelegate,UITextViewDele
             baseView.layer.borderWidth = 1.5
             
             //UIGestureを登録(移動、拡大縮小、回転)
-            let movePan:UIPanGestureRecognizer = UIPanGestureRecognizer(target: self, action: "moveView:")
-            let pinchPan:UIPinchGestureRecognizer = UIPinchGestureRecognizer(target: self, action: "pinchView:")
-            let rotatePan:UIRotationGestureRecognizer = UIRotationGestureRecognizer(target: self, action: "rotateView:")
+            let movePan:UIPanGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(moveView))
+            let pinchPan:UIPinchGestureRecognizer = UIPinchGestureRecognizer(target: self, action: #selector(pinchView))
+            let rotatePan:UIRotationGestureRecognizer = UIRotationGestureRecognizer(target: self, action: #selector(rotateView))
             baseView.addGestureRecognizer(movePan)
             baseView.addGestureRecognizer(pinchPan)
             baseView.addGestureRecognizer(rotatePan)

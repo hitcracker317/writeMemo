@@ -128,7 +128,7 @@
                                             <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </state>
                                         <connections>
-                                            <action selector="changeInputPaint:" destination="98M-ZN-zSH" eventType="touchUpInside" id="xqE-ij-0kb"/>
+                                            <action selector="changeInpautPaintWithSender:" destination="98M-ZN-zSH" eventType="touchUpInside" id="BlG-H9-QhQ"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="T7r-40-b7U">
@@ -138,7 +138,7 @@
                                             <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </state>
                                         <connections>
-                                            <action selector="changeInputImage:" destination="98M-ZN-zSH" eventType="touchUpInside" id="pJb-5F-cx5"/>
+                                            <action selector="changeInputImageWithSender:" destination="98M-ZN-zSH" eventType="touchUpInside" id="JLq-cH-lK8"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Z6h-Pz-xON">
@@ -155,7 +155,7 @@
                                             <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </state>
                                         <connections>
-                                            <action selector="changeTextMode:" destination="98M-ZN-zSH" eventType="touchUpInside" id="lTv-7N-R79"/>
+                                            <action selector="changeInputText:" destination="98M-ZN-zSH" eventType="touchUpInside" id="GoC-D6-kN7"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GJx-wm-6WI">
@@ -165,7 +165,7 @@
                                             <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </state>
                                         <connections>
-                                            <action selector="changeInputMove:" destination="98M-ZN-zSH" eventType="touchUpInside" id="HuU-ma-PnR"/>
+                                            <action selector="changeInputMoveWithSender:" destination="98M-ZN-zSH" eventType="touchUpInside" id="p7N-iR-3IS"/>
                                         </connections>
                                     </button>
                                 </subviews>
