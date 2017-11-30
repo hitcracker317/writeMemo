@@ -30,7 +30,6 @@
 		DCE981801BFDB0A000F65635 /* ImageAlertView.xib in Resources */ = {isa = PBXBuildFile; fileRef = DCE9817F1BFDB0A000F65635 /* ImageAlertView.xib */; };
 		DCF13C0E1BE9CD5800880FD6 /* MemoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCF13C0C1BE9CD5800880FD6 /* MemoCollectionViewCell.swift */; };
 		DCF13C0F1BE9CD5800880FD6 /* MemoCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DCF13C0D1BE9CD5800880FD6 /* MemoCollectionViewCell.xib */; };
-		DCF13C131BE9E01400880FD6 /* memoImage.png in Resources */ = {isa = PBXBuildFile; fileRef = DCF13C121BE9E01400880FD6 /* memoImage.png */; };
 		DCF4CFB41BE8769B00B0E076 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCF4CFB31BE8769B00B0E076 /* AppDelegate.swift */; };
 		DCF4CFB71BE8769B00B0E076 /* writeMemo.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = DCF4CFB51BE8769B00B0E076 /* writeMemo.xcdatamodeld */; };
 		DCF4CFB91BE8769B00B0E076 /* TopViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCF4CFB81BE8769B00B0E076 /* TopViewController.swift */; };
@@ -80,7 +79,6 @@
 		DCE9817F1BFDB0A000F65635 /* ImageAlertView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ImageAlertView.xib; path = view/ImageAlertView.xib; sourceTree = "<group>"; };
 		DCF13C0C1BE9CD5800880FD6 /* MemoCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MemoCollectionViewCell.swift; path = view/MemoCollectionViewCell.swift; sourceTree = "<group>"; };
 		DCF13C0D1BE9CD5800880FD6 /* MemoCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MemoCollectionViewCell.xib; path = view/MemoCollectionViewCell.xib; sourceTree = "<group>"; };
-		DCF13C121BE9E01400880FD6 /* memoImage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = memoImage.png; path = images/memoImage.png; sourceTree = "<group>"; };
 		DCF4CFAE1BE8769B00B0E076 /* writeMemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = writeMemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DCF4CFB21BE8769B00B0E076 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DCF4CFB31BE8769B00B0E076 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -170,7 +168,6 @@
 			isa = PBXGroup;
 			children = (
 				DC5DE37A1BE88E9B0069195B /* background.png */,
-				DCF13C121BE9E01400880FD6 /* memoImage.png */,
 				DC498C671BEBA0FF00FD10AD /* palette_48px.png */,
 				DC498C681BEBA0FF00FD10AD /* strongPen.png */,
 				DC498C691BEBA0FF00FD10AD /* thinPen.png */,
@@ -349,7 +346,6 @@
 				DCF4CFBC1BE8769B00B0E076 /* Main.storyboard in Resources */,
 				DC498C6B1BEBA0FF00FD10AD /* strongPen.png in Resources */,
 				DCE981801BFDB0A000F65635 /* ImageAlertView.xib in Resources */,
-				DCF13C131BE9E01400880FD6 /* memoImage.png in Resources */,
 				DC498C661BEB3E6C00FD10AD /* DrawOptionView.xib in Resources */,
 				DCF13C0F1BE9CD5800880FD6 /* MemoCollectionViewCell.xib in Resources */,
 				DC5DE37B1BE88E9B0069195B /* background.png in Resources */,

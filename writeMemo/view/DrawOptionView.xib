@@ -27,7 +27,7 @@
                     <rect key="frame" x="58" y="80" width="259" height="31"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <connections>
-                        <action selector="changeThickness:" destination="iN0-l3-epB" eventType="valueChanged" id="w5s-Af-7L6"/>
+                        <action selector="changeThicknessWithSender:" destination="iN0-l3-epB" eventType="valueChanged" id="B7T-k0-ZDr"/>
                     </connections>
                 </slider>
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="palette_48px.png" translatesAutoresizingMaskIntoConstraints="NO" id="njD-az-wBW">
@@ -52,7 +52,7 @@
                         <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </state>
                     <connections>
-                        <action selector="changeEraserMode:" destination="iN0-l3-epB" eventType="touchUpInside" id="mzy-tx-Tyf"/>
+                        <action selector="changeEraserModeWithSender:" destination="iN0-l3-epB" eventType="touchUpInside" id="wDS-S0-PNG"/>
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sGV-IS-gYc">
@@ -65,7 +65,7 @@
                         <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </state>
                     <connections>
-                        <action selector="changeDrawMode:" destination="iN0-l3-epB" eventType="touchUpInside" id="2Tc-Mq-T76"/>
+                        <action selector="changeDrawModeWithSender:" destination="iN0-l3-epB" eventType="touchUpInside" id="jCA-Qe-rdu"/>
                     </connections>
                 </button>
             </subviews>
