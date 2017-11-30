@@ -18,6 +18,19 @@ class MemoManager: Object {
     //MARK: - CREATE
     func createMemo(title:NSString,id:Int){
         //メモのデータモデルを新規に作成
+        let memo = Memo()
+        memo.memoTitle = title as String
+        memo.memoID = id
+
+        // データを永続化
+        do{
+            let realm = try Realm()
+            try realm.write{
+                realm.add(memo)
+            }
+        }catch{
+            print("失敗")
+        }
     }
 
     //MARK: - UPDATE

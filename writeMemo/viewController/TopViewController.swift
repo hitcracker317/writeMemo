@@ -1,5 +1,6 @@
 import UIKit
 import CoreData
+import RealmSwift
 
 class TopViewController: UIViewController ,UICollectionViewDataSource,UICollectionViewDelegate,MemoCollectionViewDelegate,AlertViewDelegate,EditMemoNameViewDelegate{
 
@@ -31,8 +32,9 @@ class TopViewController: UIViewController ,UICollectionViewDataSource,UICollecti
         
         //初期化
         transitionNewMemo = false
-        
-        memoArray = MemoCRUD.sharedInstance.readEntitys()
+
+        let realm = try! Realm()
+        memoArray = realm.objects(Memo.self)
         memoCollectionView.reloadData()
     }
     
@@ -46,9 +48,14 @@ class TopViewController: UIViewController ,UICollectionViewDataSource,UICollecti
     }
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = memoCollectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath) as! MemoCollectionViewCell
-        
-        let memoEntity:MemoEntity = memoArray[indexPath.row] as! MemoEntity
-        cell.memoTitle.text = memoEntity.memoTitle
+
+
+
+        let memo:Memo = memoArray[indexPath.row] as! Memo
+
+        print("メモの中身：\(memoArray)")
+        //let memoEntity:MemoEntity = memoArray[indexPath.row] as! MemoEntity
+        cell.memoTitle.text = memo.memoTitle
         cell.delegate = self
         
         return cell
@@ -88,23 +95,20 @@ class TopViewController: UIViewController ,UICollectionViewDataSource,UICollecti
     func tapOK(title:NSString){
         //入力した名前を元に新規メモを作成
         transitionNewMemo = true
-        
-        totalMemoID+=1
-        MemoCRUD.sharedInstance.createEntity(title: title, id: totalMemoID) //新規にエンティティを作成
-        
+        totalMemoID += 1
         let ud = UserDefaults.standard
         ud.set(totalMemoID, forKey: "totalMemoID")
         ud.synchronize()
-        
-        editMemoNameView.closeAlertView()
-        
+        MemoManager.sharedInstance.createMemo(title: title, id: totalMemoID)
+
         //閉じるアニメーション終了したら画面遷移
+        editMemoNameView.closeAlertView()
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
             self.performSegue(withIdentifier: "openMemo", sender: nil)
         }
     }
     func tapCancel() {
-        //閉じるだけ
+        //削除キャンセル
         editMemoNameView.closeAlertView()
     }
     func removeEditMemoTitleView(){
