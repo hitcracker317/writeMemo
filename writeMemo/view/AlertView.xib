@@ -38,7 +38,7 @@
                                         <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     </state>
                                     <connections>
-                                        <action selector="tapYes:" destination="iN0-l3-epB" eventType="touchUpInside" id="Res-PQ-APL"/>
+                                        <action selector="tapYesWithSender:" destination="iN0-l3-epB" eventType="touchUpInside" id="9qz-MA-NFo"/>
                                     </connections>
                                 </button>
                                 <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QIv-PE-zmc">
@@ -49,7 +49,7 @@
                                         <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     </state>
                                     <connections>
-                                        <action selector="tapNo:" destination="iN0-l3-epB" eventType="touchUpInside" id="aLU-5E-8cy"/>
+                                        <action selector="tapNoWithSender:" destination="iN0-l3-epB" eventType="touchUpInside" id="qTs-k2-NFW"/>
                                     </connections>
                                 </button>
                             </subviews>
