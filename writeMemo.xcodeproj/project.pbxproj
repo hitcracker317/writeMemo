@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		409B6476B97C70E6063B53AB /* Pods_writeMemo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A4D7BBD7AD57A0AF865B41FB /* Pods_writeMemo.framework */; };
+		9D1EF43C1FCFDAC3008316B0 /* TopViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9D1EF43B1FCFDAC3008316B0 /* TopViewController.storyboard */; };
+		9D1EF43E1FCFDAE0008316B0 /* MemoViewCotroller.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9D1EF43D1FCFDAE0008316B0 /* MemoViewCotroller.storyboard */; };
 		9D72612C1FC80767003509E2 /* Memo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D72612B1FC80767003509E2 /* Memo.swift */; };
 		9D72612E1FC80968003509E2 /* MemoManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D72612D1FC80968003509E2 /* MemoManager.swift */; };
 		DC12CAEB1BF0C6C500AE6167 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC12CAEA1BF0C6C500AE6167 /* CoreGraphics.framework */; };
@@ -33,7 +35,7 @@
 		DCF4CFB41BE8769B00B0E076 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCF4CFB31BE8769B00B0E076 /* AppDelegate.swift */; };
 		DCF4CFB71BE8769B00B0E076 /* writeMemo.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = DCF4CFB51BE8769B00B0E076 /* writeMemo.xcdatamodeld */; };
 		DCF4CFB91BE8769B00B0E076 /* TopViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCF4CFB81BE8769B00B0E076 /* TopViewController.swift */; };
-		DCF4CFBC1BE8769B00B0E076 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DCF4CFBA1BE8769B00B0E076 /* Main.storyboard */; };
+		DCF4CFBC1BE8769B00B0E076 /* MainNavigationController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DCF4CFBA1BE8769B00B0E076 /* MainNavigationController.storyboard */; };
 		DCF4CFBE1BE8769B00B0E076 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DCF4CFBD1BE8769B00B0E076 /* Images.xcassets */; };
 		DCF4CFC11BE8769B00B0E076 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = DCF4CFBF1BE8769B00B0E076 /* LaunchScreen.xib */; };
 		DCF4CFCD1BE8769C00B0E076 /* writeMemoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCF4CFCC1BE8769C00B0E076 /* writeMemoTests.swift */; };
@@ -55,6 +57,8 @@
 /* Begin PBXFileReference section */
 		519B9EEF0BE75262DDA7D91F /* Pods-writeMemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-writeMemo.release.xcconfig"; path = "Pods/Target Support Files/Pods-writeMemo/Pods-writeMemo.release.xcconfig"; sourceTree = "<group>"; };
 		9BFEDE8DB37C7F3169E63D1D /* Pods-writeMemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-writeMemo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-writeMemo/Pods-writeMemo.debug.xcconfig"; sourceTree = "<group>"; };
+		9D1EF43B1FCFDAC3008316B0 /* TopViewController.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = TopViewController.storyboard; path = viewController/TopViewController.storyboard; sourceTree = "<group>"; };
+		9D1EF43D1FCFDAE0008316B0 /* MemoViewCotroller.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = MemoViewCotroller.storyboard; path = viewController/MemoViewCotroller.storyboard; sourceTree = "<group>"; };
 		9D72612B1FC80767003509E2 /* Memo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Memo.swift; path = Model/Memo.swift; sourceTree = "<group>"; };
 		9D72612D1FC80968003509E2 /* MemoManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MemoManager.swift; path = Model/MemoManager.swift; sourceTree = "<group>"; };
 		A4D7BBD7AD57A0AF865B41FB /* Pods_writeMemo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_writeMemo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -84,7 +88,7 @@
 		DCF4CFB31BE8769B00B0E076 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DCF4CFB61BE8769B00B0E076 /* writeMemo.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = writeMemo.xcdatamodel; sourceTree = "<group>"; };
 		DCF4CFB81BE8769B00B0E076 /* TopViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = TopViewController.swift; path = viewController/TopViewController.swift; sourceTree = "<group>"; };
-		DCF4CFBB1BE8769B00B0E076 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		DCF4CFBB1BE8769B00B0E076 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainNavigationController.storyboard; sourceTree = "<group>"; };
 		DCF4CFBD1BE8769B00B0E076 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		DCF4CFC01BE8769B00B0E076 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		DCF4CFC61BE8769C00B0E076 /* writeMemoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = writeMemoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -199,7 +203,6 @@
 			isa = PBXGroup;
 			children = (
 				DCF4CFB31BE8769B00B0E076 /* AppDelegate.swift */,
-				DCF4CFBA1BE8769B00B0E076 /* Main.storyboard */,
 				DCF4CFD81BE8825400B0E076 /* viewController */,
 				DCB621A41C02DF0A004287A3 /* Model */,
 				DCF13C101BE9CD6400880FD6 /* view */,
@@ -242,7 +245,10 @@
 		DCF4CFD81BE8825400B0E076 /* viewController */ = {
 			isa = PBXGroup;
 			children = (
+				DCF4CFBA1BE8769B00B0E076 /* MainNavigationController.storyboard */,
+				9D1EF43B1FCFDAC3008316B0 /* TopViewController.storyboard */,
 				DCF4CFB81BE8769B00B0E076 /* TopViewController.swift */,
+				9D1EF43D1FCFDAE0008316B0 /* MemoViewCotroller.storyboard */,
 				DC5DE3781BE88CEE0069195B /* MemoViewController.swift */,
 			);
 			name = viewController;
@@ -343,7 +349,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				DCE83AC31BF3701300C613CC /* KTEGAKI.ttf in Resources */,
-				DCF4CFBC1BE8769B00B0E076 /* Main.storyboard in Resources */,
+				DCF4CFBC1BE8769B00B0E076 /* MainNavigationController.storyboard in Resources */,
+				9D1EF43E1FCFDAE0008316B0 /* MemoViewCotroller.storyboard in Resources */,
 				DC498C6B1BEBA0FF00FD10AD /* strongPen.png in Resources */,
 				DCE981801BFDB0A000F65635 /* ImageAlertView.xib in Resources */,
 				DC498C661BEB3E6C00FD10AD /* DrawOptionView.xib in Resources */,
@@ -356,6 +363,7 @@
 				DCD8BD0F1C01C2B3008DD6E0 /* EditMemoNameView.xib in Resources */,
 				DCF5EA7B1BF9BE5A00BB4911 /* InputTextView.xib in Resources */,
 				DCF4CFBE1BE8769B00B0E076 /* Images.xcassets in Resources */,
+				9D1EF43C1FCFDAC3008316B0 /* TopViewController.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -469,12 +477,12 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		DCF4CFBA1BE8769B00B0E076 /* Main.storyboard */ = {
+		DCF4CFBA1BE8769B00B0E076 /* MainNavigationController.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
 				DCF4CFBB1BE8769B00B0E076 /* Base */,
 			);
-			name = Main.storyboard;
+			name = MainNavigationController.storyboard;
 			sourceTree = "<group>";
 		};
 		DCF4CFBF1BE8769B00B0E076 /* LaunchScreen.xib */ = {
@@ -576,6 +584,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Akira Maeda (JCJV8K9T92)";
 				INFOPLIST_FILE = writeMemo/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "4ade37fc-8d8a-4f99-86be-79a55abafa2e";
@@ -590,6 +599,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = writeMemo/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "4ade37fc-8d8a-4f99-86be-79a55abafa2e";
